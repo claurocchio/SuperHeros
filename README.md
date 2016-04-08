@@ -8,3 +8,10 @@ Para levantar la webapp:
 2) mvn clean install
 3) mvn exec:run
 4) listo! la app debería estar levantada en: http://localhost:9998
+
+Recursos:
+
+Heroes     http://localhost:9998/heroes
+Favoritos  http://localhost:9998/favoritos
+Perfiles   http://localhost:9998/perfiles
+Grupos     http://localhost:9998/grupos
