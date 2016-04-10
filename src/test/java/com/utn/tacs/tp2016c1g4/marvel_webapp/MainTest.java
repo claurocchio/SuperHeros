@@ -38,12 +38,24 @@ public class MainTest extends TestCase {
         httpServer.stop();
     }
 
-    /**
-     * Test to see that the message "Got it!" is sent in the response.
-     */
-    public void testMyResource() {
-        String responseMsg = r.path("myresource").get(String.class);
-        assertEquals("Got it!", responseMsg);
+    public void testFavoritos() {
+        String responseMsg = r.path("favoritos").get(String.class);
+        assertEquals("{}", responseMsg);
+    }
+    
+    public void testGrupos() {
+        String responseMsg = r.path("grupos").get(String.class);
+        assertEquals("{}", responseMsg);
+    }
+    
+    public void testHeroes() {
+        String responseMsg = r.path("heroes").get(String.class);
+        assertEquals("{}", responseMsg);
+    }
+    
+    public void testPerfiles() {
+        String responseMsg = r.path("perfiles").get(String.class);
+        assertEquals("{}", responseMsg);
     }
 
     /**
