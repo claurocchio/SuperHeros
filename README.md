@@ -5,7 +5,7 @@ Para levantar la webapp:
 
 1) pararse en el root del proyecto  
 2) mvn clean install  
-3) mvn exec:run  
+3) mvn exec:java   
 4) listo! la app debería estar levantada en: http://localhost:9998  
 
 Recursos:  
