@@ -15,7 +15,7 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -45,6 +45,11 @@
 			<artifactId>jersey-client</artifactId>
 			<version>${jersey-version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.owlike</groupId>
+			<artifactId>genson</artifactId>
+			<version>0.99</version>
 		</dependency>
 	</dependencies>
 	<build>
