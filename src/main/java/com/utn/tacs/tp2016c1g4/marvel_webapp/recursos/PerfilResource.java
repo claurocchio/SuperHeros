@@ -21,6 +21,7 @@ public class PerfilResource {
 	@Path("/{username}")
 	@Produces("application/json")
 	public Response get( @PathParam("username") String userName){
+		
 		PerfilGetResponse response = new PerfilGetResponse();
 		response.setId(1);
 		response.setUsername(userName);
@@ -31,6 +32,7 @@ public class PerfilResource {
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response post(PerfilPostRequest request){
+		
 		Perfil perfil = new Perfil();
 		perfil.setId(1);
 		perfil.setUsername(request.getUsername());
