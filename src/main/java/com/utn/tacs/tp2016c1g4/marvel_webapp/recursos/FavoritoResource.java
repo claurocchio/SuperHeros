@@ -5,13 +5,15 @@ import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.business.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.request.favorito.FavoritoPostRequest;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.response.favorito.FavoritoPostResponse;
 
 @Path("favoritos")
 public class FavoritoResource {
@@ -27,13 +29,21 @@ public class FavoritoResource {
 		return favoritos;
 	}
 
-	@PUT
-	@Path("/add/{idPersonaje}")
+	@POST
 	@Consumes("application/json")
-	public Response add(@PathParam("idPersonaje") Integer idPersonaje) {
-		if (idPersonaje == null) {
+	public Response add(FavoritoPostRequest request) {
+		if (request.getIdPersonaje() == null) {
 			return Response.status(400).build();
 		}
-		return Response.status(201).entity("El personaje " + idPersonaje + " se añadió a favoritos").build();
+
+		OperationStatus status = new OperationStatus();
+		status.setSuccess(1);
+		status.setMessage("El personaje " + request.getIdPersonaje() + " se añadió a favoritos");
+
+		FavoritoPostResponse response = new FavoritoPostResponse();
+		response.setStatus(status);
+
+		return Response.status(201).entity(response).build();
 	}
+
 }
