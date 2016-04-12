@@ -11,18 +11,39 @@ import javax.ws.rs.core.Response;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.business.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.business.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.request.grupo.GrupoPostRequest;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.request.grupo.GrupoPutRequest;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.response.grupo.GrupoPostResponse;
 
 @Path("grupos")
 public class GrupoResource {
 
 	@POST
-	@Path("/nuevo")
 	@Consumes("application/json")
-	public Response nuevo(String nombre) {
-		if (nombre.equals("existente")) {
-			return Response.status(202).entity("El grupo ya existe").build();
+	public Response nuevo(GrupoPostRequest request) {
+		if (request.getName().equals("existente")) {
+			OperationStatus status = new OperationStatus();
+			status.setSuccess(0);
+			status.setMessage("El grupo ya existe");
+
+			GrupoPostResponse response = new GrupoPostResponse();
+			response.setStatus(status);
+
+			return Response.status(202).entity(response).build();
 		} else {
-			return Response.status(201).entity("Grupo creado").build();
+			Grupo grupo = new Grupo(request.getName());
+			grupo.setId(34);
+
+			OperationStatus status = new OperationStatus();
+			status.setSuccess(1);
+			status.setMessage("Grupo creado exitosamente");
+
+			GrupoPostResponse response = new GrupoPostResponse();
+			response.setStatus(status);
+			response.setIdGrupo(grupo.getId());
+
+			return Response.status(201).entity(response).build();
 		}
 	}
 
@@ -40,12 +61,21 @@ public class GrupoResource {
 	}
 
 	@PUT
-	@Path("/add/{idGrupo}/{idPersonaje}")
+	@Path("/{idGrupo}")
 	@Consumes("application/json")
-	public Response add(@PathParam("idGrupo") Integer idGrupo, @PathParam("idPersonaje") Integer idPersonaje) {
-		if (idGrupo == null || idPersonaje == null) {
+	@Produces("application/json")
+	public Response add(@PathParam("idGrupo") Integer idGrupo, GrupoPutRequest request) {
+		if (idGrupo == null || request.getIdPersonaje() == null) {
 			return Response.status(400).build();
 		}
-		return Response.status(201).entity("El personaje " + idPersonaje + " se añadió al grupo " + idGrupo).build();
+
+		OperationStatus status = new OperationStatus();
+		status.setSuccess(1);
+		status.setMessage("El personaje " + request.getIdPersonaje() + " se añadió al grupo " + idGrupo);
+
+		GrupoPostResponse response = new GrupoPostResponse();
+		response.setStatus(status);
+
+		return Response.status(201).entity(response).build();
 	}
 }

@@ -9,6 +9,12 @@ public class Grupo {
 	private String nombre;
 	private Set<Personaje> personajes;
 
+	public Grupo(String nombre) {
+		super();
+		this.nombre = nombre;
+		this.personajes = new HashSet<Personaje>();
+	}
+
 	public Grupo(int id, String nombre) {
 		super();
 		this.id = id;
