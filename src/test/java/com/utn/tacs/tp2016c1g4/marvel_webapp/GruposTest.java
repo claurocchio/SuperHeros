@@ -33,4 +33,10 @@ public class GruposTest extends AbstractServerTest {
 		assertEquals(201, response.getStatus());
 	}
 
+	public void testDeletePersonaje() {
+		GrupoPutRequest request = new GrupoPutRequest(2);
+		ClientResponse response = r.path("grupos/1").delete(ClientResponse.class, request);
+		assertEquals(200, response.getStatus());
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.recursos;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -77,5 +78,24 @@ public class GrupoResource {
 		response.setStatus(status);
 
 		return Response.status(201).entity(response).build();
+	}
+
+	@DELETE
+	@Path("/{idGrupo}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Response delete(@PathParam("idGrupo") Integer idGrupo, GrupoPutRequest request) {
+		if (idGrupo == null || request.getIdPersonaje() == null) {
+			return Response.status(400).build();
+		}
+
+		OperationStatus status = new OperationStatus();
+		status.setSuccess(1);
+		status.setMessage("El personaje " + request.getIdPersonaje() + " se eliminó del grupo " + idGrupo);
+
+		GrupoPostResponse response = new GrupoPostResponse();
+		response.setStatus(status);
+
+		return Response.status(200).entity(response).build();
 	}
 }
