@@ -9,10 +9,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.business.Perfil;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.request.PerfilPostRequest;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.request.perfil.PerfilPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.response.OperationStatus;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.response.PerfilGetResponse;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.response.PerfilPostResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.response.perfil.PerfilGetResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.response.perfil.PerfilPostResponse;
 
 @Path("perfiles")
 public class PerfilResource {

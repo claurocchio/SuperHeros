@@ -1,4 +1,6 @@
-package com.utn.tacs.tp2016c1g4.marvel_webapp.response;
+package com.utn.tacs.tp2016c1g4.marvel_webapp.response.perfil;
+
+import com.utn.tacs.tp2016c1g4.marvel_webapp.response.OperationStatus;
 
 public class PerfilPostResponse {
 	private OperationStatus status;

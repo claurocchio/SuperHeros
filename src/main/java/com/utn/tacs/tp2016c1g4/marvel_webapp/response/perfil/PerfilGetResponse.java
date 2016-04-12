@@ -1,4 +1,4 @@
-package com.utn.tacs.tp2016c1g4.marvel_webapp.response;
+package com.utn.tacs.tp2016c1g4.marvel_webapp.response.perfil;
 
 public class PerfilGetResponse {
 	private long id;
