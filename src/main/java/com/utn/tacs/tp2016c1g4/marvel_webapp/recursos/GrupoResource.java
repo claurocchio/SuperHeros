@@ -53,7 +53,7 @@ public class GrupoResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Grupo get(@PathParam("idGrupo") Integer idGrupo) {
-		Grupo grupo = new Grupo(1, "2 fant·sticos");
+		Grupo grupo = new Grupo(1, "2 fant√°sticos");
 		Personaje hulk = new Personaje(1, "Hulk");
 		Personaje thor = new Personaje(2, "Thor");
 		grupo.addPersonaje(hulk);
@@ -72,7 +72,7 @@ public class GrupoResource {
 
 		OperationStatus status = new OperationStatus();
 		status.setSuccess(1);
-		status.setMessage("El personaje " + request.getIdPersonaje() + " se aÒadiÛ al grupo " + idGrupo);
+		status.setMessage("El personaje " + request.getIdPersonaje() + " se a√±adi√≥ al grupo " + idGrupo);
 
 		GrupoPostResponse response = new GrupoPostResponse();
 		response.setStatus(status);
@@ -91,7 +91,7 @@ public class GrupoResource {
 
 		OperationStatus status = new OperationStatus();
 		status.setSuccess(1);
-		status.setMessage("El personaje " + request.getIdPersonaje() + " se eliminÛ del grupo " + idGrupo);
+		status.setMessage("El personaje " + request.getIdPersonaje() + " se elimin√≥ del grupo " + idGrupo);
 
 		GrupoPostResponse response = new GrupoPostResponse();
 		response.setStatus(status);

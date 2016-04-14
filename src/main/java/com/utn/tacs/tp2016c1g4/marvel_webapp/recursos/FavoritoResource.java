@@ -38,7 +38,7 @@ public class FavoritoResource {
 
 		OperationStatus status = new OperationStatus();
 		status.setSuccess(1);
-		status.setMessage("El personaje " + request.getIdPersonaje() + " se añadió a favoritos");
+		status.setMessage("El personaje " + request.getIdPersonaje() + " se aÃ±adiÃ³ a favoritos");
 
 		FavoritoPostResponse response = new FavoritoPostResponse();
 		response.setStatus(status);
