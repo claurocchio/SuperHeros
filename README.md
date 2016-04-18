@@ -5,12 +5,15 @@ Para levantar la webapp:
 
 1) pararse en el root del proyecto  
 2) mvn clean install  
-3) mvn exec:java   
-4) listo! la app debería estar levantada en: http://localhost:9998  
+3) mvn jetty:run   
+4) listo! la app debería estar levantada en: http://localhost:8080  
+
+Tambien es posible deployar el war a un container preinstalado ( Tomcat por ejemplo ), en caso de necesitar debugear
+
 
 Recursos:  
 
-Heroes     http://localhost:9998/heroes  
-Favoritos  http://localhost:9998/favoritos  
-Perfiles   http://localhost:9998/perfiles  
-Grupos     http://localhost:9998/grupos  
+Heroes     /heroes  
+Favoritos  /favoritos  
+Perfiles   /perfiles  
+Grupos     /grupos  
