@@ -15,9 +15,9 @@ public class HeroesTest extends JerseyTest {
 	}
 
 	
-	public void testHeroes() {
+	public void testHeroes() { 
 		String responseMsg = target("heroes").request().get(String.class);
-		assertEquals("{}", responseMsg);
+		assertEquals("{}", responseMsg); //mockear
 	}
 
 }
