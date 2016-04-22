@@ -13,7 +13,7 @@ Tambien es posible deployar el war a un container preinstalado ( Tomcat por ejem
 
 Recursos:  
 
-Heroes     /heroes  
-Favoritos  /favoritos  
-Perfiles   /perfiles  
-Grupos     /grupos  
+Heroes     /test-artifact/heroes  
+Favoritos  /test-artifact/favoritos  
+Perfiles   /test-artifact/perfiles  
+Grupos     /test-artifact/grupos  
