@@ -23,37 +23,36 @@ public class PerfilResource {
 
 	private static final Logger logger = LogManager.getLogger(PerfilResource.class);
 
-	
 	@GET
 	@Path("/{username}")
-	@Produces("application/json")
-	public Response get( @PathParam("username") String userName){
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get(@PathParam("username") String userName) {
 		logger.debug("get invocado");
 		PerfilGetResponse response = new PerfilGetResponse();
 		response.setId(1);
 		response.setUsername(userName);
 		return Response.status(200).entity(response).build();
 	}
-	
+
 	@POST
-	@Produces("application/json")
-	@Consumes("application/json")
-	public Response post(PerfilPostRequest request){
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response post(PerfilPostRequest request) {
 		logger.debug("post invocado");
 
 		Perfil perfil = new Perfil();
 		perfil.setId(1);
 		perfil.setUsername(request.getUsername());
-		
+
 		OperationStatus status = new OperationStatus();
 		status.setSuccess(1);
 		status.setMessage("Perfil creado exitosamente");
-		
+
 		PerfilPostResponse response = new PerfilPostResponse();
 		response.setStatus(status);
 		response.setUsername(perfil.getUsername());
-		
+
 		return Response.status(200).entity(response).build();
 	}
-	
+
 }

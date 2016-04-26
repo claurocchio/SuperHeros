@@ -5,6 +5,7 @@ import javax.ws.rs.core.Application;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Test;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.PerfilResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.perfil.PerfilPostRequest;
@@ -20,11 +21,13 @@ public class PerfilesTest extends JerseyTest {
 		return new ResourceConfig(PerfilResource.class);
 	}
 
+	@Test
 	public void testPerfilesGet() {
 		PerfilGetResponse response = target("perfiles/ejemplo").request().get(PerfilGetResponse.class);
 		assertEquals("ejemplo", response.getUsername());
 	}
 
+	@Test
 	public void testPerfilesPost() {
 		PerfilPostRequest request = new PerfilPostRequest();
 		request.setUsername("ejemplo");
