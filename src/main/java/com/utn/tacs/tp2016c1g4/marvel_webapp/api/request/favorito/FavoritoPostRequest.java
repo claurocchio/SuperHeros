@@ -4,6 +4,9 @@ public class FavoritoPostRequest {
 
 	private Integer idPersonaje;
 
+	public FavoritoPostRequest() {
+	}
+
 	public FavoritoPostRequest(Integer idPersonaje) {
 		this.setIdPersonaje(idPersonaje);
 	}

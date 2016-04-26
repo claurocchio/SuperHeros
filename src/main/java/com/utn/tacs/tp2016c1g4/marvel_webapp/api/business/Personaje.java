@@ -5,6 +5,10 @@ public class Personaje {
 	private int id;
 	private String name;
 
+	public Personaje() {
+
+	}
+
 	public Personaje(int id, String name) {
 		super();
 		this.id = id;

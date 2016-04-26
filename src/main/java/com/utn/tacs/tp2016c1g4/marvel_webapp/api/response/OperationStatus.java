@@ -20,4 +20,9 @@ public class OperationStatus {
 		this.message = message;
 	}
 
+	@Override
+	public String toString() {
+		return "OperationStatus [success=" + success + ", message=" + message + "]";
+	}
+
 }
