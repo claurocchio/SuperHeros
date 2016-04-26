@@ -8,6 +8,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Perfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.perfil.PerfilPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
@@ -17,11 +20,14 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilPostRespo
 @Path("perfiles")
 public class PerfilResource {
 
+	private static final Logger logger = LogManager.getLogger(PerfilResource.class);
+
+	
 	@GET
 	@Path("/{username}")
 	@Produces("application/json")
 	public Response get( @PathParam("username") String userName){
-		
+		logger.debug("get invocado");
 		PerfilGetResponse response = new PerfilGetResponse();
 		response.setId(1);
 		response.setUsername(userName);
@@ -32,7 +38,8 @@ public class PerfilResource {
 	@Produces("application/json")
 	@Consumes("application/json")
 	public Response post(PerfilPostRequest request){
-		
+		logger.debug("post invocado");
+
 		Perfil perfil = new Perfil();
 		perfil.setId(1);
 		perfil.setUsername(request.getUsername());

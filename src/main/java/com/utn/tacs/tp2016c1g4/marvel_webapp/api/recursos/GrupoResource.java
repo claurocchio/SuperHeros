@@ -10,6 +10,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
@@ -20,9 +23,26 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostRespons
 @Path("grupos")
 public class GrupoResource {
 
+	private static final Logger logger = LogManager.getLogger(GrupoResource.class);
+
+	@GET
+	@Path("/{idGrupo}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Grupo get(@PathParam("idGrupo") Integer idGrupo) {
+		logger.debug("get invocado");
+		Grupo grupo = new Grupo(1, "2 fantásticos");
+		Personaje hulk = new Personaje(1, "Hulk");
+		Personaje thor = new Personaje(2, "Thor");
+		grupo.addPersonaje(hulk);
+		grupo.addPersonaje(thor);
+		return grupo;
+	}
+
 	@POST
 	@Consumes("application/json")
 	public Response nuevo(GrupoPostRequest request) {
+		logger.debug("post invocado");
 		if (request.getName().equals("existente")) {
 			OperationStatus status = new OperationStatus();
 			status.setSuccess(0);
@@ -46,19 +66,6 @@ public class GrupoResource {
 
 			return Response.status(201).entity(response).build();
 		}
-	}
-
-	@GET
-	@Path("/{idGrupo}")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Grupo get(@PathParam("idGrupo") Integer idGrupo) {
-		Grupo grupo = new Grupo(1, "2 fantásticos");
-		Personaje hulk = new Personaje(1, "Hulk");
-		Personaje thor = new Personaje(2, "Thor");
-		grupo.addPersonaje(hulk);
-		grupo.addPersonaje(thor);
-		return grupo;
 	}
 
 	@PUT
@@ -85,6 +92,8 @@ public class GrupoResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response delete(@PathParam("idGrupo") Integer idGrupo, GrupoPutRequest request) {
+		logger.debug("put invocado");
+
 		if (idGrupo == null || request.getIdPersonaje() == null) {
 			return Response.status(400).build();
 		}
