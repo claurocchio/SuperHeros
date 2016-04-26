@@ -26,9 +26,12 @@ public class GruposTest extends JerseyTest {
 
 	@Test
 	public void testCreateGrupo() {
+		Response response = target("grupos").request().post(null, Response.class);
+		assertEquals(400, response.getStatus());
+
 		GrupoPostRequest postRequest = new GrupoPostRequest();
 		postRequest.setName("existente");
-		Response response = target("grupos").request().post(Entity.json(postRequest), Response.class);
+		response = target("grupos").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(202, response.getStatus());
 	}
 

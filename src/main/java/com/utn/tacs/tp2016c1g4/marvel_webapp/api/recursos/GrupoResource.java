@@ -61,6 +61,13 @@ public class GrupoResource {
 	public Response nuevo(GrupoPostRequest request) {
 		logger.debug("post invocado");
 
+		if (request == null) {
+			OperationStatus status = new OperationStatus();
+			status.setSuccess(0);
+			status.setMessage("el request no tiene el formato esperado");
+			return Response.status(400).entity(status).build();
+		}
+
 		if (request.getName().equals("existente")) {
 			OperationStatus status = new OperationStatus();
 			status.setSuccess(0);
