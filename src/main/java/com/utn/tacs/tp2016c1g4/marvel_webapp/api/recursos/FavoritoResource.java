@@ -1,11 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

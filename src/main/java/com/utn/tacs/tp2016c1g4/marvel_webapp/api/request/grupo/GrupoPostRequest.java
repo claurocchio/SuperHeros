@@ -4,6 +4,10 @@ public class GrupoPostRequest {
 
 	private String name;
 
+	public GrupoPostRequest() {
+
+	}
+
 	public GrupoPostRequest(String name) {
 		this.name = name;
 	}

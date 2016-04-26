@@ -4,6 +4,9 @@ public class GrupoPutRequest {
 
 	private Integer idPersonaje;
 
+	public GrupoPutRequest() {
+	}
+
 	public GrupoPutRequest(Integer idPersonaje) {
 		this.setIdPersonaje(idPersonaje);
 	}
