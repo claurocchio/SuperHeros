@@ -41,8 +41,11 @@ public class FavoritoResource {
 	public Response add(FavoritoPostRequest request) {
 		logger.debug("post invocado");
 
-		if (request.getIdPersonaje() == null) {
-			return Response.status(400).build();
+		if (request == null || request.getIdPersonaje() == null) {
+			OperationStatus status = new OperationStatus();
+			status.setSuccess(0);
+			status.setMessage("no se especifico id personaje o request alguno");
+			return Response.status(400).entity(status).build();
 		}
 
 		OperationStatus status = new OperationStatus();
