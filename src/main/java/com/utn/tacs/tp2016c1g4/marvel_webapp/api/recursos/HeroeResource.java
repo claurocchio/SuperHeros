@@ -15,7 +15,7 @@ public class HeroeResource {
 	private static final Logger logger = LogManager.getLogger(HeroeResource.class);
 
 	@GET
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response get() {
 		logger.debug("get invocado");
 		return Response.status(200).entity("{}").build();
