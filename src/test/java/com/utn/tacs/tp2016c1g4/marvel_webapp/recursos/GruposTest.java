@@ -50,13 +50,4 @@ public class GruposTest extends JerseyTest {
 		assertEquals(201, response.getStatus());
 	}
 
-	@Test
-	public void testDeletePersonaje() {
-		Response response = target("grupos").request().delete(Response.class);
-		assertEquals(400, response.getStatus());
-
-		response = target("grupos/1").request().delete(Response.class);
-		assertEquals(200, response.getStatus());
-	}
-
 }

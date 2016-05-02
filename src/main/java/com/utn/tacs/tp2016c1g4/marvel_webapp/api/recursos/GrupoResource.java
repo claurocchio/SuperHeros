@@ -119,19 +119,7 @@ public class GrupoResource {
 	}
 
 	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteEmpty() {
-		logger.debug("delete empty invocado");
-
-		OperationStatus status = new OperationStatus();
-		status.setSuccess(1);
-		status.setMessage("no se proporciono un request adecuado");
-		return Response.status(400).entity(status).build();
-	}
-
-	@DELETE
 	@Path("/{idGrupo}")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(@PathParam("idGrupo") Integer idGrupo) {
 		logger.debug("delete invocado");
