@@ -1,25 +1,34 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
 
 public class PersonajeGetResponse {
-	@JsonProperty
-	private Meta metadata;
-	@JsonProperty
-	private Personaje personaje;
+//	private Meta metadata;
+//	@JsonProperty
+	private ArrayList<Personaje> personajes;
 	
-	public Meta getMetadata() {
-		return metadata;
+
+	public PersonajeGetResponse() {
+
 	}
-	public void setMetadata(Meta metadata) {
-		this.metadata = metadata;
+	public PersonajeGetResponse(ArrayList<Personaje> personajes) {
+		this.personajes = personajes;
 	}
-	public Personaje getPersonaje() {
-		return personaje;
+//	public Meta getMetadata() {
+//		return metadata;
+//	}
+//	public void setMetadata(Meta metadata) {
+//		this.metadata = metadata;
+//	}
+	public ArrayList<Personaje> getPersonajes() {
+		return personajes;
 	}
-	public void setPersonaje(Personaje personaje) {
-		this.personaje = personaje;
+	public void setPersonajes(ArrayList<Personaje> personajes) {
+		this.personajes = personajes;
 	}
 	
 }

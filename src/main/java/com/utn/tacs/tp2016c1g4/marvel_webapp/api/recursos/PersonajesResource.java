@@ -1,23 +1,24 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje.PersonajeGetResponse;
@@ -27,51 +28,44 @@ public class PersonajesResource {
 
 	private static final Logger logger = LogManager.getLogger(PersonajesResource.class);
 	private static final String USER_AGENT = "Mozilla/5.0";
+	private static final String URL_MARVEL_CHARACTERS = "http://gateway.marvel.com/v1/public/characters?ts=1&hash=12eb73da146a932dbfe2b95253ed1fa5&apikey=b1b35d57fc130504f737b14e581d523b";
 
 	@GET
-	@Produces("application/json")
-	public Set<Personaje> get() {
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response get() {
 		logger.debug("get invocado");
-		
-		String url = "http://gateway.marvel.com/v1/public/characters?ts=1&hash=12eb73da146a932dbfe2b95253ed1fa5&apikey=b1b35d57fc130504f737b14e581d523b";
-		Set<Personaje> personajes = new HashSet<Personaje>();
+
+		ArrayList<Personaje> personajes = new ArrayList<Personaje>();
 		HttpURLConnection con;
+		PersonajeGetResponse response = new PersonajeGetResponse();
 		try {
-			URL obj = new URL(url);
-			Set<PersonajeGetResponse> personajesResponse = new HashSet<PersonajeGetResponse>();
+			URL obj = new URL(URL_MARVEL_CHARACTERS);
 			con = (HttpURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("User-Agent", USER_AGENT);
+			// int responseCode = con.getResponseCode();
+//			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//			String inputLine = in.readLine();
+//			in.close();
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, false);
+			JsonNode rootNode = mapper.readTree(con.getInputStream());
+			con.disconnect();
+			JsonNode data = rootNode.get("data");
+			JsonNode results = data.get("results");
+			// for (int i = 0; i < results.size(); i++) {
+			System.out.println("\nPERSONAJES: "+results.toString());
+			personajes = mapper.readValue(results.toString(), mapper.getTypeFactory().constructCollectionType(ArrayList.class, Personaje.class));
+			response.setPersonajes(personajes);
 			
-//			int responseCode = con.getResponseCode();
-			BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-			
-			while ((inputLine = in.readLine()) != null) {
-				System.out.println(inputLine);
-				ObjectMapper mapper = new ObjectMapper();
-				personajesResponse = mapper.readValue(inputLine, new TypeReference<Set<PersonajeGetResponse>>() {
-				});
-				response.append(inputLine);
-			}
-			in.close();
-			for (PersonajeGetResponse personajesResp : personajesResponse) {
-				personajes.add(personajesResp.getPersonaje());
-			}
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		}
-		return personajes;
-
-
-		//print result
-//		System.out.println(response.toString());
-//		Set<Personaje> personajes = new HashSet<Personaje>();
-//		Personaje hulk = new Personaje(1, "Hulk");
-//		Personaje thor = new Personaje(2, "Thor");
-//		personajes.add(hulk);
-//		personajes.add(thor);
-//		return personajes;
+		return Response.ok(response, MediaType.APPLICATION_JSON).build();
 	}
 }
