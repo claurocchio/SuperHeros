@@ -4,7 +4,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 
 public class GrupoPostResponse {
 
-	private Integer idGrupo;
+	private Long idGrupo;
 	private OperationStatus status;
 
 	public OperationStatus getStatus() {
@@ -15,11 +15,11 @@ public class GrupoPostResponse {
 		this.status = status;
 	}
 
-	public Integer getIdGrupo() {
+	public Long getIdGrupo() {
 		return idGrupo;
 	}
 
-	public void setIdGrupo(Integer idGrupo) {
+	public void setIdGrupo(Long idGrupo) {
 		this.idGrupo = idGrupo;
 	}
 

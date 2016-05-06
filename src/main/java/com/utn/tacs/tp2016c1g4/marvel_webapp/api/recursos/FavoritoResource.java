@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.favorito.FavoritoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoGetResponse;
@@ -29,8 +29,8 @@ public class FavoritoResource {
 		logger.debug("get invocado");
 
 		List<Personaje> favoritos = new ArrayList<Personaje>();
-		favoritos.add(new Personaje(1, "Hulk"));
-		favoritos.add(new Personaje(2, "Thor"));
+		favoritos.add(new Personaje(new Long(1), "Hulk"));
+		favoritos.add(new Personaje(new Long(2), "Thor"));
 
 		FavoritoGetResponse response = new FavoritoGetResponse();
 		response.setFavoritos(favoritos);

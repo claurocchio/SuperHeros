@@ -1,4 +1,4 @@
-package com.utn.tacs.tp2016c1g4.marvel_webapp.api.business;
+package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonAutoDetect
-public class Personaje {
+public class Personaje implements Entity{
 	@JsonProperty
-	private int id;
+	private Long id;
 	@JsonProperty
 	private String name;
 	
@@ -20,13 +20,13 @@ public class Personaje {
 
 	}
 
-	public Personaje(int id, String name) {
+	public Personaje(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -34,7 +34,7 @@ public class Personaje {
 		return name;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -43,7 +43,7 @@ public class Personaje {
 	}
 	
     @JsonAnySetter
-    public void set(String name, Object value) {
+    public void setOtherProperties(String name, Object value) {
         otherProperties.put(name, value);
     }
     

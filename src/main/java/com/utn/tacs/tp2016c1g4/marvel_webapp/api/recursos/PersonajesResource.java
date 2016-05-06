@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje.PersonajeGetResponse;
 
 @Path("personajes")
@@ -58,7 +58,6 @@ public class PersonajesResource {
 			System.out.println("\nPERSONAJES: "+results.toString());
 			personajes = mapper.readValue(results.toString(), mapper.getTypeFactory().constructCollectionType(ArrayList.class, Personaje.class));
 			response.setPersonajes(personajes);
-			
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 		} catch (JsonMappingException e) {

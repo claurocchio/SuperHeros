@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 
 public class PersonajeGetResponse {
 //	private Meta metadata;

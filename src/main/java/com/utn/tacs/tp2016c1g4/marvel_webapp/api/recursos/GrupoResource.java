@@ -18,8 +18,8 @@ import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Grupo;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
@@ -34,15 +34,15 @@ public class GrupoResource {
 	@GET
 	@Path("/{idGrupo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("idGrupo") Integer idGrupo) {
+	public Response get(@PathParam("idGrupo") Long idGrupo) {
 		logger.debug("get invocado");
 
 		Grupo grupo = new Grupo();
 		grupo.setId(idGrupo);
 		grupo.setNombre("2 fantásticos");
 		grupo.setPersonajes(new HashSet<Personaje>());
-		Personaje hulk = new Personaje(1, "Hulk");
-		Personaje thor = new Personaje(2, "Thor");
+		Personaje hulk = new Personaje(new Long(1), "Hulk");
+		Personaje thor = new Personaje(new Long(2), "Thor");
 		grupo.addPersonaje(hulk);
 		grupo.addPersonaje(thor);
 
@@ -80,7 +80,7 @@ public class GrupoResource {
 		} else {
 			Grupo grupo = new Grupo();
 			grupo.setNombre(request.getName());
-			grupo.setId(34);
+			grupo.setId(new Long(34));
 
 			OperationStatus status = new OperationStatus();
 			status.setSuccess(1);

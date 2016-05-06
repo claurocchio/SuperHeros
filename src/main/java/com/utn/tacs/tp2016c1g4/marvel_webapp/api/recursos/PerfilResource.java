@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Perfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.perfil.PerfilPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilGetResponse;
@@ -41,7 +41,7 @@ public class PerfilResource {
 		logger.debug("post invocado");
 
 		Perfil perfil = new Perfil();
-		perfil.setId(1);
+		perfil.setId(new Long(1));
 		perfil.setUsername(request.getUsername());
 
 		OperationStatus status = new OperationStatus();

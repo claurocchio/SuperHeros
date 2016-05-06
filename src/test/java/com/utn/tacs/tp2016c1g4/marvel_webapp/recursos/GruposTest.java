@@ -5,7 +5,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Grupo;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.GrupoResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
@@ -40,7 +40,7 @@ public class GruposTest extends JerseyTest {
 		Response response = target("grupos/2").request().get(Response.class);
 		GrupoGetResponse grupoResponse = response.readEntity(GrupoGetResponse.class);
 		assertEquals(200, response.getStatus());
-		assertEquals(2, grupoResponse.getGrupos().get(0).getId());
+		assertEquals(new Long(2), grupoResponse.getGrupos().get(0).getId());
 	}
 
 	@Test

@@ -1,22 +1,13 @@
-package com.utn.tacs.tp2016c1g4.marvel_webapp.api.business;
+package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
 import java.util.Set;
 
-public class Grupo {
-
-	private int id;
+public class Grupo implements Entity{
+	private Long id;
 	private String nombre;
 	private Set<Personaje> personajes;
 
 	public Grupo() {
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getNombre() {
@@ -38,4 +29,16 @@ public class Grupo {
 	public void addPersonaje(Personaje personaje) {
 		this.personajes.add(personaje);
 	}
+
+	@Override
+	public Long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -15,7 +15,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.FavoritoResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.favorito.FavoritoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoGetResponse;
