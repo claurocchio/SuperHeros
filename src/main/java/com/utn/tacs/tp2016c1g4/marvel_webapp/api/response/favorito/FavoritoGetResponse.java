@@ -17,5 +17,9 @@ public class FavoritoGetResponse {
 	public void setFavoritos(List<Personaje> favoritos) {
 		this.favoritos = favoritos;
 	}
+	
+	public void setFavoritosPorUser(int userId,List<Personaje> favoritosDeUser){
+		this.favoritos = favoritosDeUser;
+	}
 
 }
