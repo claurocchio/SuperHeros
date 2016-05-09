@@ -3,11 +3,11 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Container;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Repository;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.SearchCriteria;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.exception.ManyResultsException;
 
-public class MemoryContainer<T> implements Container<T> {
+public class MemoryContainer<T> implements Repository<T> {
 
 	private Set<T> collection;
 

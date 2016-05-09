@@ -11,14 +11,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Container;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Repository;
 
 @Path("heroes")
 public class HeroeResource {
 
 	private static final Logger logger = LogManager.getLogger(HeroeResource.class);
 
-	private Container<Personaje> heroeContainer;
+	private Repository<Personaje> heroeContainer;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -28,12 +28,12 @@ public class HeroeResource {
 		return Response.status(Response.Status.OK).entity("{}").build();
 	}
 
-	public Container<Personaje> getHeroeContainer() {
+	public Repository<Personaje> getHeroeContainer() {
 		return heroeContainer;
 	}
 
 	@Inject
-	public void setHeroeContainer(Container<Personaje> heroeContainer) {
+	public void setHeroeContainer(Repository<Personaje> heroeContainer) {
 		this.heroeContainer = heroeContainer;
 	}
 

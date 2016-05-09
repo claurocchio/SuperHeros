@@ -6,7 +6,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
 	<listener>
-		<listener-class>com.utn.tacs.tp2016c1g4.marvel_webappGuiceMain</listener-class>
+		<listener-class>com.utn.tacs.tp2016c1g4.marvel_webapp.filter.GuiceListener</listener-class>
 	</listener>
 
 	<filter>
