@@ -1,17 +1,22 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import javax.inject.Singleton;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Repository;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.SearchCriteria;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.exception.ManyResultsException;
 
-public class MemoryContainer<T> implements Repository<T> {
+@Singleton
+public class InMemoryRepository<T> implements Repository<T> {
 
 	private Set<T> collection;
 
-	public MemoryContainer() {
+	public InMemoryRepository() {
 		collection = new HashSet<T>();
 	}
 
@@ -22,7 +27,18 @@ public class MemoryContainer<T> implements Repository<T> {
 
 	@Override
 	public Set<T> find(SearchCriteria<T> searchCriteria) {
-		return null;
+		List<T> results = new ArrayList<T>();
+
+		for (T obj : collection) {
+			if (passesCriteria(obj, searchCriteria))
+				results.add(obj);
+		}
+
+		return new HashSet<T>(results);
+	}
+
+	private boolean passesCriteria(T obj, SearchCriteria<T> searchCriteria) {
+		return searchCriteria.passes(obj);
 	}
 
 	@Override
@@ -38,6 +54,10 @@ public class MemoryContainer<T> implements Repository<T> {
 
 	public void setCollection(Set<T> collection) {
 		this.collection = collection;
+	}
+
+	public void add(T obj) {
+		this.collection.add(obj);
 	}
 
 }

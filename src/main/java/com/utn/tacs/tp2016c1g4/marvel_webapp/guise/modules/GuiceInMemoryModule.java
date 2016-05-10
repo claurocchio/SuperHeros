@@ -4,13 +4,14 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.business.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Repository;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.impl.HeroeMemoryContainer;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.impl.InMemoryRepository;
 
-public class GuiceMainModule extends AbstractModule {
+public class GuiceInMemoryModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
 		bind(new TypeLiteral<Repository<Personaje>>() {
-		}).to(HeroeMemoryContainer.class);
+		}).to(new TypeLiteral<InMemoryRepository<Personaje>>() {
+		});
 	}
 }

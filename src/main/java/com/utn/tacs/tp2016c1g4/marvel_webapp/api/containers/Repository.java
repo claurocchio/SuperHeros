@@ -9,4 +9,6 @@ public interface Repository<T> {
 	Set<T> find(SearchCriteria<T> searchCriteria);
 
 	T findOne(SearchCriteria<T> searchCriteria);
+
+	void add(T obj);
 }
