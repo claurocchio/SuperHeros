@@ -2,7 +2,7 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
 import java.util.Set;
 
-public class Grupo implements Entity{
+public class Grupo implements Entity {
 	private Long id;
 	private String nombre;
 	private Set<Personaje> personajes;
@@ -37,8 +37,7 @@ public class Grupo implements Entity{
 
 	@Override
 	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		
+		this.id = id;
 	}
 
 }
