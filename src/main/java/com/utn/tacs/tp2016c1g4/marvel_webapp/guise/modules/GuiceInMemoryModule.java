@@ -2,16 +2,15 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.guise.modules;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Repository;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.impl.InMemoryRepository;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.inmemory.InMemoryGrupoDao;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 
 public class GuiceInMemoryModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(new TypeLiteral<Repository<Personaje>>() {
-		}).to(new TypeLiteral<InMemoryRepository<Personaje>>() {
-		});
+		bind(new TypeLiteral<Dao<Grupo>>() {
+		}).to(InMemoryGrupoDao.class);
 	}
 }

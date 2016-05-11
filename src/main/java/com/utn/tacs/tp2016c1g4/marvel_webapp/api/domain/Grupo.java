@@ -39,5 +39,4 @@ public class Grupo implements Entity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 }

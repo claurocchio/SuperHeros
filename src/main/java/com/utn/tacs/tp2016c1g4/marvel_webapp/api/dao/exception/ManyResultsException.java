@@ -1,4 +1,4 @@
-package com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.exception;
+package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception;
 
 import java.util.Collection;
 

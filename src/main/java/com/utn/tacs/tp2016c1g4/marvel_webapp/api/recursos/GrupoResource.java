@@ -1,9 +1,6 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -18,18 +15,26 @@ import javax.ws.rs.core.MediaType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.SearchFilter;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.SearchFilterBuilder;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostResponse;
+import static javax.ws.rs.core.Response.Status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("grupos")
 public class GrupoResource {
 
 	private static final Logger logger = LogManager.getLogger(GrupoResource.class);
+
+	private Dao<Grupo> grupoDao;
 
 	@GET
 	@Path("/{idGrupo}")
@@ -37,22 +42,22 @@ public class GrupoResource {
 	public Response get(@PathParam("idGrupo") Long idGrupo) {
 		logger.debug("get invocado");
 
-		Grupo grupo = new Grupo();
-		grupo.setId(idGrupo);
-		grupo.setNombre("2 fantásticos");
-		grupo.setPersonajes(new HashSet<Personaje>());
-		Personaje hulk = new Personaje(new Long(1), "Hulk");
-		Personaje thor = new Personaje(new Long(2), "Thor");
-		grupo.addPersonaje(hulk);
-		grupo.addPersonaje(thor);
-
-		List<Grupo> grupos = new ArrayList<Grupo>();
-		grupos.add(grupo);
-
 		GrupoGetResponse response = new GrupoGetResponse();
-		response.setGrupos(grupos);
 
-		return Response.status(200).entity(response).build();
+		List<SearchFilter> filters = new SearchFilterBuilder().include("id", idGrupo).build();
+
+		Grupo grupo = grupoDao.findOne(filters);
+
+		Status status = null;
+
+		if (grupo != null) {
+			response.getGrupos().add(grupo);
+			status = Status.OK;
+		} else {
+			status = Status.NOT_FOUND;
+		}
+
+		return Response.status(status).entity(response).build();
 	}
 
 	@POST
@@ -140,4 +145,10 @@ public class GrupoResource {
 
 		return Response.status(200).entity(response).build();
 	}
+
+	@Inject
+	public void setGrupoDao(Dao<Grupo> grupoDao) {
+		this.grupoDao = grupoDao;
+	}
+
 }
