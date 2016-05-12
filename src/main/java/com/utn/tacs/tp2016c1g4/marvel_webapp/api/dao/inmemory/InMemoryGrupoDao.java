@@ -2,25 +2,36 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.inmemory;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.InMemoryDao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.field.GrupoField;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.SearchFilter;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FieldFilter;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 
 public class InMemoryGrupoDao extends InMemoryDao<Grupo> {
 
 	@Override
-	protected boolean passesFilter(Grupo obj, SearchFilter filter) {
+	protected boolean passesFilter(Grupo obj, FieldFilter filter) {
 		boolean passes = false;
 
-		GrupoField field = GrupoField.fromString(filter.getField());
+		Object fieldValue = null;
 
-		switch (field) {
+		switch (GrupoField.fromString(filter.getField())) {
 		case ID:
-			passes = obj.getId().equals(filter.getValue());
+			fieldValue = obj.getId();
 			break;
 		case NOMBRE:
-			passes = obj.getNombre().equals(filter.getValue());
+			fieldValue = obj.getNombre();
 			break;
-		default:
+		}
+
+		switch (filter.getOperation()) {
+		case EQUALS:
+			passes = fieldValue.equals(filter.getValue());
+			break;
+		case IN:
+			FOR: for (Object inObj : (Object[]) filter.getValue()) {
+				passes = passes || fieldValue.equals(inObj);
+				if (passes == true)
+					break FOR;
+			}
 			break;
 		}
 

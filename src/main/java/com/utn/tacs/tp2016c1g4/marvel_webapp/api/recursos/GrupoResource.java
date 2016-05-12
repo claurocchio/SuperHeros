@@ -16,8 +16,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.SearchFilter;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.SearchFilterBuilder;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
@@ -25,9 +23,6 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostResponse;
 import static javax.ws.rs.core.Response.Status;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Path("grupos")
 public class GrupoResource {
@@ -44,9 +39,10 @@ public class GrupoResource {
 
 		GrupoGetResponse response = new GrupoGetResponse();
 
-		List<SearchFilter> filters = new SearchFilterBuilder().include("id", idGrupo).build();
+		// List<SearchFilter> filters = new SearchFilterBuilder().include("id",
+		// idGrupo).build();
 
-		Grupo grupo = grupoDao.findOne(filters);
+		Grupo grupo = null;// = grupoDao.findOne();
 
 		Status status = null;
 

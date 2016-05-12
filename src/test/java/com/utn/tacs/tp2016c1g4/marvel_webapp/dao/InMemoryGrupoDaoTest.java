@@ -2,29 +2,19 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.dao;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.SearchFilter;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.SearchFilterBuilder;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.inmemory.InMemoryGrupoDao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
+import static com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FilterSugaring.*;
 
 public class InMemoryGrupoDaoTest {
 
-	private InMemoryGrupoDao dao;
-	private SearchFilterBuilder filterBuilder;
-
-	public InMemoryGrupoDaoTest() {
-		this.dao = new InMemoryGrupoDao();
-		this.filterBuilder = new SearchFilterBuilder();
-	}
-
 	@Test
-	public void testAdd() {
-		InMemoryGrupoDao dao = this.dao;
+	public void testSave() {
+		InMemoryGrupoDao dao = new InMemoryGrupoDao();
 		dao.clear();
 		Set<Grupo> grupos = dao.getAll();
 		assertEquals(grupos.size(), 0);
@@ -33,7 +23,7 @@ public class InMemoryGrupoDaoTest {
 		Grupo grupo = new Grupo();
 		grupo.setNombre(nombreGrupo);
 
-		dao.add(grupo);
+		dao.save(grupo);
 
 		grupos = dao.getAll();
 		assertEquals(grupos.size(), 1);
@@ -42,7 +32,7 @@ public class InMemoryGrupoDaoTest {
 
 	@Test
 	public void testFindWithFilters() {
-		InMemoryGrupoDao dao = this.dao;
+		InMemoryGrupoDao dao = new InMemoryGrupoDao();
 		dao.clear();
 
 		String nombreGrupo1 = "LALA";
@@ -54,19 +44,27 @@ public class InMemoryGrupoDaoTest {
 		Grupo grupo2 = new Grupo();
 		grupo2.setNombre(nombreGrupo2);
 
-		dao.add(grupo1);
-		dao.add(grupo2);
+		dao.save(grupo1);
+		dao.save(grupo2);
 
 		Set<Grupo> grupos = dao.getAll();
 
-		assertEquals(grupos.size(), 2);
+		assertEquals(2, grupos.size());
 
-		filterBuilder.clear();
-		filterBuilder.include("nombre", nombreGrupo2);
-		List<SearchFilter> filters = filterBuilder.build();
-		grupos = dao.find(filters);
+		System.out.println(grupo2.getId());
+		grupos = dao.find(eq("id", grupo2.getId()));
 
-		assertEquals(grupos.size(), 1);
-		assertEquals(grupos.iterator().next().getId(), grupo2.getId());
+		assertEquals(1, grupos.size());
+		assertEquals(grupo2.getId(), grupos.iterator().next().getId());
+
+		grupos = dao.find(eq("nombre", ""));
+		assertEquals(0, grupos.size());
+
+		grupos = dao.find(in("nombre", nombreGrupo1, nombreGrupo2));
+		assertEquals(2, grupos.size());
+
+		// grupos = dao.find(in("nombre", null));
+		// assertEquals(2, grupos.size());
+
 	}
 }
