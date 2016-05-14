@@ -17,7 +17,7 @@ public class ManyResultsException extends RuntimeException {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Collection<T> getCollection(Class<T> type) {
+	public <T> Collection<T> getResults(Class<T> type) {
 		return (Collection<T>) collection;
 	}
 }

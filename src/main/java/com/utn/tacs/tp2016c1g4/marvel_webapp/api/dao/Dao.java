@@ -1,21 +1,16 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
-
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FieldFilter;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FilterCollection;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Entity;
 
-public interface Dao<T extends Entity> {
+public interface Dao<T extends Entity, F extends SearchFilter<T>> {
 	Set<T> getAll();
 
-	Set<T> find(FieldFilter filter);
+	Set<T> find(Collection<F> filters);
 
-	Set<T> find(FilterCollection filterCol);
-
-	T findOne(FieldFilter filter);
-
-	T findOne(FilterCollection filters);
+	T findOne(Collection<F> filters);
 
 	void save(T obj);
 

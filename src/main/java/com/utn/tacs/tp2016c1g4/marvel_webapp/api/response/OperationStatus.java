@@ -1,15 +1,24 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response;
 
+import javax.ws.rs.core.Response;
+
 public class OperationStatus {
-	private int success;
+	private int code;
 	private String message;
 
-	public int getSuccess() {
-		return success;
+	// TODO: tiene que ser reemplazado por code
+	private int success;
+
+	public int getCode() {
+		return code;
 	}
 
-	public void setSuccess(int success) {
-		this.success = success;
+	public void setCode(Response.Status code) {
+		this.code = code.getStatusCode();
+	}
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 	public String getMessage() {
@@ -22,7 +31,14 @@ public class OperationStatus {
 
 	@Override
 	public String toString() {
-		return "OperationStatus [success=" + success + ", message=" + message + "]";
+		return "OperationStatus [code=" + code + ", message=" + message + "]";
 	}
 
+	public int getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(int success) {
+		this.success = success;
+	}
 }

@@ -29,7 +29,7 @@ public class GrupoResource {
 
 	private static final Logger logger = LogManager.getLogger(GrupoResource.class);
 
-	private Dao<Grupo> grupoDao;
+	// private Dao<Grupo> grupoDao;
 
 	@GET
 	@Path("/{idGrupo}")
@@ -142,9 +142,8 @@ public class GrupoResource {
 		return Response.status(200).entity(response).build();
 	}
 
-	@Inject
-	public void setGrupoDao(Dao<Grupo> grupoDao) {
-		this.grupoDao = grupoDao;
-	}
-
+	/*
+	 * @Inject public void setGrupoDao(Dao<Grupo> grupoDao) { this.grupoDao =
+	 * grupoDao; }
+	 */
 }

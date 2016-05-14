@@ -1,20 +1,20 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
-public class Perfil implements Entity{
+public class Perfil implements Entity {
 
 	private Long id;
-	private String username;
+	private String userName;
 
 	public Long getId() {
 		return id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String username) {
+		this.userName = username;
 	}
 
 	@Override
