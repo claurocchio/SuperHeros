@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ PerfilInMemoryDaoTest.class })
+@SuiteClasses({ PerfilInMemoryDaoTest.class, GrupoInMemoryDaoTest.class })
 public class InMemoryTestSuite {
 
 }
