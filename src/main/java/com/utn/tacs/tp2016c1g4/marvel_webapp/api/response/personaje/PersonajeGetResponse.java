@@ -2,16 +2,21 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje;
 
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 
 public class PersonajeGetResponse {
 //	private Meta metadata;
 //	@JsonProperty
 	private ArrayList<Personaje> personajes;
-	
+	private OperationStatus status;
 
+	public OperationStatus getStatus() {
+		return status;
+	}
+	public void setStatus(OperationStatus status) {
+		this.status = status;
+	}
 	public PersonajeGetResponse() {
 
 	}
