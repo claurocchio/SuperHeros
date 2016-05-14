@@ -10,18 +10,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfilBuilder;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.inmemory.PerfilInMemoryDao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
 
 public class PerfilInMemoryDaoTest {
 
 	private PerfilInMemoryDao dao;
-	private FiltroPerfilBuilder filterBuilder;
+	private FiltroPerfil.Builder filterBuilder;
 
 	public PerfilInMemoryDaoTest() {
 		dao = new PerfilInMemoryDao();
-		filterBuilder = new FiltroPerfilBuilder();
+		filterBuilder = new FiltroPerfil.Builder();
 	}
 
 	@Before

@@ -113,8 +113,7 @@ public class PerfilGetResponse {
 
 			if (operationStatus == null) {
 				operationStatus = new OperationStatus();
-				operationStatus.setCode(Status.OK);
-
+				operationStatus.setStatusCode(Status.OK);
 			}
 
 			response.setStatus(operationStatus);

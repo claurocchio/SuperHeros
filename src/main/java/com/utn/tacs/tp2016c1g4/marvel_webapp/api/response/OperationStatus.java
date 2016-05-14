@@ -13,8 +13,8 @@ public class OperationStatus {
 		return code;
 	}
 
-	public void setCode(Response.Status code) {
-		this.code = code.getStatusCode();
+	public void setStatusCode(Response.Status status) {
+		this.code = status.getStatusCode();
 	}
 
 	public void setCode(int code) {
