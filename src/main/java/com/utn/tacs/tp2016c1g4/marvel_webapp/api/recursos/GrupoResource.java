@@ -99,7 +99,7 @@ public class GrupoResource {
 	@Path("/{idGrupo}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response add(@PathParam("idGrupo") Integer idGrupo, GrupoPutRequest request) {
+	public Response add(@PathParam("idGrupo") Long idGrupo, GrupoPutRequest request) {
 		logger.debug("put invocado");
 
 		if (idGrupo == null || request.getIdPersonaje() == null) {
@@ -122,7 +122,7 @@ public class GrupoResource {
 	@DELETE
 	@Path("/{idGrupo}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(@PathParam("idGrupo") Integer idGrupo) {
+	public Response delete(@PathParam("idGrupo") Long idGrupo) {
 		logger.debug("delete invocado");
 
 		OperationStatus status = new OperationStatus();

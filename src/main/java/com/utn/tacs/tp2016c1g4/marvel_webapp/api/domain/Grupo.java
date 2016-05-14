@@ -5,7 +5,7 @@ import java.util.Set;
 public class Grupo implements Entity {
 	private Long id;
 	private String nombre;
-	private Set<Personaje> personajes;
+	private Set<Long> personajes;
 
 	public Grupo() {
 	}
@@ -18,15 +18,15 @@ public class Grupo implements Entity {
 		this.nombre = nombre;
 	}
 
-	public Set<Personaje> getPersonajes() {
+	public Set<Long> getPersonajes() {
 		return personajes;
 	}
 
-	public void setPersonajes(Set<Personaje> personajes) {
+	public void setPersonajes(Set<Long> personajes) {
 		this.personajes = personajes;
 	}
 
-	public void addPersonaje(Personaje personaje) {
+	public void addPersonaje(Long personaje) {
 		this.personajes.add(personaje);
 	}
 

@@ -45,7 +45,7 @@ public class GruposTest extends JerseyTest {
 
 	@Test
 	public void testAddPersonaje() {
-		GrupoPutRequest request = new GrupoPutRequest(2);
+		GrupoPutRequest request = new GrupoPutRequest(new Long(2));
 		Response response = target("grupos/1").request().put(Entity.json(request), Response.class);
 		// assertEquals(201, response.getStatus());
 	}
