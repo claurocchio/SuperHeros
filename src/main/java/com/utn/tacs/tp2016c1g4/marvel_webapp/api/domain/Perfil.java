@@ -7,6 +7,7 @@ public class Perfil implements Entity {
 	private Long id;
 	private String userName;
 	private Collection<Long> idGrupos;
+	private Collection<Long> idsPersonajesFavoritos;
 
 	public Long getId() {
 		return id;
@@ -31,6 +32,14 @@ public class Perfil implements Entity {
 
 	public void setIdGrupos(Collection<Long> idGrupos) {
 		this.idGrupos = idGrupos;
+	}
+
+	public Collection<Long> getIdsPersonajesFavoritos() {
+		return idsPersonajesFavoritos;
+	}
+
+	public void setIdsPersonajesFavoritos(Collection<Long> idsPersonajesFavoritos) {
+		this.idsPersonajesFavoritos = idsPersonajesFavoritos;
 	}
 
 	@Override
