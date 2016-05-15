@@ -24,7 +24,12 @@
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos</param-value>
+			<param-value>
+					com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.FavoritoResource,
+					com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.GrupoResource,
+					com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.PerfilResource,
+					com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.PersonajeResourse
+			</param-value>
 		</init-param>
 		<init-param>
 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
