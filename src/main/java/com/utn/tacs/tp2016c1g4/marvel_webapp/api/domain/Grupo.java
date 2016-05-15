@@ -1,11 +1,12 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
+import java.util.Collection;
 import java.util.Set;
 
 public class Grupo implements Entity {
 	private Long id;
 	private String nombre;
-	private Set<Long> personajes;
+	private Collection<Long> personajes;
 
 	public Grupo() {
 	}
@@ -18,11 +19,11 @@ public class Grupo implements Entity {
 		this.nombre = nombre;
 	}
 
-	public Set<Long> getPersonajes() {
+	public Collection<Long> getPersonajes() {
 		return personajes;
 	}
 
-	public void setPersonajes(Set<Long> personajes) {
+	public void setPersonajes(Collection<Long> personajes) {
 		this.personajes = personajes;
 	}
 

@@ -4,9 +4,7 @@ import javax.inject.Singleton;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.InMemoryAbstractDao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
 
 @Singleton
 public class GrupoInMemoryDao extends InMemoryAbstractDao<Grupo, FiltroGrupo> {

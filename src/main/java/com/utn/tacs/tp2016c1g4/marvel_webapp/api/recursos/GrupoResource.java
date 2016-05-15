@@ -10,50 +10,82 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoDeleteResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostResponse;
-import static javax.ws.rs.core.Response.Status;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPutResponse;
+
+import java.util.Properties;
+import java.util.Set;
 
 @Path("grupos")
 public class GrupoResource {
 
 	private static final Logger logger = LogManager.getLogger(GrupoResource.class);
 
-	// private Dao<Grupo> grupoDao;
+	private Dao<Grupo, FiltroGrupo> grupoDao;
 
+	private Properties params;
+	
 	@GET
 	@Path("/{idGrupo}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("idGrupo") Long idGrupo) {
 		logger.debug("get invocado");
 
-		GrupoGetResponse response = new GrupoGetResponse();
-
-		// List<SearchFilter> filters = new SearchFilterBuilder().include("id",
-		// idGrupo).build();
-
+		
+		Response.Status status = null;
+		OperationStatus opStatus = new OperationStatus();
+		FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
+		filtroBuilder.clear();
+		filtroBuilder.setId(idGrupo);
+		Set<FiltroGrupo> filtros = filtroBuilder.build();
+		
+		GrupoGetResponse.Builder responseBuilder = new GrupoGetResponse.Builder();
+		
 		Grupo grupo = null;// = grupoDao.findOne();
 
-		Status status = null;
-
-		if (grupo != null) {
-			response.getGrupos().add(grupo);
-			status = Status.OK;
-		} else {
-			status = Status.NOT_FOUND;
+		try {
+			grupo = grupoDao.findOne(filtros);
+			responseBuilder.setGrupo(grupo);
+			status = Response.Status.OK;
+		} catch (ManyResultsException e) {
+			// no deberia ocurrir
+			logger.error("se obtuvo mas de una coincidencia de usuario");
 		}
 
-		return Response.status(status).entity(response).build();
+		if (grupo == null) {
+			status = Response.Status.NOT_FOUND;
+			opStatus.setMessage("no existe el grupo solicitado");
+		} else {
+			// TODO: estos with no van en perfiles, pero es para mostrar como se
+			// TODO: podrian usar en otros recursos
+
+			if (with("personajes")) {
+				logger.debug("with personajes especificado... buscando");
+			}
+		}
+		
+		opStatus.setStatusCode(status);
+		responseBuilder.setOperationStatus(opStatus);
+
+		GrupoGetResponse entityResponse = responseBuilder.build();
+
+		return Response.status(status).entity(entityResponse).build();	
 	}
 
 	@POST
@@ -61,38 +93,35 @@ public class GrupoResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response nuevo(GrupoPostRequest request) {
 		logger.debug("post invocado");
+		
+		GrupoPostResponse response = new GrupoPostResponse();
 
-		if (request == null) {
-			OperationStatus status = new OperationStatus();
-			status.setSuccess(0);
-			status.setMessage("el request no tiene el formato esperado");
-			return Response.status(400).entity(status).build();
-		}
-
-		if (request.getName().equals("existente")) {
-			OperationStatus status = new OperationStatus();
-			status.setSuccess(0);
-			status.setMessage("El grupo ya existe");
-
-			GrupoPostResponse response = new GrupoPostResponse();
-			response.setStatus(status);
-
-			return Response.status(202).entity(response).build();
+		OperationStatus opStatus = new OperationStatus();
+		Response.Status status = null;
+		if (request.getName() == null) {	
+			status = Response.Status.BAD_REQUEST;
+			opStatus.setMessage("el request no tiene el formato esperado");
+			
+		}else if (request.getName().equals("existente")) {
+			//TODO: tomar el grupo indicado y fijarse si existe
+			status = Response.Status.ACCEPTED;
+			opStatus.setMessage("El grupo ya existe");
 		} else {
 			Grupo grupo = new Grupo();
 			grupo.setNombre(request.getName());
 			grupo.setId(new Long(34));
-
-			OperationStatus status = new OperationStatus();
-			status.setSuccess(1);
-			status.setMessage("Grupo creado exitosamente");
-
-			GrupoPostResponse response = new GrupoPostResponse();
-			response.setStatus(status);
+			grupoDao.save(grupo);
 			response.setIdGrupo(grupo.getId());
+			
+			logger.debug("grupo creado con nombre: " + grupo.getNombre());
+			opStatus.setMessage("Grupo creado exitosamente");
 
-			return Response.status(201).entity(response).build();
 		}
+		
+		opStatus.setStatusCode(status);
+		
+		response.setStatus(opStatus);
+		return Response.status(status).entity(response).build();
 	}
 
 	@PUT
@@ -102,21 +131,35 @@ public class GrupoResource {
 	public Response add(@PathParam("idGrupo") Long idGrupo, GrupoPutRequest request) {
 		logger.debug("put invocado");
 
+		OperationStatus opStatus = new OperationStatus();
+		Response.Status status = null;
+		Grupo grupo = null;
+		
 		if (idGrupo == null || request.getIdPersonaje() == null) {
-			OperationStatus status = new OperationStatus();
-			status.setSuccess(0);
-			status.setMessage("no se proporciono un request adecuado");
-			return Response.status(400).entity(status).build();
+			
+			opStatus.setMessage("no se proporciono un request adecuado");
+			status = Response.Status.BAD_REQUEST;
+		}else{
+			FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
+			filtroBuilder.clear();
+			filtroBuilder.setId(idGrupo);
+			Set<FiltroGrupo> filtros = filtroBuilder.build();
+			
+			grupo = grupoDao.findOne(filtros);
+			if(grupo == null){
+				status = Response.Status.NOT_FOUND;
+				opStatus.setMessage("El grupo " + idGrupo + "no existe");
+			}else{
+				grupo.addPersonaje(request.getIdPersonaje());
+				status = Response.Status.OK;
+				opStatus.setMessage("El personaje " + request.getIdPersonaje() + " se añadió al grupo " + idGrupo);	
+			}
 		}
 
-		OperationStatus status = new OperationStatus();
-		status.setSuccess(1);
-		status.setMessage("El personaje " + request.getIdPersonaje() + " se añadió al grupo " + idGrupo);
+		GrupoPutResponse response = new GrupoPutResponse();
+		response.setStatus(opStatus);
 
-		GrupoPostResponse response = new GrupoPostResponse();
-		response.setStatus(status);
-
-		return Response.status(201).entity(response).build();
+		return Response.status(status).entity(response).build();
 	}
 
 	@DELETE
@@ -125,25 +168,51 @@ public class GrupoResource {
 	public Response delete(@PathParam("idGrupo") Long idGrupo) {
 		logger.debug("delete invocado");
 
-		OperationStatus status = new OperationStatus();
-
+		OperationStatus opStatus = new OperationStatus();
+		Response.Status status = null;
+		Grupo grupo = null;
+		
 		if (idGrupo == null) {
-			status.setSuccess(1);
-			status.setMessage("no se proporciono un request adecuado");
-			return Response.status(400).entity(status).build();
+			status = Response.Status.BAD_REQUEST;
+			opStatus.setMessage("no se proporciono un request adecuado");
+		//	return Response.status(400).entity(status).build();
+		}else{
+			FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
+			filtroBuilder.clear();
+			filtroBuilder.setId(idGrupo);
+			Set<FiltroGrupo> filtros = filtroBuilder.build();
+			
+			grupo = grupoDao.findOne(filtros);
+			//TODO: borrar grupo
+			
+			status = Response.Status.OK;
+			opStatus.setMessage("se elimino el grupo " + idGrupo + " exitosamente");
 		}
 
-		status.setSuccess(1);
-		status.setMessage("se elimino el grupo " + idGrupo + " exitosamente");
+		GrupoDeleteResponse response = new GrupoDeleteResponse();
+		response.setStatus(opStatus);
 
-		GrupoPostResponse response = new GrupoPostResponse();
-		response.setStatus(status);
-
-		return Response.status(200).entity(response).build();
+		return Response.status(status).entity(response).build();
 	}
 
-	/*
-	 * @Inject public void setGrupoDao(Dao<Grupo> grupoDao) { this.grupoDao =
-	 * grupoDao; }
-	 */
+	@Inject
+	public void setGrupoDao(Dao<Grupo, FiltroGrupo> grupoDao) {
+		this.grupoDao = grupoDao;
+	}
+
+	@Context
+	public void setUriInfo(UriInfo uriInfo) {
+		logger.debug("catcheando uri info en perfiles");
+
+		this.params = new Properties();
+		for (String key : uriInfo.getQueryParameters().keySet()) {
+			this.params.setProperty(key, uriInfo.getQueryParameters().getFirst(key));
+			logger.debug("query param[ " + key + " = " + this.params.getProperty(key) + " ]");
+		}
+	}
+
+	private boolean with(String adicionalRequerido) {
+		String with = params.getProperty("with");
+		return with != null ? with.matches(".*?,?" + adicionalRequerido + ",?.*?") : false;
+	}
 }
