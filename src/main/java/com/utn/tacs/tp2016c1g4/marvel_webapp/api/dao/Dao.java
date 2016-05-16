@@ -12,6 +12,7 @@ public interface Dao<T extends Entity, F extends SearchFilter<T>> {
 
 	T findOne(Collection<F> filters);
 
-	void save(T obj);
+	boolean save(T obj);
 
+	boolean delete(T obj);
 }

@@ -60,9 +60,18 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 	}
 
 	@Override
-	public void save(T obj) {
-		obj.setId(this.nextId++);
-		this.collection.add(obj);
+	public boolean save(T obj) {
+		obj.setId(this.nextId);
+		boolean saved = this.collection.add(obj);
+		if(saved) {	
+			this.nextId++;
+		}
+		return saved;
+	}
+	
+	@Override
+	public boolean delete(T obj) {
+		return this.collection.remove(obj);
 	}
 
 	public void clear() {
