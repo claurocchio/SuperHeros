@@ -1,13 +1,15 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class Perfil implements Entity {
 
 	private Long id;
 	private String userName;
 	private Collection<Long> idGrupos;
-	private Collection<Long> idsPersonajesFavoritos;
+	private Collection<Long> idsPersonajesFavoritos = new ArrayList<Long>();
 
 	public Long getId() {
 		return id;
@@ -40,6 +42,10 @@ public class Perfil implements Entity {
 
 	public void setIdsPersonajesFavoritos(Collection<Long> idsPersonajesFavoritos) {
 		this.idsPersonajesFavoritos = idsPersonajesFavoritos;
+	}
+
+	public void addIdPersonajeFavorito(Long idPersonajeFavorito) {
+		this.idsPersonajesFavoritos.add(idPersonajeFavorito);
 	}
 
 	@Override
