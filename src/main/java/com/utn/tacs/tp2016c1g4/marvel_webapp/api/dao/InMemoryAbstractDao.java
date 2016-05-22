@@ -25,6 +25,7 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 		return new HashSet<>(collection);
 	}
 
+	
 	@Override
 	public Set<T> find(Collection<F> filters) {
 		List<T> filtered = new ArrayList<>();
@@ -40,13 +41,15 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 			}
 
 			if (passes)
-				filtered.add(obj);
+				filtered.add(fullClone(obj));
 		}
 
 		return new HashSet<>(filtered);
 	}
 
 	protected abstract boolean passesFilter(F filter, T obj);
+	
+	protected abstract T fullClone(T from);
 
 	@Override
 	public T findOne(Collection<F> filters) {
@@ -61,8 +64,10 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 
 	@Override
 	public boolean save(T obj) {
+		boolean saved = false;
+		if(obj.getId() != null) return saved;//ya tiene una id, existe en la coleccion
 		obj.setId(this.nextId);
-		boolean saved = this.collection.add(obj);
+		saved = this.collection.add(obj);
 		if(saved) {	
 			this.nextId++;
 		}

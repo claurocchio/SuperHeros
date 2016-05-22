@@ -1,6 +1,10 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.inmemory;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Singleton;
 
@@ -8,6 +12,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.InMemoryAbstractDao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 
 @Singleton
@@ -40,6 +45,20 @@ public class PersonajeInMemoryDao extends InMemoryAbstractDao<Personaje, FiltroP
 		}
 
 		return passes;
+	}
+
+	@Override
+	protected Personaje fullClone(Personaje from) {
+		Personaje into = new Personaje();
+		//se copian uno por uno los atributos
+		into.setId(new Long(from.getId()));
+		into.setName(new String(from.getName()));
+		
+		//la coleccion debe copiarse uno por una tambien
+		if(from.getOtherProperties() != null){
+			for(Map.Entry<String, Object> item : from.getOtherProperties().entrySet()) into.setOtherProperties(item.getKey(), item.getValue());
+		}
+		return into; 
 	}
 
 }

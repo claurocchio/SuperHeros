@@ -3,6 +3,7 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.dao;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.inmemory.GrupoInMemoryDao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
@@ -68,6 +70,10 @@ public class GrupoInMemoryDaoTest {
 		Set<Grupo> grupos;
 
 		grupos = dao.find(filtros);
+	
+		for(Grupo unGrupo : grupos){
+			assertEquals("iddddsssss", new Long(1), unGrupo.getId());
+		}
 
 		assertEquals("cantidad resultados en filtrado por id", 1, grupos.size());
 		assertEquals("objeto esperado en filtrado por id", Long.valueOf(1), grupos.iterator().next().getId());
@@ -108,7 +114,7 @@ public class GrupoInMemoryDaoTest {
 
 		filtros = filterBuilder.build();
 		grupos = dao.find(filtros);
-
+		
 		assertEquals("filtro construido con builder para filtrado por id - 2", 1, grupos.size());
 		assertEquals("filtro construido con builder para filtrado por nombre", "pepito2",
 				grupos.iterator().next().getNombre());
@@ -168,4 +174,37 @@ public class GrupoInMemoryDaoTest {
 		dao.save(g2);
 
 	}
+	
+	@Test
+	public void cloningTest() {
+		Grupo g1 = new Grupo();
+		g1.setNombre("pepito1");
+
+		Grupo g2 = new Grupo();
+		g2.setNombre("pepito2");
+
+		dao.save(g1);
+		dao.save(g2);
+
+		List<FiltroGrupo> filtros = new ArrayList<>();
+		filtros.add(new FiltroGrupo(FiltroGrupo.Tipo.ID, 1L));
+
+		Grupo miGrupo = dao.findOne(filtros);
+		/*try{
+			miGrupo = dao.findOne(filtros);	
+		}catch(ManyResultsException e){
+			Collection<Grupo> resultados = e.getResults(Grupo.class);
+			assertEquals(2, resultados.size());
+			
+			for(Grupo unGrupo : resultados){
+				assertEquals("iddddsssss", new Long(1), unGrupo.getId());
+			}
+		}*/
+		
+		
+		assertEquals(new Long(1), miGrupo.getId());
+		assertEquals("pepito1", miGrupo.getNombre());
+		
+	}
+	
 }
