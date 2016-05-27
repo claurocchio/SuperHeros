@@ -51,6 +51,15 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 	
 	protected abstract T fullClone(T from);
 
+	protected abstract void cloneForUpdate(T from, T into);
+	
+	public T findForUpdate(Long id){
+		for(T obj : collection){
+			if(obj.getId().equals(id)) return obj;
+		}
+		return null;
+	}
+	
 	@Override
 	public T findOne(Collection<F> filters) {
 		Set<T> results = find(filters);
@@ -77,6 +86,14 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 	@Override
 	public boolean delete(T obj) {
 		return this.collection.remove(obj);
+	}
+	
+	@Override
+	public boolean update(T obj) {
+		T realObj = findForUpdate(obj.getId());
+		if(realObj == null || obj == null) return false;
+		cloneForUpdate(obj, realObj);
+		return true;
 	}
 
 	public void clear() {

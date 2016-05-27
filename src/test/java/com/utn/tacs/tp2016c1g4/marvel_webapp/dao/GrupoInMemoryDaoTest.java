@@ -207,4 +207,44 @@ public class GrupoInMemoryDaoTest {
 		
 	}
 	
+	@Test
+	public void updateTest(){
+		
+		popularBasico();
+		
+		List<FiltroGrupo> filtros = new ArrayList<>();
+		filtros.add(new FiltroGrupo(FiltroGrupo.Tipo.ID, 1L));
+
+		Grupo miGrupo = dao.findOne(filtros);
+		
+		assertEquals(true, miGrupo.getPersonajes().isEmpty());
+		assertEquals("pepito1", miGrupo.getNombre());
+		
+		//agrego personajes
+		Collection<Long> personajes = new ArrayList<Long>();
+		personajes.add(new Long(1));
+		personajes.add(new Long(2));
+		miGrupo.setPersonajes(personajes);
+		
+		//cambio el nombre
+		miGrupo.setNombre("pepitoActualizado");
+		
+		dao.update(miGrupo);
+		
+		Grupo miGrupo2 = dao.findOne(filtros);
+		
+		assertEquals("pepitoActualizado", miGrupo2.getNombre());
+		assertEquals(true, miGrupo2.getPersonajes().contains(new Long(1)));
+		assertEquals(true, miGrupo2.getPersonajes().contains(new Long(2)));
+		
+		miGrupo2.getPersonajes().remove(new Long(1));
+		miGrupo2.getPersonajes().add(new Long(3));
+		
+		dao.update(miGrupo2);
+		
+		Grupo miGrupo3 = dao.findOne(filtros);
+		
+		assertEquals(true, miGrupo3.getPersonajes().contains(new Long(3)));
+	}
+	
 }

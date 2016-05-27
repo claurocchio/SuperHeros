@@ -46,4 +46,18 @@ public class GrupoInMemoryDao extends InMemoryAbstractDao<Grupo, FiltroGrupo> {
 		return into; 
 	}
 
+	@Override
+	protected void cloneForUpdate(Grupo from, Grupo into) {
+		//se copian uno por uno los atributos
+		//into.setId(new Long(from.getId()));
+		into.setNombre(new String(from.getNombre()));
+				
+		//la coleccion debe copiarse uno por una tambien
+		Set<Long> personajes = new HashSet<>();
+		if(from.getPersonajes() != null){
+			for(Long item : from.getPersonajes()) personajes.add(item);
+		}
+		into.setPersonajes(personajes);	
+	}
+
 }

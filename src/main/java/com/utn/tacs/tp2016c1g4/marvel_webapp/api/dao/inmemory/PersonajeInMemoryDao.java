@@ -61,4 +61,16 @@ public class PersonajeInMemoryDao extends InMemoryAbstractDao<Personaje, FiltroP
 		return into; 
 	}
 
+	@Override
+	protected void cloneForUpdate(Personaje from, Personaje into) {
+		//se copian uno por uno los atributos
+		//into.setId(new Long(from.getId()));
+		into.setName(new String(from.getName()));
+				
+		//la coleccion debe copiarse uno por una tambien
+		if(from.getOtherProperties() != null){
+			for(Map.Entry<String, Object> item : from.getOtherProperties().entrySet()) into.setOtherProperties(item.getKey(), item.getValue());
+		}		
+	}
+
 }
