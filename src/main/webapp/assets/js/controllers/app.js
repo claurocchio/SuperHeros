@@ -26,7 +26,7 @@ app.config(function($routeProvider) {
   
     .when('/grupos', {
     templateUrl : 'views/grupos.html',
-    controller  : 'GruposController'
+    controller  : 'myCtl'
   })
   
     .when('/login', {
@@ -60,10 +60,4 @@ app.controller('GruposController', function($scope) {
 app.controller('LoginController', function($scope) {
 	  $scope.message = 'Hello from LoginController';
 	});
-
-
-
-
-
-
 

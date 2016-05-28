@@ -25,6 +25,10 @@
 <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    
+<script src="script/lvl-uuid.js"></script>
+<script src="script/lvl-drag-drop.js"></script>
     
 <!-- CSS -->
 <link rel="stylesheet2" href="assets/css/app.css">
@@ -110,6 +114,11 @@
   		font-size: 48px;
 	
 	}
+    h4 {
+		font-family: 'Anton', sans-serif;
+  		font-size: 30px;
+	
+	}
     body {
 		font-family: 'Arvo', serif;
   		font-size: 12px;
@@ -118,7 +127,54 @@
  
     .btn-labeled {padding-top: 0;padding-bottom: 0;}
     
+    .material-switch > input[type="checkbox"] {
+    display: none;   
+}
+
+.material-switch > label {
+    cursor: pointer;
+    height: 0px;
+    position: relative; 
+    width: 40px;  
+}
+
+.material-switch > label::before {
+    background: rgb(0, 0, 0);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    content: '';
+    height: 16px;
+    margin-top: -8px;
+    position:absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 40px;
+}
+.material-switch > label::after {
+    background: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    content: '';
+    height: 24px;
+    left: -4px;
+    margin-top: -8px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 24px;
+}
+.material-switch > input[type="checkbox"]:checked + label::before {
+    background: inherit;
+    opacity: 0.5;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: inherit;
+    left: 20px;
+}
+   
     
- 
 </style>
+
+
+
 </html>
