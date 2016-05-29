@@ -10,10 +10,12 @@ Para levantar la webapp:
 
 Tambien es posible deployar el war a un container preinstalado ( Tomcat por ejemplo ), en caso de necesitar debugear
 
+Frontend:
+	/test-artifact  
 
 Recursos:  
 
-Heroes     /test-artifact/heroes  
-Favoritos  /test-artifact/favoritos  
-Perfiles   /test-artifact/perfiles  
-Grupos     /test-artifact/grupos  
+Heroes     /test-artifact/api/heroes  
+Favoritos  /test-artifact/api/favoritos  
+Perfiles   /test-artifact/api/perfiles  
+Grupos     /test-artifact/api/grupos  
