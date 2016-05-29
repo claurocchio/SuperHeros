@@ -26,7 +26,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostResponse;
 
-@Path("grupos")
+@Path("/api/grupos")
 public class GrupoResource {
 
 	private static final Logger logger = LogManager.getLogger(GrupoResource.class);

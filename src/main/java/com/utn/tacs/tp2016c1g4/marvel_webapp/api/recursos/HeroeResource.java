@@ -16,7 +16,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.Repository;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.heroe.HeroePostRequest;
 
-@Path("heroes")
+@Path("/api/heroes")
 public class HeroeResource {
 
 	private static final Logger logger = LogManager.getLogger(HeroeResource.class);

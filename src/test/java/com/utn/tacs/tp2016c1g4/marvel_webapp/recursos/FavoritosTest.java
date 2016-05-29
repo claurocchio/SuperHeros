@@ -31,20 +31,20 @@ public class FavoritosTest extends JerseyTest {
 
 	@Test
 	public void testFavoritos() {
-		FavoritoGetResponse response = target("favoritos").request().get(FavoritoGetResponse.class);
+		FavoritoGetResponse response = target("/api/favoritos").request().get(FavoritoGetResponse.class);
 		assertTrue(response.getFavoritos().size() > 0);
 	}
 
 	@Test
 	public void testMarcarFavorito() {
 		FavoritoPostRequest request = new FavoritoPostRequest(5);
-		Response response = target("favoritos").request().post(Entity.json(request), Response.class);
+		Response response = target("/api/favoritos").request().post(Entity.json(request), Response.class);
 		assertEquals(201, response.getStatus());
 	}
 
 	@Test
 	public void testAgregarFavoritoSinRequest() {
-		Response response = target("favoritos").request().post(null, Response.class);
+		Response response = target("/api/favoritos").request().post(null, Response.class);
 		assertEquals(400, response.getStatus());
 	}
 
