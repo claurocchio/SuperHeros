@@ -18,7 +18,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilPostResponse;
 
-@Path("perfiles")
+@Path("/api/perfiles")
 public class PerfilResource {
 
 	private static final Logger logger = LogManager.getLogger(PerfilResource.class);
@@ -29,7 +29,7 @@ public class PerfilResource {
 	public Response get(@PathParam("username") String userName) {
 		logger.debug("get invocado");
 		PerfilGetResponse response = new PerfilGetResponse();
-		response.setId(1);
+		response.setId((long) 1);
 		response.setUsername(userName);
 		return Response.status(200).entity(response).build();
 	}

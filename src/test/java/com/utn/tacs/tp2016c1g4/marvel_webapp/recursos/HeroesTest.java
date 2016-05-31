@@ -23,7 +23,7 @@ public class HeroesTest extends JerseyTest {
 
 	@Test
 	public void testHeroes() {
-		Response response = target("heroes").request().get(Response.class);
+		Response response = target("/api/heroes").request().get(Response.class);
 		assertEquals(200, response.getStatus());
 	}
 

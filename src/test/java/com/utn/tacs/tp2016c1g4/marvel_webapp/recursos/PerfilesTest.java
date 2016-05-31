@@ -23,7 +23,7 @@ public class PerfilesTest extends JerseyTest {
 
 	@Test
 	public void testPerfilesGet() {
-		PerfilGetResponse response = target("perfiles/ejemplo").request().get(PerfilGetResponse.class);
+		PerfilGetResponse response = target("/api/perfiles/ejemplo").request().get(PerfilGetResponse.class);
 		assertEquals("ejemplo", response.getUsername());
 	}
 
@@ -32,7 +32,7 @@ public class PerfilesTest extends JerseyTest {
 		PerfilPostRequest request = new PerfilPostRequest();
 		request.setUsername("ejemplo");
 		request.setPassword("asd123");
-		PerfilPostResponse response = target("perfiles").request().post(Entity.json(request), PerfilPostResponse.class);
+		PerfilPostResponse response = target("/api/perfiles").request().post(Entity.json(request), PerfilPostResponse.class);
 		assertEquals("ejemplo", response.getUsername());
 	}
 }

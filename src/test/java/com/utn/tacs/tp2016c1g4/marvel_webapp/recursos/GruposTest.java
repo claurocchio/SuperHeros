@@ -26,18 +26,18 @@ public class GruposTest extends JerseyTest {
 
 	@Test
 	public void testCreateGrupo() {
-		Response response = target("grupos").request().post(null, Response.class);
+		Response response = target("/api/grupos").request().post(null, Response.class);
 		assertEquals(400, response.getStatus());
 
 		GrupoPostRequest postRequest = new GrupoPostRequest();
 		postRequest.setName("existente");
-		response = target("grupos").request().post(Entity.json(postRequest), Response.class);
+		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(202, response.getStatus());
 	}
 
 	@Test
 	public void testGetGrupo() {
-		Response response = target("grupos/2").request().get(Response.class);
+		Response response = target("/api/grupos/2").request().get(Response.class);
 		GrupoGetResponse grupoResponse = response.readEntity(GrupoGetResponse.class);
 		assertEquals(200, response.getStatus());
 		assertEquals(new Long(2), grupoResponse.getGrupos().get(0).getId());
@@ -46,7 +46,7 @@ public class GruposTest extends JerseyTest {
 	@Test
 	public void testAddPersonaje() {
 		GrupoPutRequest request = new GrupoPutRequest(2);
-		Response response = target("grupos/1").request().put(Entity.json(request), Response.class);
+		Response response = target("/api/grupos/1").request().put(Entity.json(request), Response.class);
 		assertEquals(201, response.getStatus());
 	}
 

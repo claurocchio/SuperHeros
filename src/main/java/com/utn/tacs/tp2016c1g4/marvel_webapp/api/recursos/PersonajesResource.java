@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje.PersonajeGetResponse;
 
-@Path("personajes")
+@Path("/api/personajes")
 public class PersonajesResource {
 
 	private static final Logger logger = LogManager.getLogger(PersonajesResource.class);
