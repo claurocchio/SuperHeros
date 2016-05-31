@@ -9,9 +9,9 @@ app.config(function($routeProvider) {
     controller  : 'HomeController'
   })
 
-  .when('/admin', {
-    templateUrl : 'views/admin.html',
-    controller  : 'AdminController'
+  .when('/usuarios', {
+    templateUrl : 'views/usuarios.html',
+    controller  : 'UsuariosController'
   })
 
   .when('/catalogo', {
@@ -33,6 +33,12 @@ app.config(function($routeProvider) {
     templateUrl : 'views/login.html',
     controller  : 'LoginController'
   })
+  
+   .when('/ranking', {
+    templateUrl : 'views/ranking.html',
+    controller  : 'RankingController'
+  })
+
 
   .otherwise({redirectTo: '/'});
 });
