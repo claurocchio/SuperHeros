@@ -2,72 +2,76 @@
 <div class="text-danger page-header">
 <h1>GRUPOS</h1>
 </div>
+<h3>{{message}}</h3>
 
-
-<div class="col-md-12">
-<div class="col-md-4">
-    <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading"><h4>PERSONAJES</h4></div>
-        
-        <!-- List group -->
-        <ul class="list-group">
-            <li class="list-group-item">
-                Spider Man
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionDefault" class="label-default"></label>
-                </div>
-            </li>
-            <li class="list-group-item">
-                Hulk
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionPrimary" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionPrimary" class="label-default"></label>
-                </div>
-            </li>
-            <li class="list-group-item">
-                Thor
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionSuccess" class="label-default"></label>
-                </div>
-            </li>
-            <li class="list-group-item">
-                Wolverine
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionInfo" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionInfo" class="label-default"></label>
-                </div>
-            </li>        
-        </ul>
-   
-    </div>     
-    <div >
-        <button type="button" class="btn  btn-block btn-danger" style="width:100%;">Add</button>
+<div class="row col-md-12">
+  <div class="col-md-4">
+    <div ng-attr-id="{{item.id}}" class="panel panel-default" ng-repeat="item in data">
+      <td><input type="checkbox" ng-model="item.checked" ng-click="checkedIndex(item)"> </td>
+      <div class="panel-heading" ng-click="item.clicked = !item.clicked">{{item.name}}</div>
+      <div class="panel-body">Personajes: {{item.cant}}</div>
     </div>
-</div>
-<div class="col-md-8">
-     <div class="panel panel-default">
-         <div class="panel-heading"><h4>TU GRUPO</h4></div>
-        
-        <!-- List group -->
-        <ul class="list-group">
-            <li class="list-group-item">
-                Dark Widow
-            </li>
-            <li class="list-group-item">
-                Deadpool
-            </li>
-            <li class="list-group-item">
-                Magneto
-            </li>
-            <li class="list-group-item">
-                Daredevil
-            </li>        
-        </ul>
-   
+  </div>
+  <div class="col-md-8">
+    <div ng-attr-id="{{item.id}}" class="panel panel-default" ng-repeat="item in data" ng-show="item.clicked">
+      <div class="panel-heading">{{item.name}}</div>
+      <div class="panel-body">Personajes: {{item.cant}}
+        <li class="list-group-item" ng-repeat="personaje in item.personajes">{{personaje}}</li>  
+      </div>   
+      <button type="button" ng-click="assign({{item.id}})" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addCharModal">Agregar Personaje</button>
     </div>
-</div>
+  </div>
 </div>
 
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#newGroupModal">Nuevo Grupo</button>
+
+<button type="button" class="btn btn-info btn-lg" ng-click="remove($index)">Borrar</button>
+
+<div id="newGroupModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Crear Grupo</h4>
+      </div>
+      <div class="modal-body">
+        <p>Elige el nombre del grupo.</p>
+        <form>
+            Nombre del Grupo: <input type="text" ng-model="gname"><br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="newGroup()" data-dismiss="modal">Crear Grupo</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="addCharModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Agregar Personaje</h4>
+      </div>
+      <div class="modal-body">
+        <p>Elige uno o mas personajes disponibles</p>
+        <form>
+            <input type="checkbox" ng-model="capi">Capitain America<br>
+            <input type="checkbox" ng-model="wolv">Wolverine<br>
+            <input type="checkbox" ng-model="blackp">Black Panther<br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="addChar()" data-dismiss="modal">Agregar Personaje</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
