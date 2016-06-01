@@ -1,7 +1,19 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao;
 
+import java.util.Collection;
+import java.util.Set;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Entity;
 
-public interface Dao <T extends Entity, F extends T> {
+public interface Dao<T extends Entity, F extends SearchFilter<T>> {
+	Set<T> getAll();
 
+	Set<T> find(Collection<F> filters);
+
+	T findOne(Collection<F> filters);
+
+	boolean save(T obj);
+
+	boolean delete(T obj);
+	
+	boolean update(T obj);
 }

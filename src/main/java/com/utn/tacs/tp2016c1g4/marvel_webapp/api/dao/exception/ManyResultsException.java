@@ -1,4 +1,4 @@
-package com.utn.tacs.tp2016c1g4.marvel_webapp.api.containers.exception;
+package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception;
 
 import java.util.Collection;
 
@@ -17,7 +17,7 @@ public class ManyResultsException extends RuntimeException {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> Collection<T> getCollection(Class<T> type) {
+	public <T> Collection<T> getResults(Class<T> type) {
 		return (Collection<T>) collection;
 	}
 }
