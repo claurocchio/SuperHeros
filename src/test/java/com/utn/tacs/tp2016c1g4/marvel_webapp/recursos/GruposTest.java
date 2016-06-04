@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 public class GruposTest extends JerseyTest {
 
@@ -25,27 +26,32 @@ public class GruposTest extends JerseyTest {
 
 	@Test
 	public void testCreateGrupo() {
-		
-		GrupoPostRequest postRequest = new GrupoPostRequest();
-		
-		Response response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
-//		Response response = target("grupos").request().post(Entity.json(postRequest), Response.class);
-//		assertEquals(400, response.getStatus());
-		
-//		postRequest.setName("existente");
-//		response = target("grupos").request().post(Entity.json(postRequest), Response.class);
 
-		assertEquals(400, response.getStatus());
+		GrupoPostRequest postRequest = null;
+		Response response = null;
+
+		postRequest = new GrupoPostRequest();
+		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
+		assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+
+		postRequest.setName("unGrupo");
+		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+
+		// reiterar insercion de grupo
+		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
+		assertEquals(Status.CONFLICT.getStatusCode(), response.getStatus());
 	}
 
 	@Test
 	public void testGetGrupo() {
 		Response response = target("/api/grupos/2").request().get(Response.class);
 		GrupoGetResponse grupoResponse = response.readEntity(GrupoGetResponse.class);
-		//assertEquals(200, response.getStatus());
-//		assertEquals(new Long(2), grupoResponse.getGrupos().get(0).getId());
-//		Response response = target("grupos/2").request().get(Response.class);
-		//GrupoGetResponse grupoResponse = response.readEntity(GrupoGetResponse.class);
+		// assertEquals(200, response.getStatus());
+		// assertEquals(new Long(2), grupoResponse.getGrupos().get(0).getId());
+		// Response response = target("grupos/2").request().get(Response.class);
+		// GrupoGetResponse grupoResponse =
+		// response.readEntity(GrupoGetResponse.class);
 		assertEquals(404, response.getStatus());
 		// assertEquals(new Long(2), grupoResponse.getGrupos().get(0).getId());
 	}
@@ -55,10 +61,12 @@ public class GruposTest extends JerseyTest {
 		GrupoPutRequest request = new GrupoPutRequest(new Long(2));
 		Response response = target("/api/grupos/1").request().put(Entity.json(request), Response.class);
 		assertEquals(404, response.getStatus());
-//		GrupoPutRequest request = new GrupoPutRequest();
-//		request.setIdPersonaje(new Long(2));
-//		Response response = target("grupos/1").request().put(Entity.json(request), Response.class);
-//		assertEquals(404, response.getStatus());
+		// GrupoPutRequest request = new GrupoPutRequest();
+		// request.setIdPersonaje(new Long(2));
+		// Response response =
+		// target("grupos/1").request().put(Entity.json(request),
+		// Response.class);
+		// assertEquals(404, response.getStatus());
 	}
 
 }
