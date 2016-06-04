@@ -5,10 +5,12 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.GuiceInMemoryFeature;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.GrupoResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoGetResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostResponse;
 
 import static org.junit.Assert.*;
 
@@ -32,28 +34,61 @@ public class GruposTest extends JerseyTest {
 
 		postRequest = new GrupoPostRequest();
 		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
-		assertEquals(Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+		assertEquals("post a grupos con nombre faltante debe ser bad request", Status.BAD_REQUEST.getStatusCode(),
+				response.getStatus());
 
-		postRequest.setName("unGrupo");
-		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
-		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+		String nombreGrupo = "unGrupo";
 
-		// reiterar insercion de grupo
+		postRequest.setName(nombreGrupo);
 		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
-		assertEquals(Status.CONFLICT.getStatusCode(), response.getStatus());
+		assertEquals("post a grupos cuando esta vacio debe ser ok", Status.OK.getStatusCode(), response.getStatus());
+
+		GrupoPostResponse postResponse = response.readEntity(GrupoPostResponse.class);
+
+		assertNotNull("nuevo grupo debe tener id asignado", postResponse.getIdGrupo());
+		assertEquals("nuevo grupo debe ser identico al del request", nombreGrupo, postResponse.getNombre());
+
+		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
+		assertEquals("post a grupos con nombre existente debe ser conflict ", Status.CONFLICT.getStatusCode(),
+				response.getStatus());
+
+		postResponse = response.readEntity(GrupoPostResponse.class);
+
+		assertNull("post a grupos en conflicto debe producir id nulo", postResponse.getIdGrupo());
+		assertNull("post a grupos en conflicto debe producir nombre nulo", postResponse.getNombre());
 	}
 
 	@Test
 	public void testGetGrupo() {
-		Response response = target("/api/grupos/2").request().get(Response.class);
-		GrupoGetResponse grupoResponse = response.readEntity(GrupoGetResponse.class);
-		// assertEquals(200, response.getStatus());
-		// assertEquals(new Long(2), grupoResponse.getGrupos().get(0).getId());
-		// Response response = target("grupos/2").request().get(Response.class);
-		// GrupoGetResponse grupoResponse =
-		// response.readEntity(GrupoGetResponse.class);
-		assertEquals(404, response.getStatus());
-		// assertEquals(new Long(2), grupoResponse.getGrupos().get(0).getId());
+		Response response = null;
+
+		response = target("/api/grupos/2").request().get(Response.class);
+		assertEquals("get grupo cuando esta vacio debe ser not found", Status.NOT_FOUND.getStatusCode(),
+				response.getStatus());
+
+		// hago 2 post para popular grupos
+
+		GrupoPostRequest postRequest = new GrupoPostRequest();
+
+		postRequest.setName("grupo1");
+		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
+
+		postRequest.setName("grupo2");
+		response = target("/api/grupos").request().post(Entity.json(postRequest), Response.class);
+
+		// repito busqueda de grupos
+		response = target("/api/grupos/2").request().get(Response.class);
+		assertEquals("get grupo para id existente debe ser ok", Status.OK.getStatusCode(), response.getStatus());
+
+		GrupoGetResponse getResponse = response.readEntity(GrupoGetResponse.class);
+		assertNotNull("get grupo response OK debe tener grupo no nulo", getResponse.getGrupo());
+		assertEquals("get grupo response OK debe tener grupo con id igual al del request", 2,
+				getResponse.getGrupo().getId());
+		assertNotNull("get grupo response OK para grupo debe tener objeto lista de personajes",
+				getResponse.getGrupo().getPersonajes());
+		assertEquals("get grupo response OK para grupo nuevo no debe contener personajes", 0,
+				getResponse.getGrupo().getPersonajes().size());
+
 	}
 
 	@Test

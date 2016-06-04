@@ -118,6 +118,7 @@ public class GrupoResource {
 				grupoDao.save(grupo);
 
 				response.setIdGrupo(grupo.getId());
+				response.setNombre(grupo.getNombre());
 
 				status = Status.OK;
 				message = "grupo creado exitosamente";
@@ -125,6 +126,8 @@ public class GrupoResource {
 			} else {
 				status = Status.CONFLICT;
 				message = "ya existe este grupo";
+
+				logger.debug("conflicto al crear grupo ya existente: " + request.getName());
 			}
 
 		}
