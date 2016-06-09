@@ -34,41 +34,46 @@ public class PerfilInMemoryDao extends InMemoryAbstractDao<Perfil, FiltroPerfil>
 	@Override
 	protected Perfil fullClone(Perfil from) {
 		Perfil into = new Perfil();
-		//se copian uno por uno los atributos
+		// se copian uno por uno los atributos
 		into.setId(new Long(from.getId()));
 		into.setUsername(new String(from.getUsername()));
-		
-		//la coleccion debe copiarse uno por una tambien
+		into.setEmail(from.getEmail());
+
+		// la coleccion debe copiarse uno por una tambien
 		Set<Long> grupos = new HashSet<>();
-		if(from.getIdGrupos() != null){
-			for(Long item : from.getIdGrupos()) grupos.add(item);
+		if (from.getIdGrupos() != null) {
+			for (Long item : from.getIdGrupos())
+				grupos.add(item);
 		}
 		into.setIdGrupos(grupos);
-		
+
 		Set<Long> favs = new HashSet<>();
-		if(from.getIdsPersonajesFavoritos() != null){
-			for(Long item : from.getIdsPersonajesFavoritos()) favs.add(item);
+		if (from.getIdsPersonajesFavoritos() != null) {
+			for (Long item : from.getIdsPersonajesFavoritos())
+				favs.add(item);
 		}
 		into.setIdsPersonajesFavoritos(favs);
-		return into; 
+		return into;
 	}
 
 	@Override
 	protected void cloneForUpdate(Perfil from, Perfil into) {
-		//se copian uno por uno los atributos
-		//into.setId(new Long(from.getId()));
+		// se copian uno por uno los atributos
+		// into.setId(new Long(from.getId()));
 		into.setUsername(new String(from.getUsername()));
-				
-		//la coleccion debe copiarse uno por una tambien
+
+		// la coleccion debe copiarse uno por una tambien
 		Set<Long> grupos = new HashSet<>();
-		if(from.getIdGrupos() != null){
-			for(Long item : from.getIdGrupos()) grupos.add(item);
+		if (from.getIdGrupos() != null) {
+			for (Long item : from.getIdGrupos())
+				grupos.add(item);
 		}
 		into.setIdGrupos(grupos);
-				
+
 		Set<Long> favs = new HashSet<>();
-		if(from.getIdsPersonajesFavoritos() != null){
-			for(Long item : from.getIdsPersonajesFavoritos()) favs.add(item);
+		if (from.getIdsPersonajesFavoritos() != null) {
+			for (Long item : from.getIdsPersonajesFavoritos())
+				favs.add(item);
 		}
 		into.setIdsPersonajesFavoritos(favs);
 	}

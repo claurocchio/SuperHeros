@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,10 +42,6 @@ public class PerfilResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response get(@PathParam("username") String userName) {
 		logger.debug("get invocado");
-		PerfilGetResponse response = new PerfilGetResponse();
-		response.setId((long) 1);
-		response.setUsername(userName);
-//		return Response.status(200).entity(response).build();
 
 		FiltroPerfil.Builder filtroBuilder = new FiltroPerfil.Builder();
 		filtroBuilder.clear();
@@ -71,9 +68,6 @@ public class PerfilResource {
 			status = Response.Status.NOT_FOUND;
 			opStatus.setMessage("no existe el perfil solicitado");
 		} else {
-			// TODO: estos with no van en perfiles, pero es para mostrar como se
-			// TODO: podrian usar en otros recursos
-
 			if (with("grupos")) {
 				logger.debug("with grupos especificado... buscando");
 			}
@@ -93,22 +87,49 @@ public class PerfilResource {
 	public Response post(PerfilPostRequest request) {
 		logger.debug("post invocado");
 
-		Perfil p = new Perfil();
-		p.setUsername(request.getUsername());
-		perfilDao.save(p);
+		FiltroPerfil.Builder filtroBuilder = new FiltroPerfil.Builder();
+		filtroBuilder.setUserName(request.getUsername());
+		Set<FiltroPerfil> filtros = filtroBuilder.build();
 
-		logger.debug("perfil creado para usuario: " + p.getUsername());
+		Status status = null;
+		String mensaje = "";
 
-		Response.Status status = Response.Status.OK;
+		try {
+			Perfil perfil = perfilDao.findOne(filtros);
+
+			if (perfil == null) {
+				Perfil p = new Perfil();
+				p.setUsername(request.getUsername());
+				p.setEmail(request.getEmail());
+				// TODO: definir que hacer con este campo request.getPassword();
+				boolean success = perfilDao.save(p);
+
+				if (success) {
+					status = Status.OK;
+					mensaje = "perfil creado exitosamente";
+					logger.debug("perfil creado para usuario: " + p.getUsername());
+				} else {
+					status = Status.INTERNAL_SERVER_ERROR;
+					mensaje = "ocurrió un problema al generar el perfil";
+					logger.error("no se generó id para el nuevo perfil: " + p.getUsername());
+				}
+			}
+
+		} catch (ManyResultsException e) {
+			// no deberia ocurrir nunca
+			status = Status.CONFLICT;
+			mensaje = "más de una coincidencia para ese username";
+		}
 
 		OperationStatus opStatus = new OperationStatus();
 		opStatus.setStatusCode(status);
-		opStatus.setMessage("perfil creado exitosamente");
+		opStatus.setMessage(mensaje);
 
 		PerfilPostResponse entityResponse = new PerfilPostResponse();
 		entityResponse.setStatus(opStatus);
 
 		return Response.status(status).entity(entityResponse).build();
+
 	}
 
 	@Inject
