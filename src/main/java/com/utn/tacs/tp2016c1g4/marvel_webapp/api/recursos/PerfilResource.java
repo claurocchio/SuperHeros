@@ -87,12 +87,24 @@ public class PerfilResource {
 	public Response post(PerfilPostRequest request) {
 		logger.debug("post invocado");
 
+		Status status = null;
+		String mensaje = "";
+
+		PerfilPostResponse postResponse = new PerfilPostResponse();
+		postResponse.setStatus(new OperationStatus());
+
+		if (!isValidRequest(request)) {
+			status = Status.BAD_REQUEST;
+			mensaje = "parámetros inválidos";
+			postResponse.getStatus().setStatusCode(status);
+			postResponse.getStatus().setMessage(mensaje);
+
+			return Response.status(status).entity(postResponse).build();
+		}
+
 		FiltroPerfil.Builder filtroBuilder = new FiltroPerfil.Builder();
 		filtroBuilder.setUserName(request.getUsername());
 		Set<FiltroPerfil> filtros = filtroBuilder.build();
-
-		Status status = null;
-		String mensaje = "";
 
 		try {
 			Perfil perfil = perfilDao.findOne(filtros);
@@ -102,17 +114,22 @@ public class PerfilResource {
 				p.setUsername(request.getUsername());
 				p.setEmail(request.getEmail());
 				// TODO: definir que hacer con este campo request.getPassword();
+
 				boolean success = perfilDao.save(p);
 
 				if (success) {
 					status = Status.OK;
 					mensaje = "perfil creado exitosamente";
-					logger.debug("perfil creado para usuario: " + p.getUsername());
+					logger.debug("perfil creado: " + p.toString());
 				} else {
 					status = Status.INTERNAL_SERVER_ERROR;
 					mensaje = "ocurrió un problema al generar el perfil";
-					logger.error("no se generó id para el nuevo perfil: " + p.getUsername());
+					logger.error("no se generó id para el nuevo perfil: " + request.getUsername());
 				}
+			} else {
+				// no deberia ocurrir nunca
+				status = Status.CONFLICT;
+				mensaje = "el username ya existe";
 			}
 
 		} catch (ManyResultsException e) {
@@ -121,15 +138,21 @@ public class PerfilResource {
 			mensaje = "más de una coincidencia para ese username";
 		}
 
-		OperationStatus opStatus = new OperationStatus();
-		opStatus.setStatusCode(status);
-		opStatus.setMessage(mensaje);
+		postResponse.getStatus().setStatusCode(status);
+		postResponse.getStatus().setMessage(mensaje);
 
-		PerfilPostResponse entityResponse = new PerfilPostResponse();
-		entityResponse.setStatus(opStatus);
+		return Response.status(status).entity(postResponse).build();
 
-		return Response.status(status).entity(entityResponse).build();
+	}
 
+	private boolean isValidRequest(PerfilPostRequest request) {
+		boolean isValid = true;
+
+		isValid = isValid && request.getUsername() != null && !request.getUsername().isEmpty();
+		isValid = isValid && request.getPassword() != null && !request.getPassword().isEmpty();
+		isValid = isValid && request.getEmail() != null && !request.getEmail().isEmpty();
+
+		return isValid;
 	}
 
 	@Inject

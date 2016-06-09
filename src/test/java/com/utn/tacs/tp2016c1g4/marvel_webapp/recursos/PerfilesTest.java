@@ -58,20 +58,29 @@ public class PerfilesTest extends JerseyTest {
 
 	@Test
 	public void testPerfilesPost() {
-		/*
-		 * PerfilPostRequest request = new PerfilPostRequest();
-		 * request.setUsername("ejemplo"); request.setPassword("asd123");
-		 * PerfilPostResponse response =
-		 * target("/api/perfiles").request().post(Entity.json(request),
-		 * PerfilPostResponse.class); assertEquals("ejemplo",
-		 * response.getUsername());
-		 */
-		// PerfilPostResponse perfilResponse =
-		// response.readEntity(PerfilPostResponse.class);
 
-		// assertEquals("creacion exitosa de usuario - headers",
-		// response.getStatus(), Response.Status.OK.getStatusCode());
-		// assertEquals("creacion exitosa de usuario",
-		// perfilResponse.getStatus().getCode(), 200);
+		Response response = null;
+
+		PerfilPostRequest postRequest = new PerfilPostRequest();
+		postRequest.setUsername("ejemplo");
+		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		assertEquals("bad request al no proveer contraseña al post de perfil", Status.BAD_REQUEST.getStatusCode(),
+				response.getStatus());
+
+		postRequest.setPassword("123");
+		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		assertEquals("bad request al no proveer email al post de perfil", Status.BAD_REQUEST.getStatusCode(),
+				response.getStatus());
+
+		postRequest.setEmail("test@test.com");
+		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+
+		// TODO: checkeo de valores de respuesta
+
+		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		assertEquals("perfiles con el mismo username tienen que ser conflict", Status.CONFLICT.getStatusCode(),
+				response.getStatus());
+
 	}
 }
