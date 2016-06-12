@@ -49,10 +49,15 @@ $routeProvider
 app.factory('FavoritosFactory', ['$http', function($http) {
 
     var urlBase = 'api/favoritos';
+    var urlPersonajes = 'api/personajes';
     var FavoritosFactory = {};
 
     FavoritosFactory.getFavoritos = function() {
         return $http.get(urlBase);
+    };
+    
+    FavoritosFactory.getPersonajes = function() {
+        return $http.get(urlPersonajes);
     };
 
     return FavoritosFactory;

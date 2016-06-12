@@ -11,79 +11,36 @@
         <div class="panel-heading"><h4>PERSONAJES</h4></div>
         
         <!-- List group -->
-        <ul class="list-group">
-            <li class="list-group-item">
-                Spider Man
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionDefault" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionDefault" class="label-default"></label>
-                </div>
+       <ul class="list-group">
+            <li class="list-group-item" ng-repeat="favorito in favoritosList">
+            {{favorito.name}} 
+		      	<div class="material-switch pull-right">
+                	<input id="{{favorito.id}}"	ng-model="favorito.checked" type="checkbox"/>
+                    <label class="label-default" for="{{favorito.id}}" ></label>
+                </div> 
             </li>
-            <li class="list-group-item">
-                Hulk
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionPrimary" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionPrimary" class="label-default"></label>
-                </div>
-            </li>
-            <li class="list-group-item">
-                Thor
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionSuccess" class="label-default"></label>
-                </div>
-            </li>
-            <li class="list-group-item">
-                Wolverine
-                <div class="material-switch pull-right">
-                    <input id="someSwitchOptionInfo" name="someSwitchOption001" type="checkbox"/>
-                    <label for="someSwitchOptionInfo" class="label-default"></label>
-                </div>
-            </li>        
         </ul>
    
     </div>     
     <div >
-        <button type="button" class="btn  btn-block btn-danger" style="width:100%;">Add</button>
+        <button type="button" class="btn  btn-block btn-danger" ng-click="pushear()" style="width:100%;">
+        Add
+        </button>
     </div>
+    
 </div>
 <div class="col-md-8">
     
          <div><h4>TUS FAVORITOS</h4></div>
         
         <!-- List group -->
-         
-        <ul class="list-group">
-            <div class="input-group" style="margin-bottom: 2px;">
-                
-                <a class="form-control"> Dark Widow </a>
+       <ul class="list-group" ng-repeat="seleccionado in filtroFavoritos">
+       		<div class="input-group">
+                <a class="form-control"> {{seleccionado.name}} </a>
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Delete!</button>
+                    <button class="btn btn-default" type="button" ng-click="eliminar(seleccionado)">Delete!</button>
                 </span>
-            </div><!-- /input-group -->
-            
-             <div class="input-group" style="margin-bottom: 2px;">
-                
-                <a class="form-control">Deadpool</a>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Delete!</button>
-                </span>
-            </div>
-             <div class="input-group"  style="margin-bottom: 2px;" >
-                
-                <a class="form-control"> Magneto</a>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Delete!</button>
-                </span>
-            </div><!-- /input-group -->
-            <div class="input-group"  style="margin-bottom: 2px;">
-                
-                <a class="form-control"> Daredevil </a>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Delete!</button>
-                </span>
-            </div><!-- /input-group -->
-                  
+            </div><!-- /input-group -->                 
         </ul>
    
     
