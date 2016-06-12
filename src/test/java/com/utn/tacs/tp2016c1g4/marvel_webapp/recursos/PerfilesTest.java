@@ -1,6 +1,6 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.recursos;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
@@ -76,7 +76,13 @@ public class PerfilesTest extends JerseyTest {
 		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		// TODO: checkeo de valores de respuesta
+		response = target("/api/perfiles/ejemplo").request().get(Response.class);
+
+		PerfilGetResponse perfilGet = response.readEntity(PerfilGetResponse.class);
+		assertNotNull("perfil recien cargado no puede ser null", perfilGet.getPerfil());
+		assertEquals("perfiles nuevos no deben tener favoritos asignados", 0,
+				perfilGet.getPerfil().getFavoritos().size());
+		assertEquals("perfiles nuevos no deben tener grupos asignados", 0, perfilGet.getPerfil().getGrupos().size());
 
 		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("perfiles con el mismo username tienen que ser conflict", Status.CONFLICT.getStatusCode(),
