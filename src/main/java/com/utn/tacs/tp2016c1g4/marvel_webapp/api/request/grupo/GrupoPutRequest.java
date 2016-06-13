@@ -1,22 +1,26 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo;
 
+import java.util.Collection;
+
 public class GrupoPutRequest {
 
-	private Long idPersonaje;
+	private String nombre;
+	private Collection<Long> idPersonajes;
 
-	public GrupoPutRequest() {
+	public Collection<Long> getIdPersonajes() {
+		return idPersonajes;
 	}
 
-	public GrupoPutRequest(Long idPersonaje) {
-		this.setIdPersonaje(idPersonaje);
+	public void setIdPersonajes(Collection<Long> idPersonajes) {
+		this.idPersonajes = idPersonajes;
 	}
 
-	public Long getIdPersonaje() {
-		return idPersonaje;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setIdPersonaje(Long idPersonaje) {
-		this.idPersonaje = idPersonaje;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 }

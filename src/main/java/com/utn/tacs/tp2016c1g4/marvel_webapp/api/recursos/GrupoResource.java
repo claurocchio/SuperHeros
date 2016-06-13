@@ -152,11 +152,7 @@ public class GrupoResource {
 		Response.Status status = null;
 		Grupo grupo = null;
 
-		if (idGrupo == null || request.getIdPersonaje() == null) {
-
-			opStatus.setMessage("no se proporciono un request adecuado");
-			status = Response.Status.BAD_REQUEST;
-		} else {
+		if (IsValidRequest(request)) {
 			FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
 			filtroBuilder.clear();
 			filtroBuilder.setId(idGrupo);
@@ -167,16 +163,44 @@ public class GrupoResource {
 				status = Response.Status.NOT_FOUND;
 				opStatus.setMessage("El grupo " + idGrupo + "no existe");
 			} else {
-				grupo.addPersonaje(request.getIdPersonaje());
+				if (request.getIdPersonajes() != null) {
+					logger.debug("listado personajes provisto,  limpiando grupo y agregando personajes para grupo: "
+							+ idGrupo);
+					grupo.getPersonajes().clear();
+					for (Long idPersonaje : request.getIdPersonajes()) {
+						if (grupo.getPersonajes().add(idPersonaje)) {
+							logger.debug("personaje " + idPersonaje + " añadido al grupo " + grupo.getId());
+						}
+					}
+				}
+
+				if (request.getNombre() != null) {
+					logger.debug("nombre provisto,  cambiando nombre de grupo " + grupo.getId());
+					grupo.setNombre(request.getNombre());
+				}
+
+				grupoDao.update(grupo);
+
+				opStatus.setMessage("grupo " + grupo.getId() + " actualizado con exito");
 				status = Response.Status.OK;
-				opStatus.setMessage("El personaje " + request.getIdPersonaje() + " se añadió al grupo " + idGrupo);
+
 			}
+		} else {
+			opStatus.setMessage("no se proporcionó un request adecuado");
+			status = Response.Status.BAD_REQUEST;
 		}
 
 		GrupoPutResponse response = new GrupoPutResponse();
 		response.setStatus(opStatus);
 
 		return Response.status(status).entity(response).build();
+	}
+
+	private boolean IsValidRequest(GrupoPutRequest request) {
+		boolean isValid = false;
+		isValid = isValid || request.getIdPersonajes() != null;
+		isValid = isValid || request.getNombre() != null;
+		return isValid;
 	}
 
 	@DELETE
