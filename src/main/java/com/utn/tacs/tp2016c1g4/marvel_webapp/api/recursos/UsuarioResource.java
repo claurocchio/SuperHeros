@@ -1,5 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioPostResponse;
 
-@Path("/api/Usuarioes")
+@Path("/api/usuarios")
 public class UsuarioResource {
 
 	private static final Logger logger = LogManager.getLogger(UsuarioResource.class);
@@ -37,6 +39,23 @@ public class UsuarioResource {
 
 	private Properties params;
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response get() {
+		logger.debug("get invocado");
+
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		usuarios.add(new Usuario(new Long(1), new Long(1), "user1", "pass1"));
+		usuarios.add(new Usuario(new Long(2), new Long(2), "user2", "pass2"));
+		
+		//TODO: dao.getAll, add a la lista, send
+
+		UsuarioGetResponse response = new UsuarioGetResponse();
+		response.setUsuarios(usuarios);
+
+		return Response.status(200).entity(response).build();
+	}
+	
 	@GET
 	@Path("/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -68,7 +87,7 @@ public class UsuarioResource {
 			status = Response.Status.NOT_FOUND;
 			opStatus.setMessage("no existe el Usuario solicitado");
 		} else {
-			if (with("perfil")) {
+			if (with("perfil")) {//TODO: definir necesidad
 				logger.debug("with perfil especificado... buscando");
 			}
 		}
@@ -113,11 +132,12 @@ public class UsuarioResource {
 				Usuario p = new Usuario();
 				p.setUserName(request.getUserName());
 				p.setEmail(request.getEmail());
+				p.setPass(request.getPass());
 				// TODO: definir que hacer con este campo request.getPassword();
 				// TODO: crear perfil
 
 				boolean success = UsuarioDao.save(p);
-
+				//success debera estar dado por creacion de usuario y de su perfil
 				if (success) {
 					status = Status.OK;
 					mensaje = "Usuario creado exitosamente";

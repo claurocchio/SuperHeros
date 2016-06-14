@@ -7,7 +7,18 @@ public class Usuario implements Entity {
 	private String email;
 	private Long idPerfil;
 	private String pass;
+	
+	public Usuario(){
+		
+	};
 
+	public Usuario(Long id, Long idPerfil, String userName, String pass){
+		this.id = id;
+		this.userName = userName;
+		this.idPerfil = idPerfil;
+		this.pass = pass;
+	}
+	
 	public Long getId() {
 		return id;
 	}

@@ -8,7 +8,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 @JsonInclude(Include.NON_NULL)
 public class UsuarioPostResponse extends Usuario{
 	private OperationStatus status; 
-
+	
 	public OperationStatus getStatus() {
 		return status;
 	}
@@ -18,3 +18,4 @@ public class UsuarioPostResponse extends Usuario{
 	}
 
 }
+
