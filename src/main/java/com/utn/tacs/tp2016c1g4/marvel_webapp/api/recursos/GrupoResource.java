@@ -33,7 +33,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPutResponse
 import java.util.Properties;
 import java.util.Set;
 
-@Path("/api/grupos")
+@Path("/grupos")
 public class GrupoResource {
 
 	private static final Logger logger = LogManager.getLogger(GrupoResource.class);

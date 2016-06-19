@@ -44,7 +44,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoGetRe
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoPostResponse;
 
 
-@Path("/api/favoritos")
+@Path("/favoritos")
 public class FavoritoResource {
 
 	private static final Logger logger = LogManager.getLogger(FavoritoResource.class);

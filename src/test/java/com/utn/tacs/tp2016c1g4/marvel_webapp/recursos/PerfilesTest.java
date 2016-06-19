@@ -11,23 +11,23 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.GuiceInMemoryFeature;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.PerfilResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.perfil.PerfilPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilPostResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.hk2.MyTestResourceConfig;
 
 public class PerfilesTest extends JerseyTest {
 
 	@Override
 	protected Application configure() {
-		return new ResourceConfig(PerfilResource.class).register(GuiceInMemoryFeature.class);
+		return new MyTestResourceConfig();
 	}
 
 	@Test
 	public void testPerfilesGet() {
 		Response response = null;
-		response = target("/api/perfiles/ejemplo").request().get(Response.class);
+		response = target("/perfiles/ejemplo").request().get(Response.class);
 		assertEquals("el perfil aun no fue creado y debe tirar not found", Status.NOT_FOUND.getStatusCode(),
 				response.getStatus());
 
@@ -38,14 +38,14 @@ public class PerfilesTest extends JerseyTest {
 		postRequest.setPassword("123");
 		postRequest.setEmail("test@test.com");
 
-		response = target("/api/perfiles/ejemplo").request().post(Entity.json(postRequest), Response.class);
+		response = target("/perfiles/ejemplo").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("url con nombre al final debe tirar not allowed al hacer post",
 				Status.METHOD_NOT_ALLOWED.getStatusCode(), response.getStatus());
 
-		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		response = target("/api/perfiles/ejemplo").request().get(Response.class);
+		response = target("/perfiles/ejemplo").request().get(Response.class);
 		assertEquals("obtencion de perfil existente debe ser ok", Status.OK.getStatusCode(), response.getStatus());
 
 		PerfilGetResponse getResponse = response.readEntity(PerfilGetResponse.class);
@@ -63,20 +63,20 @@ public class PerfilesTest extends JerseyTest {
 
 		PerfilPostRequest postRequest = new PerfilPostRequest();
 		postRequest.setUsername("ejemplo");
-		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("bad request al no proveer contraseña al post de perfil", Status.BAD_REQUEST.getStatusCode(),
 				response.getStatus());
 
 		postRequest.setPassword("123");
-		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("bad request al no proveer email al post de perfil", Status.BAD_REQUEST.getStatusCode(),
 				response.getStatus());
 
 		postRequest.setEmail("test@test.com");
-		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		response = target("/api/perfiles/ejemplo").request().get(Response.class);
+		response = target("/perfiles/ejemplo").request().get(Response.class);
 
 		PerfilGetResponse perfilGet = response.readEntity(PerfilGetResponse.class);
 		assertNotNull("perfil recien cargado no puede ser null", perfilGet.getPerfil());
@@ -84,7 +84,7 @@ public class PerfilesTest extends JerseyTest {
 				perfilGet.getPerfil().getFavoritos().size());
 		assertEquals("perfiles nuevos no deben tener grupos asignados", 0, perfilGet.getPerfil().getGrupos().size());
 
-		response = target("/api/perfiles").request().post(Entity.json(postRequest), Response.class);
+		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("perfiles con el mismo username tienen que ser conflict", Status.CONFLICT.getStatusCode(),
 				response.getStatus());
 
