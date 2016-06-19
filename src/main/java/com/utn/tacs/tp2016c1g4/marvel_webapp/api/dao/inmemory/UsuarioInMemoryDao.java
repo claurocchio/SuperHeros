@@ -47,8 +47,10 @@ public class UsuarioInMemoryDao extends InMemoryAbstractDao<Usuario, FiltroUsuar
 	protected Usuario fullClone(Usuario from) {
 		Usuario into = new Usuario();
 		//se copian uno por uno los atributos
+		into.setUserName(from.getUserName());
 		into.setId(new Long(from.getId()));
 		into.setIdPerfil(new Long(from.getIdPerfil()));
+		into.setEmail(from.getEmail());
 		into.setPass(new String(from.getPass()));
 		
 		return into; 

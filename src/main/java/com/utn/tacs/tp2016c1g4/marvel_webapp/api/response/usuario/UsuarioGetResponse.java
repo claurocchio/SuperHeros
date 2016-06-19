@@ -1,6 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario;
 
-import java.util.List;
+
+import java.util.Set;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -17,7 +18,7 @@ public class UsuarioGetResponse {
 	private OperationStatus status;
 	private Usuario usuario;
 	@JsonProperty("usuarios")
-	private List<Usuario> usuarios;
+	private Set<Usuario> usuarios;
 
 	public OperationStatus getStatus() {
 		return status;
@@ -35,21 +36,21 @@ public class UsuarioGetResponse {
 		this.usuario = usuario;
 	}
 
-	public List<Usuario> getUsuarios(){
+	public Set<Usuario> getUsuarios(){
 		return this.usuarios;
 	}
 	
-	public void setUsuarios(List<Usuario> usuarios) {
+	public void setUsuarios(Set<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
 	
 	public static class Builder {
 
-		private List<Usuario> usuarios;
+		private Set<Usuario> usuarios;
 		private Usuario usuario;
 		private OperationStatus operationStatus;
 
-		public Builder setUsuarios(List<Usuario> usuarios) {
+		public Builder setUsuarios(Set<Usuario> usuarios) {
 			this.usuarios = usuarios;
 			return this;
 		}
