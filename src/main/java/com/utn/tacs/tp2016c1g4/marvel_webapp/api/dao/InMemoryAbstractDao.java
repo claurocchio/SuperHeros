@@ -9,6 +9,7 @@ import java.util.Set;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Entity;
 
+
 public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilter<T>> implements Dao<T, F> {
 
 	private Set<T> collection;

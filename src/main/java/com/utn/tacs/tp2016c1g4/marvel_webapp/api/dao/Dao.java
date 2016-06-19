@@ -2,6 +2,9 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao;
 
 import java.util.Collection;
 import java.util.Set;
+
+import org.glassfish.jersey.spi.Contract;
+
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Entity;
 
 public interface Dao<T extends Entity, F extends SearchFilter<T>> {
@@ -14,6 +17,6 @@ public interface Dao<T extends Entity, F extends SearchFilter<T>> {
 	boolean save(T obj);
 
 	boolean delete(T obj);
-	
+
 	boolean update(T obj);
 }

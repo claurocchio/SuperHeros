@@ -28,7 +28,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilPostResponse;
 
-@Path("/api/perfiles")
+@Path("/perfiles")
 public class PerfilResource {
 
 	private static final Logger logger = LogManager.getLogger(PerfilResource.class);
