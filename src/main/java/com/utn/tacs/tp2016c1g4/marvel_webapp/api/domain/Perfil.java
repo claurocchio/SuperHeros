@@ -33,10 +33,11 @@ public class Perfil implements Entity {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public Collection<Long> getIdGrupos() {
 		return idGrupos;
 	}
@@ -55,6 +56,11 @@ public class Perfil implements Entity {
 
 	public void addIdPersonajeFavorito(Long idPersonajeFavorito) {
 		this.idsPersonajesFavoritos.add(idPersonajeFavorito);
+	}
+
+	@Override
+	public String toString() {
+		return "Perfil [id=" + id + ", username=" + username + ", email=" + email + "]";
 	}
 
 	@Override
