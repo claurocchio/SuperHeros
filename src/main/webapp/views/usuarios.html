@@ -10,48 +10,20 @@
         <!-- Default panel contents -->
         <div class="panel-heading"><h4>USUARIOS</h4></div>
         
-        <div class="list-group" style="max-height: 350px; overflow-y:scroll;">
-            <button type="button" class="list-group-item">           
+        <div class="list-group" style="max-height: 350px; overflow-y:scroll;" ng-repeat="usuario in usuariosList">
+            <button type="button" class="list-group-item"  ng-click="seleccionar(usuario)">           
                 <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left" id="usuario1" ng-click="onMostrar()">
-                <h5>Juan Perez</h5>
-            </button>
-              <button type="button" class="list-group-item">           
-                <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left">
-                <h5>Pepe</h5>
-            </button>
-              <button type="button" class="list-group-item">           
-                <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left">
-                <h5>Matias</h5>
-            </button>
-              <button type="button" class="list-group-item">           
-                <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left">
-                <h5>Micaela</h5>
-            </button>
-              <button type="button" class="list-group-item">           
-                <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left">
-                <h5>Daniel</h5>
-            </button>
-              <button type="button" class="list-group-item">           
-                <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left">
-                <h5>Andrea</h5>
-            </button>
-              <button type="button" class="list-group-item">           
-                <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left">
-                <h5>Andrea</h5>
-            </button>
-              <button type="button" class="list-group-item">           
-                <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left">
-                <h5>Andrea</h5>
+                <h5>{{ usuario.name }}</h5>
             </button>
         </div>
     </div>
 </div>
-<div class="col-md-8">
+	<div class="col-md-8">
    
 	           <div class="col-md-12">
                     <div class="col-md-6 col-md-offset-1">
-                        <h2>{{nombre}}</h2>
-                        <p><strong>Ultimo acceso: </strong> 22/05/2016 </p>
+                        <h2>{{usuario.nombre}}</h2>
+                        <p><strong>Ultimo acceso: </strong> {{usuario.ultAcceso}} </p>
                    </div>
                    <div class="col-md-4 text-center">
                     <figure>
@@ -65,15 +37,26 @@
         
             <div class="col-md-12">
                 <div class="col-md-6 emphasis text-center">
-                    <h2><strong> 6 </strong></h2>                    
+                    <h2><strong> {{ usuario.cantGrupos }} </strong></h2>                    
                     <p><small>Grupos</small></p>
                 </div>
                 <div class="col-md-6 emphasis text-center">
-                    <h2><strong> 10 </strong></h2>                    
+                    <h2><strong> {{ usuario.cantFavoritos }} </strong></h2>                    
                     <p><small>Favoritos</small></p>
                 </div>
-               
-               
-             </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-6 emphasis text-center">
+                    <h2><strong> {{ usuario.cantGrupos }} </strong></h2>                    
+                    <p><small>Grupos</small></p>
+                </div>
+                <div class="col-md-6 emphasis text-center">
+                    <h2><strong> {{ usuario.cantFavoritos }} </strong></h2>                    
+                    <p><small>Favoritos</small></p>
+                </div>
+            </div>
+            
+            
     </div>
+    
 </div>

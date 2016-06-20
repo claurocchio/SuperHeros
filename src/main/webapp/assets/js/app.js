@@ -45,6 +45,22 @@ $routeProvider
 
 
 // ENDPOINTS
+app.factory('UsuariosFactory', ['$http', function($http) {
+
+    var urlBase = 'api/usuarios';
+    var urlPerfil = 'api/perfil';
+    var FavoritosFactory = {};
+
+    UsuariosFactory.getUsuarios = function() {
+        return $http.get(urlBase);
+    };
+    
+    UsuariosFactory.getUsuarioById = function(id) {
+        return $http.get(urlPerfil+ '/' + id);
+    };
+    
+    return UsuariosFactory;
+}]);
 
 app.factory('FavoritosFactory', ['$http', function($http) {
 
