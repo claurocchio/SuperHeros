@@ -14,6 +14,7 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     })
     
     $scope.pushear = function() {
+//		debugger;
     	$scope.filtroFavoritos = [];
     	
 		$scope.favoritosList.forEach(function(favorito){
@@ -26,19 +27,16 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
 		  $scope.filtroFavoritos.splice(index, 1); 
 		  
 	};
+//	REFERENCIA DE "HACER MAS TARDE"
+	setTimeout(function () {
+	  console.log("Favorito")
+	  console.log($scope.favoritosList);
+	  $scope.favoritosList.forEach(function(favorito){
+	  	console.log("Favorito Button")
+	  	console.log(favorito.checked)
+	  })
+	}, 10000);
     
 }]);
 
 
-
-
-
-//REFERENCIA DE "HACER MAS TARDE"
-//setTimeout(function () {
-//  console.log("Favorito")
-//  console.log($scope.favoritosList);
-//  $scope.favoritosList.forEach(function(favorito){
-//  	console.log("Favorito Button")
-//  	console.log(favorito.checked)
-//  })
-//}, 10000);

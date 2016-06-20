@@ -41,13 +41,16 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje.PersonajeGetResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.utils.Md5Sum;
 
 @Path("/api/personajes")
 public class PersonajesResource {
 
 	private static final Logger logger = LogManager.getLogger(PersonajesResource.class);
-	private static final String USER_AGENT = "Mozilla/5.0";
-	private static final String URL_MARVEL_CHARACTERS = "http://gateway.marvel.com/v1/public/characters?ts=1&hash=12eb73da146a932dbfe2b95253ed1fa5&apikey=b1b35d57fc130504f737b14e581d523b";
+	// private static final String URL_MARVEL_CHARACTERS =
+	// "http://gateway.marvel.com/v1/public/characters?ts=1&hash=12eb73da146a932dbfe2b95253ed1fa5&apikey=b1b35d57fc130504f737b14e581d523b";
+	private static final String URL_API_KEY = "&apikey=b1b35d57fc130504f737b14e581d523b";
+	private static final String URL_MARVEL_CHARACTERS = "http://gateway.marvel.com/v1/public/characters?";
 	private static final String URL_PARAM_LIMIT = "&limit=";
 	private static final int URL_VALUE_LIMIT = 100;
 	private static final String URL_PARAM_OFFSET = "&offset=";
@@ -58,14 +61,16 @@ public class PersonajesResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response get() {
-		logger.debug("get invocado");
 
 		ArrayList<Personaje> personajes = new ArrayList<Personaje>();
 		URLConnection con;
 		PersonajeGetResponse response = new PersonajeGetResponse();
 		OperationStatus operationStatus = new OperationStatus();
 		try {
-			con = getConnection(URL_MARVEL_CHARACTERS + URL_PARAM_LIMIT + URL_VALUE_LIMIT);
+			String KEY = "ts=" + Long.toString(System.currentTimeMillis()) + "&hash=" + Md5Sum.getMarvelHash();
+			logger.debug("get invocado");
+			String url_marvel = URL_MARVEL_CHARACTERS + KEY + URL_API_KEY + URL_PARAM_LIMIT + URL_VALUE_LIMIT;
+			con = getConnection(url_marvel);
 			InputStream stream = con.getInputStream();
 			BufferedReader in = new BufferedReader(new InputStreamReader(stream));
 
@@ -90,44 +95,46 @@ public class PersonajesResource {
 				in.close();
 				// con.disconnect();
 				try {
-					con = getConnection(
-							URL_MARVEL_CHARACTERS + URL_PARAM_LIMIT + URL_VALUE_LIMIT + URL_PARAM_OFFSET + offset);
+					// con = getConnection(URL_MARVEL_CHARACTERS +
+					// URL_PARAM_LIMIT + URL_VALUE_LIMIT + URL_PARAM_OFFSET +
+					// offset);
+					con = getConnection(url_marvel + URL_PARAM_OFFSET + offset);
 				} catch (Exception e) {
-					e.printStackTrace();
-					operationStatus.setMessage(e.getMessage());
-					response.setStatus(operationStatus);
-					return Response.status(Status.INTERNAL_SERVER_ERROR).entity(response).build();
+					logger.debug(e.getMessage());
+					break;
+					// e.printStackTrace();
+					// operationStatus.setMessage(e.getMessage());
+					// response.setStatus(operationStatus);
+					// return
+					// Response.status(Status.INTERNAL_SERVER_ERROR).entity(response).build();
 				}
 			}
 			// System.out.println("Termine de ejecutar Get con response code :
 			// ");
 			System.out.println("\n Encontre : " + personajes.size() + " PERSONAJES");
-			// for (Iterator<Personaje> iterator = personajes.iterator();
-			// iterator.hasNext();) {
-			// Personaje personaje = (Personaje) iterator.next();
-			// System.out.println(personaje.getName());
-			// }
 			response.setPersonajes(personajes);
 		} catch (Exception e) {
-			e.printStackTrace();
-			operationStatus.setMessage(e.getMessage());
-			response.setStatus(operationStatus);
-			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(response).build();
+			logger.debug(e.getMessage());
+			// operationStatus.setMessage(e.getMessage());
+			// response.setStatus(operationStatus);
+			// return
+			// Response.status(Status.INTERNAL_SERVER_ERROR).entity(response).build();
 		}
 		return Response.ok(response, MediaType.APPLICATION_JSON).build();
 	}
 
 	/**
-	 * @param string
+	 * @param url
 	 * @return
 	 * @throws MalformedURLException
 	 * @throws IOException
 	 * @throws ProtocolException
 	 */
-	private URLConnection getConnection(String string) throws MalformedURLException, IOException, ProtocolException {
+	private URLConnection getConnection(String url) throws MalformedURLException, IOException, ProtocolException {
 		// HttpURLConnection con;
-		URL obj = new URL(string);
+		URL obj = new URL(url);
 		URLConnection con = obj.openConnection();
+		logger.debug("Pegandole a la URL: " + url);
 		// con = (HttpURLConnection) obj.openConnection();
 		// con.setRequestMethod("GET");
 		// con.setRequestProperty("User-Agent", USER_AGENT);
@@ -144,15 +151,13 @@ public class PersonajesResource {
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 */
-	private ArrayList<Personaje> parsearPersonajes(StringBuffer stData) throws IOException, JsonProcessingException,
-			UnsupportedEncodingException, JsonParseException, JsonMappingException {
+	private ArrayList<Personaje> parsearPersonajes(StringBuffer stData) throws IOException, JsonProcessingException, UnsupportedEncodingException, JsonParseException, JsonMappingException {
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = mapper.readTree(stData.toString().getBytes("UTF-8"));
 		JsonNode data = rootNode.get("data");
 		JsonNode results = data.get("results");
 		// ArrayList<Personaje> personajes_aux = new ArrayList<Personaje>();
-		return mapper.readValue(results.toString(),
-				mapper.getTypeFactory().constructCollectionType(ArrayList.class, Personaje.class));
+		return mapper.readValue(results.toString(), mapper.getTypeFactory().constructCollectionType(ArrayList.class, Personaje.class));
 	}
 
 	@Inject

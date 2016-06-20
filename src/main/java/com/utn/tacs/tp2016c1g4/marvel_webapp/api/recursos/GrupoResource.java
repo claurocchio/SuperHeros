@@ -47,7 +47,6 @@ public class GrupoResource {
 	public Response get(@PathParam("idGrupo") Long idGrupo) {
 		logger.debug("get invocado");
 
-		
 		Response.Status status = null;
 		OperationStatus opStatus = new OperationStatus();
 		FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();

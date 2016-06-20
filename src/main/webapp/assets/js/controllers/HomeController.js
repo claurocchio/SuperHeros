@@ -1,4 +1,5 @@
 
 app.controller('HomeController', function($scope) {
-	  $scope.message = 'Hello from HomeController';
+	  $scope.message = 'Bienvenido a la app de Marvel';
 	});
+

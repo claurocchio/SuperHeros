@@ -44,12 +44,11 @@ $routeProvider
 });
 
 
+var urlPersonajes = 'api/personajes';
 // ENDPOINTS
-
 app.factory('FavoritosFactory', ['$http', function($http) {
 
     var urlBase = 'api/favoritos';
-    var urlPersonajes = 'api/personajes';
     var FavoritosFactory = {};
 
     FavoritosFactory.getFavoritos = function() {
@@ -61,4 +60,25 @@ app.factory('FavoritosFactory', ['$http', function($http) {
     };
 
     return FavoritosFactory;
+}]);
+
+app.factory('GruposFactory', ['$http', function($http) {
+
+    var urlBase = 'api/grupos';
+//    var urlPersonajes = 'api/personajes';
+    var GruposFactory = {};
+
+    GruposFactory.getGrupos = function() {
+        return $http.get(urlBase);
+    };
+    
+    GruposFactory.addGrupo = function() {
+        return $http.put(urlBase);
+    };
+    
+    GruposFactory.getPersonajes = function() {
+        return $http.get(urlPersonajes);
+    };
+
+    return GruposFactory;
 }]);
