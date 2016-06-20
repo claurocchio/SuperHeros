@@ -5,11 +5,30 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 	  $scope.usuarioActivo;
 	  
 	  $scope.seleccionar = function(usuario) {
+			
+		  Usuarios.getUsuarioById(usuario.id)
+		     .success(function(data) {
+		    	 console.log(data.perfil)
+		    	 $scope.usuarioActivo = data.perfil;
+		    	 
+		    });
+		  
+		  
+		  setTimeout(function () {
 		  console.log(usuario.lastAccess)
 	    	$scope.ultimoAcceso = usuario.lastAccess;
-	    	$scope.nombre = $scope.usuarioActivo.username;
+		  	
+		  
+		    console.log("va");
+		    console.log($scope.usuarioActivo);
+		    console.log($scope.usuarioActivo.username);
+		    console.log($scope.usuarioActivo.favoritos.length);
+		    console.log($scope.usuarioActivo.grupos.length);
+	    	
+		    $scope.nombre = $scope.usuarioActivo.username;
 	    	$scope.cantFavoritos = $scope.usuarioActivo.favoritos.length;
-	    	$scope.cantGrupos = $scope.usuarioActivo.grupos.length;
+	    	$scope.cantGrupos = $scope.usuarioActivo.grupos.length;}
+		  , 5000)
 		};   
 		
 	  Usuarios.getUsuarios()
@@ -17,11 +36,7 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 	    	 $scope.usuariosList = data.usuarios; 
 	    });
 	    
-	  Usuarios.getUsuarioById(id)
-	     .success(function(data) {
-	    	 $scope.usuarioActivo = data.perfil;
-	    	 
-	    })
+	
 	    
 	}]);
 

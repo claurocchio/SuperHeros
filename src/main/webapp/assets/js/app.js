@@ -48,7 +48,7 @@ $routeProvider
 app.factory('UsuariosFactory', ['$http', function($http) {
 
     var urlBase = 'api/usuarios';
-    var urlPerfil = 'api/perfil';
+    var urlPerfil = 'api/perfiles';
     var UsuariosFactory = {};
 
     UsuariosFactory.getUsuarios = function() {
@@ -56,6 +56,7 @@ app.factory('UsuariosFactory', ['$http', function($http) {
     };	
     
     UsuariosFactory.getUsuarioById = function(id) {
+    	 console.log(urlPerfil+ '/' + id)
         return $http.get(urlPerfil+ '/' + id);
     };
     
