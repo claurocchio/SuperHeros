@@ -155,7 +155,7 @@ public class FavoritoResource {
 					message = "no existe el personaje solicitado";
 				} else {
 					perfil.addIdPersonajeFavorito(request.getIdPersonaje());
-					perfilDao.save(perfil);
+					perfilDao.update(perfil);
 					status = Response.Status.CREATED;
 					message = "El personaje " + request.getIdPersonaje() + " se añadió a los favoritos del usuario id "
 							+ userId;

@@ -7,6 +7,7 @@ public class Usuario implements Entity {
 	private String email;
 	private Long idPerfil;
 	private String pass;
+	private int lastAccess;
 	
 	public Usuario(){
 		
@@ -25,6 +26,14 @@ public class Usuario implements Entity {
 
 	public Long getIdPerfil() {
 		return idPerfil;
+	}
+	
+	public int getLastAccess(){
+		return lastAccess;
+	}
+	
+	public void setLastAccess(int lastAccess){
+		this.lastAccess = lastAccess;
 	}
 
 	public void setIdPerfil(Long idPerfil) {
