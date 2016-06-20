@@ -27,7 +27,7 @@ public class PerfilesTest extends JerseyTest {
 	@Test
 	public void testPerfilesGet() {
 		Response response = null;
-		response = target("/perfiles/ejemplo").request().get(Response.class);
+		response = target("/perfiles/1").request().get(Response.class);
 		assertEquals("el perfil aun no fue creado y debe tirar not found", Status.NOT_FOUND.getStatusCode(),
 				response.getStatus());
 
@@ -38,14 +38,14 @@ public class PerfilesTest extends JerseyTest {
 		postRequest.setPassword("123");
 		postRequest.setEmail("test@test.com");
 
-		response = target("/perfiles/ejemplo").request().post(Entity.json(postRequest), Response.class);
+		response = target("/perfiles/1").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("url con nombre al final debe tirar not allowed al hacer post",
 				Status.METHOD_NOT_ALLOWED.getStatusCode(), response.getStatus());
 
 		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		response = target("/perfiles/ejemplo").request().get(Response.class);
+		response = target("/perfiles/1").request().get(Response.class);
 		assertEquals("obtencion de perfil existente debe ser ok", Status.OK.getStatusCode(), response.getStatus());
 
 		PerfilGetResponse getResponse = response.readEntity(PerfilGetResponse.class);
@@ -76,7 +76,7 @@ public class PerfilesTest extends JerseyTest {
 		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		response = target("/perfiles/ejemplo").request().get(Response.class);
+		response = target("/perfiles/1").request().get(Response.class);
 
 		PerfilGetResponse perfilGet = response.readEntity(PerfilGetResponse.class);
 		assertNotNull("perfil recien cargado no puede ser null", perfilGet.getPerfil());

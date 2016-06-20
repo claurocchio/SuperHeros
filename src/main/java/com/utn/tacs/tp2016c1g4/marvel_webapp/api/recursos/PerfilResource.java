@@ -38,14 +38,14 @@ public class PerfilResource {
 	private Properties params;
 
 	@GET
-	@Path("/{username}")
+	@Path("/{userid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("username") String userName) {
+	public Response get(@PathParam("userid") Long userId) {
 		logger.debug("get invocado");
 
 		FiltroPerfil.Builder filtroBuilder = new FiltroPerfil.Builder();
 		filtroBuilder.clear();
-		filtroBuilder.setUserName(userName);
+		filtroBuilder.setId(userId);
 		Set<FiltroPerfil> filtros = filtroBuilder.build();
 
 		logger.debug("filtrando por: " + filtros);
