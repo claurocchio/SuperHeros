@@ -49,11 +49,11 @@ app.factory('UsuariosFactory', ['$http', function($http) {
 
     var urlBase = 'api/usuarios';
     var urlPerfil = 'api/perfil';
-    var FavoritosFactory = {};
+    var UsuariosFactory = {};
 
     UsuariosFactory.getUsuarios = function() {
         return $http.get(urlBase);
-    };
+    };	
     
     UsuariosFactory.getUsuarioById = function(id) {
         return $http.get(urlPerfil+ '/' + id);

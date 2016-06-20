@@ -10,20 +10,20 @@
         <!-- Default panel contents -->
         <div class="panel-heading"><h4>USUARIOS</h4></div>
         
-        <div class="list-group" style="max-height: 350px; overflow-y:scroll;" ng-repeat="usuario in usuariosList">
-            <button type="button" class="list-group-item"  ng-click="seleccionar(usuario)">           
+        <div class="list-group" style="max-height: 350px; overflow-y:scroll;">
+            <button type="button" class="list-group-item"  ng-click="seleccionar(usuario)"  ng-repeat="usuario in usuariosList">           
                 <img style="width:50px; margin-bottom: 2px; margin-top: 2px; margin-right: 35px;" src="assets/img/contact-icon.png" class="pull-left" id="usuario1" ng-click="onMostrar()">
-                <h5>{{ usuario.name }}</h5>
+                <h5>{{ usuario.userName }}</h5>
             </button>
         </div>
     </div>
 </div>
 	<div class="col-md-8">
    
-	           <div class="col-md-12">
+	         <div class="col-md-12">
                     <div class="col-md-6 col-md-offset-1">
-                        <h2>{{usuario.nombre}}</h2>
-                        <p><strong>Ultimo acceso: </strong> {{usuario.ultAcceso}} </p>
+                        <h2>{{nombre}}</h2>
+                        <p><strong>Ultimo acceso: </strong> {{ultimoAcceso}} </p>
                    </div>
                    <div class="col-md-4 text-center">
                     <figure>
@@ -37,25 +37,14 @@
         
             <div class="col-md-12">
                 <div class="col-md-6 emphasis text-center">
-                    <h2><strong> {{ usuario.cantGrupos }} </strong></h2>                    
+                    <h2><strong> {{ cantGrupos }} </strong></h2>                    
                     <p><small>Grupos</small></p>
                 </div>
                 <div class="col-md-6 emphasis text-center">
-                    <h2><strong> {{ usuario.cantFavoritos }} </strong></h2>                    
+                    <h2><strong> {{ cantFavoritos }} </strong></h2>                    
                     <p><small>Favoritos</small></p>
                 </div>
             </div>
-            <div class="col-md-12">
-                <div class="col-md-6 emphasis text-center">
-                    <h2><strong> {{ usuario.cantGrupos }} </strong></h2>                    
-                    <p><small>Grupos</small></p>
-                </div>
-                <div class="col-md-6 emphasis text-center">
-                    <h2><strong> {{ usuario.cantFavoritos }} </strong></h2>                    
-                    <p><small>Favoritos</small></p>
-                </div>
-            </div>
-            
             
     </div>
     
