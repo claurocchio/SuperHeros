@@ -31,7 +31,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioPostResponse;
 
-@Path("/api/usuarios")
+@Path("/usuarios")
 public class UsuarioResource {
 
 	private static final Logger logger = LogManager.getLogger(UsuarioResource.class);

@@ -11,16 +11,18 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.GuiceInMemoryFeature;
+
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.PersonajesResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.UsuarioResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.usuario.UsuarioPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioGetResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.hk2.MyTestResourceConfig;
 
 public class UsuariosTest extends JerseyTest {
 
 	@Override
 	protected Application configure() {
-		return new ResourceConfig(UsuarioResource.class).register(GuiceInMemoryFeature.class);
+		return new MyTestResourceConfig();
 	}
 
 	@Test
@@ -36,14 +38,14 @@ public class UsuariosTest extends JerseyTest {
 		postRequest.setUserName("user1");
 		postRequest.setPass("123");
 		postRequest.setEmail("test@test.com");
-		response = target("/api/usuarios").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
 		//creo user2
 		postRequest.setUserName("user2");
 		postRequest.setPass("1234");
 		postRequest.setEmail("test2@test.com");
-		response = target("/api/usuarios").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
 		
@@ -53,7 +55,7 @@ public class UsuariosTest extends JerseyTest {
 				getResponse1.getUsuario().getUserName());*/
 		
 		
-		response = target("/api/usuarios").request().get(Response.class);
+		response = target("/usuarios").request().get(Response.class);
 		
 		/*response = target("/api/usuarios/user1").request().get(Response.class);
 		assertEquals("obtencion de usuario existente debe ser ok", Status.OK.getStatusCode(), response.getStatus());*/
@@ -65,7 +67,7 @@ public class UsuariosTest extends JerseyTest {
 	@Test
 	public void testUsuarioGet() {
 		Response response = null;
-		response = target("/api/usuarios/ejemplo").request().get(Response.class);
+		response = target("/usuarios/ejemplo").request().get(Response.class);
 		assertEquals("No hay usuarios, debe devolver not found", Status.NOT_FOUND.getStatusCode(),
 				response.getStatus());
 
@@ -76,14 +78,14 @@ public class UsuariosTest extends JerseyTest {
 		postRequest.setPass("123");
 		postRequest.setEmail("test@test.com");
 
-		response = target("/api/usuarios/ejemplo").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios/ejemplo").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("url con nombre al final debe tirar not allowed al hacer post",
 				Status.METHOD_NOT_ALLOWED.getStatusCode(), response.getStatus());
 
-		response = target("/api/usuarios").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		response = target("/api/usuarios/ejemplo").request().get(Response.class);
+		response = target("/usuarios/ejemplo").request().get(Response.class);
 		assertEquals("obtencion de perfil existente debe ser ok", Status.OK.getStatusCode(), response.getStatus());
 
 		UsuarioGetResponse getResponse = response.readEntity(UsuarioGetResponse.class);
@@ -102,25 +104,25 @@ public class UsuariosTest extends JerseyTest {
 
 		UsuarioPostRequest postRequest = new UsuarioPostRequest();
 		postRequest.setUserName("ejemplo");
-		response = target("/api/usuarios").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("bad request al no proveer contraseña al postl", Status.BAD_REQUEST.getStatusCode(),
 				response.getStatus());
 
 		postRequest.setPass("123");
-		response = target("/api/usuarios").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("bad request al no proveer email al post", Status.BAD_REQUEST.getStatusCode(),
 				response.getStatus());
 
 		postRequest.setEmail("test@test.com");
-		response = target("/api/usuarios").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
-		response = target("/api/usuarios/ejemplo").request().get(Response.class);
+		response = target("/usuarios/ejemplo").request().get(Response.class);
 
 		UsuarioGetResponse usuarioGet = response.readEntity(UsuarioGetResponse.class);
 		assertNotNull("recien cargado, no puede ser null", usuarioGet.getUsuario());
 		
-		response = target("/api/usuarios").request().post(Entity.json(postRequest), Response.class);
+		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals("usuarios con el mismo username tienen que ser conflict", Status.CONFLICT.getStatusCode(),
 				response.getStatus());
 
