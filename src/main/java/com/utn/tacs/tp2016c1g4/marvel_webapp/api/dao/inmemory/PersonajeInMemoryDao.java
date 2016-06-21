@@ -54,7 +54,15 @@ public class PersonajeInMemoryDao extends InMemoryAbstractDao<Personaje, FiltroP
 
 		// se copian uno por uno los atributos
 		into.setId(new Long(from.getId()));
-		into.setNombre(new String(from.getNombre()));
+
+		if (from.getNombre() != null)
+			into.setNombre(new String(from.getNombre()));
+
+		if (from.getImagen() != null)
+			into.setImagen(new String(from.getImagen()));
+
+		if (from.getDescripcion() != null)
+			into.setDescripcion(new String(from.getDescripcion()));
 
 		return into;
 	}
@@ -64,6 +72,8 @@ public class PersonajeInMemoryDao extends InMemoryAbstractDao<Personaje, FiltroP
 		// se copian uno por uno los atributos
 		// into.setId(new Long(from.getId()));
 		into.setNombre(new String(from.getNombre()));
+		into.setImagen(new String(from.getImagen()));
+		into.setDescripcion(new String(from.getDescripcion()));
 	}
 
 }

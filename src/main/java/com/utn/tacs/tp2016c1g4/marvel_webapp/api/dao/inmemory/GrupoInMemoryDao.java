@@ -1,9 +1,11 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.inmemory;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.InMemoryAbstractDao;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Page;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 
@@ -26,7 +28,7 @@ public class GrupoInMemoryDao extends InMemoryAbstractDao<Grupo, FiltroGrupo> {
 
 		return passes;
 	}
-
+	
 	@Override
 	protected Grupo fullClone(Grupo from) {
 		Grupo into = new Grupo();
@@ -58,5 +60,6 @@ public class GrupoInMemoryDao extends InMemoryAbstractDao<Grupo, FiltroGrupo> {
 		}
 		into.setPersonajes(personajes);
 	}
+
 
 }

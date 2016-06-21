@@ -11,6 +11,8 @@ public interface Dao<T extends Entity, F extends SearchFilter<T>> {
 	Set<T> getAll();
 
 	Set<T> find(Collection<F> filters);
+	
+	Set<T> find(Collection<F> filters, Page page );
 
 	T findOne(Collection<F> filters);
 

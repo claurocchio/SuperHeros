@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response.Status;
 
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Page;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 
@@ -15,6 +16,7 @@ public class PersonajeGetResponse {
 
 	private Collection<InnerPersonaje> personajes;
 	private OperationStatus status;
+	private Page page;
 
 	public OperationStatus getStatus() {
 		return status;
@@ -30,6 +32,14 @@ public class PersonajeGetResponse {
 
 	public void setPersonajes(Collection<InnerPersonaje> personajes) {
 		this.personajes = personajes;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
 	}
 
 	public static class InnerPersonaje {
@@ -82,6 +92,7 @@ public class PersonajeGetResponse {
 		private Collection<String> varianteImagenes;
 		private String extensionImagen;
 		private OperationStatus status;
+		private Page page;
 
 		public Builder() {
 			varianteImagenes = new ArrayList<String>();
@@ -104,6 +115,11 @@ public class PersonajeGetResponse {
 
 		public Builder setExtensionImagen(String extensionImagen) {
 			this.extensionImagen = extensionImagen;
+			return this;
+		}
+
+		public Builder setPage(Page page) {
+			this.page = page;
 			return this;
 		}
 
@@ -131,9 +147,11 @@ public class PersonajeGetResponse {
 
 				Map<String, String> mapaImagenes = new HashMap<String, String>();
 
-				for (String variante : varianteImagenes) {
-					String url = p.getImagen() + "/" + variante + "." + extensionImagen;
-					mapaImagenes.put(variante, url);
+				if (p.getImagen() != null && !p.getImagen().isEmpty()) {
+					for (String variante : varianteImagenes) {
+						String url = p.getImagen() + "/" + variante + "." + extensionImagen;
+						mapaImagenes.put(variante, url);
+					}
 				}
 
 				innerPersonaje.setImagen(mapaImagenes);
@@ -150,6 +168,10 @@ public class PersonajeGetResponse {
 			}
 
 			response.setStatus(status);
+
+			if (page != null) {
+				response.setPage(page);
+			}
 
 			return response;
 		}
