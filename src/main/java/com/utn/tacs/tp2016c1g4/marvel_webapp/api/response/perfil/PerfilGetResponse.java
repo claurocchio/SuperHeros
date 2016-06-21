@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 @JsonInclude(Include.NON_NULL)
 public class PerfilGetResponse {
@@ -90,7 +90,7 @@ public class PerfilGetResponse {
 		private Collection<Long> idGrupos;
 		private Collection<Grupo> grupos;
 		private Collection<Long> idFavoritos;
-		private Collection<Personaje> favoritos;
+		private Collection<PersonajeMarvel> favoritos;
 		private Perfil perfil;
 		private OperationStatus operationStatus;
 
@@ -114,7 +114,7 @@ public class PerfilGetResponse {
 			return this;
 		}
 
-		public Builder setFavoritos(Collection<Personaje> favoritos) {
+		public Builder setFavoritos(Collection<PersonajeMarvel> favoritos) {
 			this.favoritos = favoritos;
 			return this;
 		}

@@ -2,13 +2,13 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje;
 
 import java.util.ArrayList;
 
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 public class PersonajeGetResponse {
 //	private Meta metadata;
 //	@JsonProperty
-	private ArrayList<Personaje> personajes;
+	private ArrayList<PersonajeMarvel> personajes;
 	private OperationStatus status;
 
 	public OperationStatus getStatus() {
@@ -20,7 +20,7 @@ public class PersonajeGetResponse {
 	public PersonajeGetResponse() {
 
 	}
-	public PersonajeGetResponse(ArrayList<Personaje> personajes) {
+	public PersonajeGetResponse(ArrayList<PersonajeMarvel> personajes) {
 		this.personajes = personajes;
 	}
 //	public Meta getMetadata() {
@@ -29,10 +29,10 @@ public class PersonajeGetResponse {
 //	public void setMetadata(Meta metadata) {
 //		this.metadata = metadata;
 //	}
-	public ArrayList<Personaje> getPersonajes() {
+	public ArrayList<PersonajeMarvel> getPersonajes() {
 		return personajes;
 	}
-	public void setPersonajes(ArrayList<Personaje> personajes) {
+	public void setPersonajes(ArrayList<PersonajeMarvel> personajes) {
 		this.personajes = personajes;
 	}
 	

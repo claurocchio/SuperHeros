@@ -8,8 +8,8 @@ import javax.ws.rs.core.Response.Status;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 @JsonInclude(Include.NON_NULL)
 public class GrupoGetResponse {
@@ -67,10 +67,10 @@ public class GrupoGetResponse {
 	public static class Builder {
 
 		private Grupo grupo;
-		private Collection<Personaje> personajes;
+		private Collection<PersonajeMarvel> personajes;
 		private OperationStatus operationStatus;
 
-		public Builder setPersonajes(Collection<Personaje> personajes) {
+		public Builder setPersonajes(Collection<PersonajeMarvel> personajes) {
 			this.personajes = personajes;
 			return this;
 		}
