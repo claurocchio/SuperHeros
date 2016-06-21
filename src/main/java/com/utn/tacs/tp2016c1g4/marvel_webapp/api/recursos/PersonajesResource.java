@@ -1,5 +1,8 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -7,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje.PersonajeGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.task.PersonajeImporterTask;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
@@ -37,7 +43,19 @@ public class PersonajesResource {
 			t.start();
 		}
 
-		return Response.ok().build();
+		Set<Personaje> personajes = personajeDao.getAll();
+
+		Status status = Status.OK;
+		OperationStatus opStatus = new OperationStatus();
+		opStatus.setStatusCode(status);
+
+		PersonajeGetResponse.Builder responseBuilder = new PersonajeGetResponse.Builder();
+		responseBuilder.setPersonajes(personajes);
+		responseBuilder.setOperationstatus(opStatus);
+
+		PersonajeGetResponse response = responseBuilder.build();
+
+		return Response.status(status).entity(response).build();
 	}
 
 	@Inject
