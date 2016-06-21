@@ -2,29 +2,19 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.task;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.api.TypeLiteral;
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
-import org.glassfish.jersey.server.spi.Container;
-import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Page;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.external.ExternalFetcher;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.external.PersonajeMarvelExternalFetcher;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
-public class PersonajeImporterTask implements Runnable {
+public class PersonajeImporterTask implements PersonajeImporter {
 
 	private static final Logger logger = LogManager.getLogger(PersonajeImporterTask.class);
 
@@ -33,9 +23,15 @@ public class PersonajeImporterTask implements Runnable {
 	private boolean finalized;
 	private boolean started;
 
+	private long pageAmount;
+
+	private int limit;
+
 	public PersonajeImporterTask() {
 		finalized = false;
 		started = false;
+		limit = 10;
+		pageAmount = 10;
 	}
 
 	@Override
@@ -45,22 +41,27 @@ public class PersonajeImporterTask implements Runnable {
 
 		Page page = new Page();
 		page.setPage(0);
-		page.setLimit(5);
+		page.setLimit(limit);
 
 		List<PersonajeMarvel> personajes = personajeFetcher.fetch(page);
 
-		for (PersonajeMarvel pMarvel : personajes) {
-			Personaje p = new Personaje();
-			p.setNombre(pMarvel.getName());
-			p.setDescripcion(pMarvel.getDescription());
-			Map<String, Object> thumbnail = (Map<String, Object>) pMarvel.getOtherProperties().get("thumbnail");
+		while (page.getPage() < pageAmount && personajes.size() > 0) {
+			for (PersonajeMarvel pMarvel : personajes) {
+				Personaje p = new Personaje();
+				p.setNombre(pMarvel.getName());
+				p.setDescripcion(pMarvel.getDescription());
+				Map<String, Object> thumbnail = (Map<String, Object>) pMarvel.getOtherProperties().get("thumbnail");
 
-			if (thumbnail != null && thumbnail.containsKey("path")) {
-				p.setImagen(thumbnail.get("path").toString());
+				if (thumbnail != null && thumbnail.containsKey("path")) {
+					p.setImagen(thumbnail.get("path").toString());
+				}
+
+				personajeDao.save(p);
+				logger.debug("personaje guardado: " + p.toString());
 			}
 
-			personajeDao.save(p);
-			logger.debug("personaje guardado: " + p.toString());
+			page.setPage(page.getPage() + 1);
+			personajes = personajeFetcher.fetch(page);
 		}
 
 		logger.debug("importer end");
@@ -83,6 +84,16 @@ public class PersonajeImporterTask implements Runnable {
 
 	public boolean isStarted() {
 		return started;
+	}
+
+	@Override
+	public void setPageLimit(int limit) {
+		this.limit = limit;
+	}
+
+	@Override
+	public void setPageAmount(long amount) {
+		this.pageAmount = amount;
 	}
 
 }

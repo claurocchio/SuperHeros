@@ -131,9 +131,11 @@ public class PersonajeGetResponse {
 
 				Map<String, String> mapaImagenes = new HashMap<String, String>();
 
-				for (String variante : varianteImagenes) {
-					String url = p.getImagen() + "/" + variante + "." + extensionImagen;
-					mapaImagenes.put(variante, url);
+				if (p.getImagen() != null && !p.getImagen().isEmpty()) {
+					for (String variante : varianteImagenes) {
+						String url = p.getImagen() + "/" + variante + "." + extensionImagen;
+						mapaImagenes.put(variante, url);
+					}
 				}
 
 				innerPersonaje.setImagen(mapaImagenes);

@@ -1,5 +1,6 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -23,6 +24,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje.PersonajeGetResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.task.PersonajeImporter;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.task.PersonajeImporterTask;
 
 @Path("/personajes")
@@ -31,7 +33,7 @@ public class PersonajesResource {
 	private static final Logger logger = LogManager.getLogger(PersonajesResource.class);
 
 	private Dao<Personaje, FiltroPersonaje> personajeDao;
-	private PersonajeImporterTask importerTask;
+	private PersonajeImporter importerTask;
 	private Properties params;
 
 	@GET
@@ -46,7 +48,17 @@ public class PersonajesResource {
 			t.start();
 		}
 
-		Set<Personaje> personajes = personajeDao.getAll();
+		FiltroPersonaje.Builder filtroBuilder = new FiltroPersonaje.Builder();
+		
+		if ( params.containsKey("id") )
+			filtroBuilder.setId(Long.parseLong(params.get("id").toString()));
+		
+		if ( params.containsKey("nombre") )
+			filtroBuilder.setNombre(params.get("nombre").toString());
+		
+		Collection<FiltroPersonaje> filters = filtroBuilder.build();
+
+		Set<Personaje> personajes = personajeDao.find(filters);
 
 		Status status = Status.OK;
 		OperationStatus opStatus = new OperationStatus();
@@ -75,7 +87,7 @@ public class PersonajesResource {
 
 	@Context
 	public void setUriInfo(UriInfo uriInfo) {
-		logger.debug("catcheando uri info en perfiles");
+		logger.debug("catcheando uri info en personajes");
 
 		this.params = new Properties();
 		for (String key : uriInfo.getQueryParameters().keySet()) {
