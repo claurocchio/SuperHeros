@@ -94,16 +94,16 @@ public class PersonajesInMemoryDaoTest {
 
 		assertEquals("filtro construido con builder para filtrado por id - 2", 1, personajes.size());
 		assertEquals("filtro construido con builder para filtrado por nombre", "thor",
-				personajes.iterator().next().getName());
+				personajes.iterator().next().getNombre());
 	}
 
 	private void popularBasico() {
 
 		Personaje p1 = new Personaje();
-		p1.setName("hulk");
+		p1.setNombre("hulk");
 
 		Personaje p2 = new Personaje();
-		p2.setName("thor");
+		p2.setNombre("thor");
 
 		dao.save(p1);
 		dao.save(p2);

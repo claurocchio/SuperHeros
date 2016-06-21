@@ -14,6 +14,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 @Singleton
 public class PersonajeInMemoryDao extends InMemoryAbstractDao<Personaje, FiltroPersonaje> {
@@ -40,7 +41,7 @@ public class PersonajeInMemoryDao extends InMemoryAbstractDao<Personaje, FiltroP
 			break;
 		case NOMBRE:
 			String nombre = filter.getValue();
-			passes = nombre.equals(obj.getName());
+			passes = nombre.equals(obj.getNombre());
 			break;
 		}
 
@@ -50,27 +51,19 @@ public class PersonajeInMemoryDao extends InMemoryAbstractDao<Personaje, FiltroP
 	@Override
 	protected Personaje fullClone(Personaje from) {
 		Personaje into = new Personaje();
-		//se copian uno por uno los atributos
+
+		// se copian uno por uno los atributos
 		into.setId(new Long(from.getId()));
-		into.setName(new String(from.getName()));
-		
-		//la coleccion debe copiarse uno por una tambien
-		if(from.getOtherProperties() != null){
-			for(Map.Entry<String, Object> item : from.getOtherProperties().entrySet()) into.setOtherProperties(item.getKey(), item.getValue());
-		}
-		return into; 
+		into.setNombre(new String(from.getNombre()));
+
+		return into;
 	}
 
 	@Override
 	protected void cloneForUpdate(Personaje from, Personaje into) {
-		//se copian uno por uno los atributos
-		//into.setId(new Long(from.getId()));
-		into.setName(new String(from.getName()));
-				
-		//la coleccion debe copiarse uno por una tambien
-		if(from.getOtherProperties() != null){
-			for(Map.Entry<String, Object> item : from.getOtherProperties().entrySet()) into.setOtherProperties(item.getKey(), item.getValue());
-		}		
+		// se copian uno por uno los atributos
+		// into.setId(new Long(from.getId()));
+		into.setNombre(new String(from.getNombre()));
 	}
 
 }
