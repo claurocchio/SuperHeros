@@ -10,7 +10,8 @@
 	<name>test-artifact</name>
 
 	<properties>
-		<jersey.version>2.9</jersey.version>
+		<jersey.version>2.23.1</jersey.version>
+		<hk2.version>2.4.0</hk2.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -33,34 +34,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.sun.jersey.contribs</groupId>
-			<artifactId>jersey-guice</artifactId>
-			<version>1.19</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.glassfish.hk2</groupId>
-			<artifactId>hk2</artifactId>
-			<version>2.4.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.hk2</groupId>
-			<artifactId>guice-bridge</artifactId>
-			<version>2.4.0</version>
+			<artifactId>hk2-locator</artifactId>
+			<version>${hk2.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.guiceberry</groupId>
-			<artifactId>guiceberry</artifactId>
-			<version>3.3.1</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -82,15 +64,33 @@
 			<artifactId>jersey-media-json-jackson</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
-			<scope>provided</scope>
-		</dependency>
-
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<!-- When built in OpenShift the 'openshift' profile will be used when 
+				invoking mvn. -->
+			<!-- Use this profile for any OpenShift specific customization your app 
+				will need. -->
+			<!-- By default that is to put the resulting archive into the 'webapps' 
+				folder. -->
+			<!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+			<id>openshift</id>
+			<build>
+				<finalName>test-artifact</finalName>
+				<plugins>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.1.1</version>
+						<configuration>
+							<outputDirectory>webapps</outputDirectory>
+							<warName>ROOT</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<build>
 		<finalName>test-artifact</finalName>
@@ -122,4 +122,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

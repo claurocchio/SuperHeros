@@ -15,7 +15,7 @@ Frontend:
 
 Recursos:  
 
-Heroes     /test-artifact/api/heroes  
+Personajes     /test-artifact/api/personajes  
 Favoritos  /test-artifact/api/favoritos  
 Perfiles   /test-artifact/api/perfiles  
 Grupos     /test-artifact/api/grupos  

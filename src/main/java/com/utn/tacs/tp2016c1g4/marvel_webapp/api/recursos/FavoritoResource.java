@@ -44,7 +44,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoGetRe
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoPostResponse;
 
 
-@Path("/api/favoritos")
+@Path("/favoritos")
 public class FavoritoResource {
 
 	private static final Logger logger = LogManager.getLogger(FavoritoResource.class);
@@ -155,7 +155,7 @@ public class FavoritoResource {
 					message = "no existe el personaje solicitado";
 				} else {
 					perfil.addIdPersonajeFavorito(request.getIdPersonaje());
-					perfilDao.save(perfil);
+					perfilDao.update(perfil);
 					status = Response.Status.CREATED;
 					message = "El personaje " + request.getIdPersonaje() + " se añadió a los favoritos del usuario id "
 							+ userId;

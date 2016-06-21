@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +28,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilPostResponse;
 
-@Path("/api/perfiles")
+@Path("/perfiles")
 public class PerfilResource {
 
 	private static final Logger logger = LogManager.getLogger(PerfilResource.class);
@@ -37,18 +38,14 @@ public class PerfilResource {
 	private Properties params;
 
 	@GET
-	@Path("/{username}")
+	@Path("/{userid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("username") String userName) {
+	public Response get(@PathParam("userid") Long userId) {
 		logger.debug("get invocado");
-		PerfilGetResponse response = new PerfilGetResponse();
-		response.setId((long) 1);
-		response.setUsername(userName);
-//		return Response.status(200).entity(response).build();
 
 		FiltroPerfil.Builder filtroBuilder = new FiltroPerfil.Builder();
 		filtroBuilder.clear();
-		filtroBuilder.setUserName(userName);
+		filtroBuilder.setId(userId);
 		Set<FiltroPerfil> filtros = filtroBuilder.build();
 
 		logger.debug("filtrando por: " + filtros);
@@ -71,9 +68,6 @@ public class PerfilResource {
 			status = Response.Status.NOT_FOUND;
 			opStatus.setMessage("no existe el perfil solicitado");
 		} else {
-			// TODO: estos with no van en perfiles, pero es para mostrar como se
-			// TODO: podrian usar en otros recursos
-
 			if (with("grupos")) {
 				logger.debug("with grupos especificado... buscando");
 			}
@@ -93,22 +87,72 @@ public class PerfilResource {
 	public Response post(PerfilPostRequest request) {
 		logger.debug("post invocado");
 
-		Perfil p = new Perfil();
-		p.setUsername(request.getUsername());
-		perfilDao.save(p);
+		Status status = null;
+		String mensaje = "";
 
-		logger.debug("perfil creado para usuario: " + p.getUsername());
+		PerfilPostResponse postResponse = new PerfilPostResponse();
+		postResponse.setStatus(new OperationStatus());
 
-		Response.Status status = Response.Status.OK;
+		if (!isValidRequest(request)) {
+			status = Status.BAD_REQUEST;
+			mensaje = "parámetros inválidos";
+			postResponse.getStatus().setStatusCode(status);
+			postResponse.getStatus().setMessage(mensaje);
 
-		OperationStatus opStatus = new OperationStatus();
-		opStatus.setStatusCode(status);
-		opStatus.setMessage("perfil creado exitosamente");
+			return Response.status(status).entity(postResponse).build();
+		}
 
-		PerfilPostResponse entityResponse = new PerfilPostResponse();
-		entityResponse.setStatus(opStatus);
+		FiltroPerfil.Builder filtroBuilder = new FiltroPerfil.Builder();
+		filtroBuilder.setUserName(request.getUsername());
+		Set<FiltroPerfil> filtros = filtroBuilder.build();
 
-		return Response.status(status).entity(entityResponse).build();
+		try {
+			Perfil perfil = perfilDao.findOne(filtros);
+
+			if (perfil == null) {
+				Perfil p = new Perfil();
+				p.setUsername(request.getUsername());
+				p.setEmail(request.getEmail());
+				// TODO: definir que hacer con este campo request.getPassword();
+
+				boolean success = perfilDao.save(p);
+
+				if (success) {
+					status = Status.OK;
+					mensaje = "perfil creado exitosamente";
+					logger.debug("perfil creado: " + p.toString());
+				} else {
+					status = Status.INTERNAL_SERVER_ERROR;
+					mensaje = "ocurrió un problema al generar el perfil";
+					logger.error("no se generó id para el nuevo perfil: " + request.getUsername());
+				}
+			} else {
+				// no deberia ocurrir nunca
+				status = Status.CONFLICT;
+				mensaje = "el username ya existe";
+			}
+
+		} catch (ManyResultsException e) {
+			// no deberia ocurrir nunca
+			status = Status.CONFLICT;
+			mensaje = "más de una coincidencia para ese username";
+		}
+
+		postResponse.getStatus().setStatusCode(status);
+		postResponse.getStatus().setMessage(mensaje);
+
+		return Response.status(status).entity(postResponse).build();
+
+	}
+
+	private boolean isValidRequest(PerfilPostRequest request) {
+		boolean isValid = true;
+
+		isValid = isValid && request.getUsername() != null && !request.getUsername().isEmpty();
+		isValid = isValid && request.getPassword() != null && !request.getPassword().isEmpty();
+		isValid = isValid && request.getEmail() != null && !request.getEmail().isEmpty();
+
+		return isValid;
 	}
 
 	@Inject

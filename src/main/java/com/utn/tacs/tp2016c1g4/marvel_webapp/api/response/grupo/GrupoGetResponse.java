@@ -32,7 +32,7 @@ public class GrupoGetResponse {
 	public void setStatus(OperationStatus status) {
 		this.status = status;
 	}
-	
+
 	public static class InnerGrupo {
 
 		private long id;
@@ -63,18 +63,12 @@ public class GrupoGetResponse {
 			this.personajes = personajes;
 		}
 	}
-	
+
 	public static class Builder {
 
-		private Collection<Long> idPersonajes;
-		private Collection<Personaje> personajes;
 		private Grupo grupo;
+		private Collection<Personaje> personajes;
 		private OperationStatus operationStatus;
-
-		public Builder setIdPersonajes(Collection<Long> idPersonajes) {
-			this.idPersonajes = idPersonajes;
-			return this;
-		}
 
 		public Builder setPersonajes(Collection<Personaje> personajes) {
 			this.personajes = personajes;
@@ -94,18 +88,16 @@ public class GrupoGetResponse {
 		public GrupoGetResponse build() {
 			GrupoGetResponse response = new GrupoGetResponse();
 
-			if (grupo != null) {
+			InnerGrupo innerGrupo = new InnerGrupo();
 
-				InnerGrupo innerGrupo = new InnerGrupo();
+			if (grupo != null) {
 				innerGrupo.setId(grupo.getId());
 				innerGrupo.setName(grupo.getNombre());
 
 				if (personajes != null) {
 					innerGrupo.setPersonajes(personajes);
-				} else if (this.idPersonajes != null) {
-					innerGrupo.setPersonajes(idPersonajes);
 				} else {
-					innerGrupo.setPersonajes(new ArrayList<Object>());
+					innerGrupo.setPersonajes(grupo.getPersonajes());
 				}
 
 				response.setGrupo(innerGrupo);
