@@ -2,6 +2,7 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -48,6 +49,8 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 			if (passes)
 				filtered.add(fullClone(obj));
 		}
+
+		Collections.sort(filtered, new EntitySorter());
 
 		List<T> pagedResults = new ArrayList<>();
 		if (page != null) {
@@ -125,5 +128,14 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 	public void clear() {
 		this.collection.clear();
 		this.nextId = 1;
+	}
+
+	private class EntitySorter implements Comparator<T> {
+
+		@Override
+		public int compare(T o1, T o2) {
+			return (int) (o1.getId() - o2.getId());
+		}
+
 	}
 }
