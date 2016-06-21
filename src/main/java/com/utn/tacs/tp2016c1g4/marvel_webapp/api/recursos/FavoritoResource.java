@@ -36,13 +36,12 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.favorito.FavoritoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.favorito.FavoritoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoPostResponse;
-
+import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 @Path("/favoritos")
 public class FavoritoResource {
@@ -60,9 +59,7 @@ public class FavoritoResource {
 	public Response get() {
 		logger.debug("get invocado");
 
-		List<Personaje> favoritos = new ArrayList<Personaje>();
-		favoritos.add(new Personaje(new Long(1), "Hulk"));
-		favoritos.add(new Personaje(new Long(2), "Thor"));
+		List<PersonajeMarvel> favoritos = new ArrayList<PersonajeMarvel>();
 
 		FavoritoGetResponse response = new FavoritoGetResponse();
 		response.setFavoritos(favoritos);
@@ -100,9 +97,7 @@ public class FavoritoResource {
 	public Response get(@PathParam("userId") Integer userId) {
 		logger.debug("get invocado");
 
-		List<Personaje> favoritosDeUser = new ArrayList<Personaje>();
-		favoritosDeUser.add(new Personaje(new Long(1), "Hulk"));
-		favoritosDeUser.add(new Personaje(new Long(2), "Thor"));
+		List<PersonajeMarvel> favoritosDeUser = new ArrayList<PersonajeMarvel>();
 
 		FavoritoGetResponse response = new FavoritoGetResponse();
 		response.setFavoritosPorUser(userId, favoritosDeUser);

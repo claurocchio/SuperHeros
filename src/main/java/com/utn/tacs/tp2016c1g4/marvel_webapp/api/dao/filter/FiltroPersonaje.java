@@ -2,7 +2,6 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.SearchFilter;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
