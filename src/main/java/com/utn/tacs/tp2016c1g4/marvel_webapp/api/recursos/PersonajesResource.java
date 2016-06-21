@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Page;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
@@ -48,17 +49,29 @@ public class PersonajesResource {
 			t.start();
 		}
 
+		Page page = new Page();
+		page.setPage(0);
+		page.setLimit(5);
+
+		if (params.containsKey("page")) {
+			page.setPage(Integer.parseInt(params.getProperty("page")));
+		}
+
+		if (params.containsKey("limit")) {
+			page.setLimit(Integer.parseInt(params.getProperty("limit")));
+		}
+
 		FiltroPersonaje.Builder filtroBuilder = new FiltroPersonaje.Builder();
-		
-		if ( params.containsKey("id") )
-			filtroBuilder.setId(Long.parseLong(params.get("id").toString()));
-		
-		if ( params.containsKey("nombre") )
-			filtroBuilder.setNombre(params.get("nombre").toString());
-		
+
+		if (params.containsKey("id"))
+			filtroBuilder.setId(Long.parseLong(params.getProperty("id").toString()));
+
+		if (params.containsKey("nombre"))
+			filtroBuilder.setNombre(params.getProperty("nombre").toString());
+
 		Collection<FiltroPersonaje> filters = filtroBuilder.build();
 
-		Set<Personaje> personajes = personajeDao.find(filters);
+		Set<Personaje> personajes = personajeDao.find(filters, page);
 
 		Status status = Status.OK;
 		OperationStatus opStatus = new OperationStatus();
