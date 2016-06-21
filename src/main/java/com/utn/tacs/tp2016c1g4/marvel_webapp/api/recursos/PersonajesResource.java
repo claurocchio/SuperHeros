@@ -81,6 +81,7 @@ public class PersonajesResource {
 		PersonajeGetResponse.Builder responseBuilder = new PersonajeGetResponse.Builder();
 		responseBuilder.setPersonajes(personajes);
 		responseBuilder.setOperationstatus(opStatus);
+		responseBuilder.setPage(page);
 
 		if (params.containsKey("img-variant")) {
 			String[] variants = params.getProperty("img-variant").split(",");
