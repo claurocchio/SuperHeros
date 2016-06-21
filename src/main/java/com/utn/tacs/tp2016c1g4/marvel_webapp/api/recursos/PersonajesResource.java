@@ -1,6 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -8,8 +9,10 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +24,6 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.personaje.PersonajeGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.task.PersonajeImporterTask;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 @Path("/personajes")
 public class PersonajesResource {
@@ -30,6 +32,7 @@ public class PersonajesResource {
 
 	private Dao<Personaje, FiltroPersonaje> personajeDao;
 	private PersonajeImporterTask importerTask;
+	private Properties params;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -48,14 +51,37 @@ public class PersonajesResource {
 		Status status = Status.OK;
 		OperationStatus opStatus = new OperationStatus();
 		opStatus.setStatusCode(status);
+		opStatus.setMessage("");
 
 		PersonajeGetResponse.Builder responseBuilder = new PersonajeGetResponse.Builder();
 		responseBuilder.setPersonajes(personajes);
 		responseBuilder.setOperationstatus(opStatus);
 
+		if (params.containsKey("img-variant")) {
+			String[] variants = params.getProperty("img-variant").split(",");
+
+			for (String variant : variants)
+				responseBuilder.addVarianteImagen(variant);
+		}
+
+		if (params.containsKey("img-extension")) {
+			responseBuilder.setExtensionImagen(params.getProperty("img-extension"));
+		}
+
 		PersonajeGetResponse response = responseBuilder.build();
 
 		return Response.status(status).entity(response).build();
+	}
+
+	@Context
+	public void setUriInfo(UriInfo uriInfo) {
+		logger.debug("catcheando uri info en perfiles");
+
+		this.params = new Properties();
+		for (String key : uriInfo.getQueryParameters().keySet()) {
+			this.params.setProperty(key, uriInfo.getQueryParameters().getFirst(key));
+			logger.debug("query param[ " + key + " = " + this.params.getProperty(key) + " ]");
+		}
 	}
 
 	@Inject

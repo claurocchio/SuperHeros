@@ -1,6 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.task;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -51,6 +52,13 @@ public class PersonajeImporterTask implements Runnable {
 		for (PersonajeMarvel pMarvel : personajes) {
 			Personaje p = new Personaje();
 			p.setNombre(pMarvel.getName());
+			p.setDescripcion(pMarvel.getDescription());
+			Map<String, Object> thumbnail = (Map<String, Object>) pMarvel.getOtherProperties().get("thumbnail");
+
+			if (thumbnail != null && thumbnail.containsKey("path")) {
+				p.setImagen(thumbnail.get("path").toString());
+			}
+
 			personajeDao.save(p);
 			logger.debug("personaje guardado: " + p.toString());
 		}

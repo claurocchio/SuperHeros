@@ -14,22 +14,17 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Entity;
 
 @JsonAutoDetect
 public class PersonajeMarvel implements Entity {
+
 	@JsonProperty
 	private Long id;
+
 	@JsonProperty
 	private String name;
 
+	@JsonProperty
+	private String description;
+
 	private Map<String, Object> otherProperties = new HashMap<String, Object>();
-
-	public PersonajeMarvel() {
-
-	}
-
-	public PersonajeMarvel(Long id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
 
 	public Long getId() {
 		return id;
@@ -60,6 +55,14 @@ public class PersonajeMarvel implements Entity {
 	@JsonAnyGetter
 	public Object getProperty(String key) {
 		return otherProperties.get(key);
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

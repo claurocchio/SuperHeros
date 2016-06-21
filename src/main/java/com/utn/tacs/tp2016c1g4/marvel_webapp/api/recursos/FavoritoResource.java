@@ -43,7 +43,6 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoGetRe
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoPostResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
-
 @Path("/favoritos")
 public class FavoritoResource {
 
@@ -61,8 +60,6 @@ public class FavoritoResource {
 		logger.debug("get invocado");
 
 		List<PersonajeMarvel> favoritos = new ArrayList<PersonajeMarvel>();
-		favoritos.add(new PersonajeMarvel(new Long(1), "Hulk"));
-		favoritos.add(new PersonajeMarvel(new Long(2), "Thor"));
 
 		FavoritoGetResponse response = new FavoritoGetResponse();
 		response.setFavoritos(favoritos);
@@ -101,8 +98,6 @@ public class FavoritoResource {
 		logger.debug("get invocado");
 
 		List<PersonajeMarvel> favoritosDeUser = new ArrayList<PersonajeMarvel>();
-		favoritosDeUser.add(new PersonajeMarvel(new Long(1), "Hulk"));
-		favoritosDeUser.add(new PersonajeMarvel(new Long(2), "Thor"));
 
 		FavoritoGetResponse response = new FavoritoGetResponse();
 		response.setFavoritosPorUser(userId, favoritosDeUser);
