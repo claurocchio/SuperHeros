@@ -93,6 +93,17 @@ public class GrupoResource {
 		if (with("personajes")) {
 			responseBuilder.setPersonajeDao(personajeDao);
 			responseBuilder.setExpandirPersonajes(true);
+
+			if (params.containsKey("img-variant")) {
+				String[] variants = params.getProperty("img-variant").split(",");
+
+				for (String variant : variants)
+					responseBuilder.addVarianteImagen(variant);
+			}
+
+			if (params.containsKey("img-extension")) {
+				responseBuilder.setExtensionImagen(params.getProperty("img-extension"));
+			}
 		}
 
 		status = Status.OK;
@@ -135,11 +146,20 @@ public class GrupoResource {
 			status = Response.Status.NOT_FOUND;
 			opStatus.setMessage("no existe el grupo solicitado");
 		} else {
-			// TODO: estos with no van en perfiles, pero es para mostrar como se
-			// TODO: podrian usar en otros recursos
-
 			if (with("personajes")) {
-				logger.debug("with personajes especificado... buscando");
+				responseBuilder.setPersonajeDao(personajeDao);
+				responseBuilder.setExpandirPersonajes(true);
+
+				if (params.containsKey("img-variant")) {
+					String[] variants = params.getProperty("img-variant").split(",");
+
+					for (String variant : variants)
+						responseBuilder.addVarianteImagen(variant);
+				}
+
+				if (params.containsKey("img-extension")) {
+					responseBuilder.setExtensionImagen(params.getProperty("img-extension"));
+				}
 			}
 		}
 
