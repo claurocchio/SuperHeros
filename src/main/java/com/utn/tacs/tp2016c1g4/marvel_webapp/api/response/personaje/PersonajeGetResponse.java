@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response.Status;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Page;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.entity.InnerPersonaje;
 
 public class PersonajeGetResponse {
 
@@ -40,47 +41,6 @@ public class PersonajeGetResponse {
 
 	public void setPage(Page page) {
 		this.page = page;
-	}
-
-	public static class InnerPersonaje {
-
-		private long id;
-		private String nombre;
-		private String descripcion;
-		private Map<String, String> imagen;
-
-		public long getId() {
-			return id;
-		}
-
-		public void setId(long id) {
-			this.id = id;
-		}
-
-		public String getNombre() {
-			return nombre;
-		}
-
-		public void setNombre(String nombre) {
-			this.nombre = nombre;
-		}
-
-		public String getDescripcion() {
-			return descripcion;
-		}
-
-		public void setDescripcion(String descripcion) {
-			this.descripcion = descripcion;
-		}
-
-		public Map<String, String> getImagen() {
-			return imagen;
-		}
-
-		public void setImagen(Map<String, String> imagen) {
-			this.imagen = imagen;
-		}
-
 	}
 
 	public static class Builder {

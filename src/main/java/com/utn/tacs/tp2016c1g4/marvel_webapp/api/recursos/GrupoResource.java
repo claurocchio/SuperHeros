@@ -22,8 +22,10 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
@@ -33,7 +35,9 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostRespons
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPutResponse;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -44,6 +48,7 @@ public class GrupoResource {
 
 	private Dao<Grupo, FiltroGrupo> grupoDao;
 	private Dao<Perfil, FiltroPerfil> perfilDao;
+	private Dao<Personaje, FiltroPersonaje> personajeDao;
 
 	private Properties params;
 
@@ -83,10 +88,15 @@ public class GrupoResource {
 			grupos = grupoDao.getAll();
 		}
 
+		GrupoGetResponse.Builder responseBuilder = new GrupoGetResponse.Builder();
+
+		if (with("personajes")) {
+			responseBuilder.setPersonajeDao(personajeDao);
+			responseBuilder.setExpandirPersonajes(true);
+		}
+
 		status = Status.OK;
 		opStatus.setStatusCode(status);
-
-		GrupoGetResponse.Builder responseBuilder = new GrupoGetResponse.Builder();
 		responseBuilder.setGrupos(grupos);
 		responseBuilder.setOperationStatus(opStatus);
 
@@ -297,6 +307,11 @@ public class GrupoResource {
 	@Inject
 	public void setPerfilDao(Dao<Perfil, FiltroPerfil> perfilDao) {
 		this.perfilDao = perfilDao;
+	}
+
+	@Inject
+	public void setPersonajeDao(Dao<Personaje, FiltroPersonaje> personajeDao) {
+		this.personajeDao = personajeDao;
 	}
 
 	@Context
