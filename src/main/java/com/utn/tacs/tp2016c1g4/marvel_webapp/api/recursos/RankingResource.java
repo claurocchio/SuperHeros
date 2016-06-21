@@ -1,5 +1,9 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -48,10 +52,39 @@ public class RankingResource {
 		//rankingGetResponse!!
 		Set<Perfil> perfiles = perfilDao.find(filtros);
 		
-		//TODO: calcular ranking
+		List<Long> temp = new ArrayList<>();
+		List<Long> ranking = new ArrayList<>();
+        Map<Long,Integer> m = new HashMap<>();
+        
+        //agrego todos los favs en una lista temporal
+		for(Perfil p : perfiles){
+			temp.addAll(p.getIdsPersonajesFavoritos());
+		}
+		
+		//lleno el map
+		for(Long i : temp){
+            if(m.containsKey(i)){
+                m.put(i, m.get(i)+1);
+            }else{
+                m.put(i, 1);
+            }
+        }
+		
+		//lleno el ranking de a uno
+		for (int i = 0; i < 5; i++) {
+			Long ans = 0L;
+			int maxVal = 0;
+		    for(Long in: m.keySet()){
+		    	if(!ranking.contains(in) && m.get(in) >= maxVal){
+		    		ans=in;
+		        	maxVal = m.get(in);
+		    	}
+		    }
+		    ranking.add(ans);
+		}
 		
 		RankingGetResponse.Builder responseBuilder = new RankingGetResponse.Builder();
-		//responseBuilder.setPersonajes(perfiles);//en vez de perfiles va el calculo
+		responseBuilder.setPersonajes(ranking);
 		
 		RankingGetResponse response = responseBuilder.build();
 		return Response.status(200).entity(response).build();

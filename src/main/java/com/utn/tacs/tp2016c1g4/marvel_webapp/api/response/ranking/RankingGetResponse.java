@@ -1,7 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.ranking;
 
 
-import java.util.Set;
+import java.util.List;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -17,7 +17,7 @@ public class RankingGetResponse {
 	private OperationStatus status;
 	
 	@JsonProperty("personajes")
-	private Set<Long> personajes;
+	private List<Long> personajes;
 
 	public OperationStatus getStatus() {
 		return status;
@@ -27,21 +27,21 @@ public class RankingGetResponse {
 		this.status = status;
 	}
 
-	public Set<Long> getPersonajes(){
+	public List<Long> getPersonajes(){
 		return this.personajes;
 	}
 	
-	public void setPersonajes(Set<Long> personajes) {
+	public void setPersonajes(List<Long> personajes) {
 		this.personajes = personajes;
 	}
 
 	public static class Builder {
 
-		private Set<Long> personajes;
+		private List<Long> personajes;
 		
 		private OperationStatus operationStatus;
 
-		public Builder setPersonajes(Set<Long> personajes) {
+		public Builder setPersonajes(List<Long> personajes) {
 			this.personajes = personajes;
 			return this;
 		}
