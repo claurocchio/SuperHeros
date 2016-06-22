@@ -82,3 +82,20 @@ app.factory('GruposFactory', ['$http', function($http) {
 
     return GruposFactory;
 }]);
+
+app.factory('UsuariosFactory', ['$http', function($http) {
+
+    var urlBase = 'api/usuarios';
+    var urlPerfil = 'api/perfiles';
+    var UsuariosFactory = {};
+
+    UsuariosFactory.getUsuarios = function() {
+        return $http.get(urlBase);
+    };
+    
+    UsuariosFactory.getUsuarioById = function(id) {
+        return $http.get(urlPerfil+'/'+id);
+    };
+
+    return UsuariosFactory;
+}]);
