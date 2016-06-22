@@ -64,7 +64,7 @@ app.factory('FavoritosFactory', ['$http', function($http) {
 
 app.factory('GruposFactory', ['$http', function($http) {
 
-    var urlBase = 'api/grupos';
+    var urlBase = '/grupos/'+ id;
 //    var urlPersonajes = 'api/personajes';
     var GruposFactory = {};
 
