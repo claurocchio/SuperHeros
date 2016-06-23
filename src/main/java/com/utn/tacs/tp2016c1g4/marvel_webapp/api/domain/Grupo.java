@@ -2,7 +2,11 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Grupo implements Entity {
+
+	@JsonProperty("_id")
 	private Long id;
 	private String nombre;
 	private Collection<Long> personajes;
@@ -25,7 +29,7 @@ public class Grupo implements Entity {
 	public void setPersonajes(Collection<Long> personajes) {
 		this.personajes = personajes;
 	}
-	
+
 	@Override
 	public Long getId() {
 		return id;
@@ -35,7 +39,7 @@ public class Grupo implements Entity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

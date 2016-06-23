@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Perfil implements Entity {
 
+	@JsonProperty("_id")
 	private Long id;
 	private String username;
 	private String email;

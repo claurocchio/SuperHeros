@@ -1,25 +1,28 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Usuario implements Entity {
 
+	@JsonProperty("_id")
 	private Long id;
 	private String userName;
 	private String email;
 	private Long idPerfil;
 	private String pass;
 	private int lastAccess;
-	
-	public Usuario(){
-		
+
+	public Usuario() {
+
 	};
 
-	public Usuario(Long id, Long idPerfil, String userName, String pass){
+	public Usuario(Long id, Long idPerfil, String userName, String pass) {
 		this.id = id;
 		this.userName = userName;
 		this.idPerfil = idPerfil;
 		this.pass = pass;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -27,12 +30,12 @@ public class Usuario implements Entity {
 	public Long getIdPerfil() {
 		return idPerfil;
 	}
-	
-	public int getLastAccess(){
+
+	public int getLastAccess() {
 		return lastAccess;
 	}
-	
-	public void setLastAccess(int lastAccess){
+
+	public void setLastAccess(int lastAccess) {
 		this.lastAccess = lastAccess;
 	}
 
@@ -44,7 +47,7 @@ public class Usuario implements Entity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getUserName() {
 		return userName;
 	}
@@ -52,7 +55,7 @@ public class Usuario implements Entity {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -68,7 +71,6 @@ public class Usuario implements Entity {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
-
 
 	@Override
 	public int hashCode() {

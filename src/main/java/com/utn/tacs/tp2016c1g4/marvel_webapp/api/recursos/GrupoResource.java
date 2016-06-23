@@ -21,7 +21,11 @@ import org.apache.logging.log4j.Logger;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.grupo.GrupoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
@@ -30,6 +34,10 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoGetResponse
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPutResponse;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -39,8 +47,74 @@ public class GrupoResource {
 	private static final Logger logger = LogManager.getLogger(GrupoResource.class);
 
 	private Dao<Grupo, FiltroGrupo> grupoDao;
+	private Dao<Perfil, FiltroPerfil> perfilDao;
+	private Dao<Personaje, FiltroPersonaje> personajeDao;
 
 	private Properties params;
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getGrupos() {
+		logger.debug("get invocado");
+
+		Response.Status status = null;
+		OperationStatus opStatus = new OperationStatus();
+
+		Collection<Grupo> grupos = null;
+
+		if (params.containsKey("idUsuario")) {
+
+			grupos = new HashSet<Grupo>();
+
+			FiltroPerfil.Builder filtroPerfilBuilder = new FiltroPerfil.Builder();
+			filtroPerfilBuilder.setId(params.getProperty("idUsuario"));
+			Set<FiltroPerfil> filtroPerfil = filtroPerfilBuilder.build();
+
+			Perfil p = perfilDao.findOne(filtroPerfil);
+
+			Collection<Long> idGrupos = p.getIdGrupos();
+
+			for (Long idGrupo : idGrupos) {
+				FiltroGrupo.Builder filtroGrupoBuilder = new FiltroGrupo.Builder();
+				filtroGrupoBuilder.clear();
+				filtroGrupoBuilder.setId(idGrupo);
+				Set<FiltroGrupo> filtroGrupo = filtroGrupoBuilder.build();
+				Grupo grupo = grupoDao.findOne(filtroGrupo);
+
+				if (grupo != null)
+					grupos.add(grupo);
+			}
+		} else {
+			grupos = grupoDao.getAll();
+		}
+
+		GrupoGetResponse.Builder responseBuilder = new GrupoGetResponse.Builder();
+
+		if (with("personajes")) {
+			responseBuilder.setPersonajeDao(personajeDao);
+			responseBuilder.setExpandirPersonajes(true);
+
+			if (params.containsKey("img-variant")) {
+				String[] variants = params.getProperty("img-variant").split(",");
+
+				for (String variant : variants)
+					responseBuilder.addVarianteImagen(variant);
+			}
+
+			if (params.containsKey("img-extension")) {
+				responseBuilder.setExtensionImagen(params.getProperty("img-extension"));
+			}
+		}
+
+		status = Status.OK;
+		opStatus.setStatusCode(status);
+		responseBuilder.setGrupos(grupos);
+		responseBuilder.setOperationStatus(opStatus);
+
+		GrupoGetResponse entityResponse = responseBuilder.build();
+
+		return Response.status(status).entity(entityResponse).build();
+	}
 
 	@GET
 	@Path("/{idGrupo}")
@@ -72,11 +146,20 @@ public class GrupoResource {
 			status = Response.Status.NOT_FOUND;
 			opStatus.setMessage("no existe el grupo solicitado");
 		} else {
-			// TODO: estos with no van en perfiles, pero es para mostrar como se
-			// TODO: podrian usar en otros recursos
-
 			if (with("personajes")) {
-				logger.debug("with personajes especificado... buscando");
+				responseBuilder.setPersonajeDao(personajeDao);
+				responseBuilder.setExpandirPersonajes(true);
+
+				if (params.containsKey("img-variant")) {
+					String[] variants = params.getProperty("img-variant").split(",");
+
+					for (String variant : variants)
+						responseBuilder.addVarianteImagen(variant);
+				}
+
+				if (params.containsKey("img-extension")) {
+					responseBuilder.setExtensionImagen(params.getProperty("img-extension"));
+				}
 			}
 		}
 
@@ -239,6 +322,16 @@ public class GrupoResource {
 	@Inject
 	public void setGrupoDao(Dao<Grupo, FiltroGrupo> grupoDao) {
 		this.grupoDao = grupoDao;
+	}
+
+	@Inject
+	public void setPerfilDao(Dao<Perfil, FiltroPerfil> perfilDao) {
+		this.perfilDao = perfilDao;
+	}
+
+	@Inject
+	public void setPersonajeDao(Dao<Personaje, FiltroPersonaje> personajeDao) {
+		this.personajeDao = personajeDao;
 	}
 
 	@Context

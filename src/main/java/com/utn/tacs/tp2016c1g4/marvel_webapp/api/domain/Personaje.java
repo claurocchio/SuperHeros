@@ -1,7 +1,10 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Personaje implements Entity {
 
+	@JsonProperty("_id")
 	private Long id;
 	private String nombre;
 	private String imagen;
