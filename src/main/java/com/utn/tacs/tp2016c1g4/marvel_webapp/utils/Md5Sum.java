@@ -3,9 +3,11 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 public class Md5Sum {
 
-	public static String getMD5(String input) {
+	private static String getMD5(String input) {
 		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("MD5");
@@ -26,11 +28,9 @@ public class Md5Sum {
 	}
 
 	public static String getMarvelHash(){
-		// TODO Auto-generated method stub
-		
 		String publicKey = "b1b35d57fc130504f737b14e581d523b";	 
 		String privateKey = "0d43f3ee357f2419224ae291150a52d8db17c082";
-		String ts = "1";
+		String ts = Long.toString(System.currentTimeMillis());
 		
 		String input = "";
 		input += ts;
