@@ -2,7 +2,7 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 
-public class FavoritoPostResponse {
+public class FavoritoPutResponse {
 
 	private Integer idGrupo;
 	private OperationStatus status;

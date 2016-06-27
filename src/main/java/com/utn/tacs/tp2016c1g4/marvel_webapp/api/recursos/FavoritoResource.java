@@ -1,115 +1,101 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.favorito.FavoritoPostRequest;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.favorito.FavoritoPutRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoGetResponse;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoPostResponse;
-import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.favorito.FavoritoPutResponse;
 
 @Path("/favoritos")
 public class FavoritoResource {
 
 	private static final Logger logger = LogManager.getLogger(FavoritoResource.class);
-	private static final String URL_MARVEL_CHARACTER = "http://gateway.marvel.com/v1/public/characters/";
-	private static final String URL_MARVEL_PARAMS = "?ts=1&hash=12eb73da146a932dbfe2b95253ed1fa5&apikey=b1b35d57fc130504f737b14e581d523b";
-	private static final String URL_PARAM_LIMIT = "&limit=";
-	private static final int URL_VALUE_LIMIT = 1;
 
+	private Properties params;
+	
 	private Dao<Perfil, FiltroPerfil> perfilDao;
-
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response get() {
-		logger.debug("get invocado");
-
-		List<PersonajeMarvel> favoritos = new ArrayList<PersonajeMarvel>();
-
-		FavoritoGetResponse response = new FavoritoGetResponse();
-		response.setFavoritos(favoritos);
-
-		return Response.status(200).entity(response).build();
-	}
-
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response add(FavoritoPostRequest request) {
-		logger.debug("post invocado");
-
-		if (request == null || request.getIdPersonaje() == null) {
-			OperationStatus status = new OperationStatus();
-			status.setSuccess(0);
-			status.setMessage("no se especifico id personaje o request alguno");
-			logger.debug(status);
-			return Response.status(400).entity(status).build();
-		}
-
-		OperationStatus status = new OperationStatus();
-		status.setSuccess(1);
-		status.setMessage("El personaje " + request.getIdPersonaje() + " se añadió a favoritos");
-
-		FavoritoPostResponse response = new FavoritoPostResponse();
-		response.setStatus(status);
-
-		return Response.status(201).entity(response).build();
-	}
+	private Dao<Personaje, FiltroPersonaje> personajeDao;
 
 	// get favoritos de un usuario
 	@GET
 	@Path("/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response get(@PathParam("userId") Integer userId) {
+	public Response get(@PathParam("userId") Long userId) {
 		logger.debug("get invocado");
+		
+		Response.Status status = null;
+		OperationStatus opStatus = new OperationStatus();
+		
+		FiltroPerfil.Builder filtroPerfilBuilder = new FiltroPerfil.Builder();
+		filtroPerfilBuilder.setId(userId);
+		Set<FiltroPerfil> filtroPerfil = filtroPerfilBuilder.build();
 
-		List<PersonajeMarvel> favoritosDeUser = new ArrayList<PersonajeMarvel>();
+		FavoritoGetResponse.Builder responseBuilder = new FavoritoGetResponse.Builder();
+		
+		Perfil p = perfilDao.findOne(filtroPerfil);
+		
+		if(p == null){
+			status = Status.NOT_FOUND;
+			opStatus.setMessage("no existe el perfil solicitado");
+		}else{
+			responseBuilder.setFavoritos(p.getIdsPersonajesFavoritos());
+			
+			if (with("personajes")) {
+				responseBuilder.setPersonajeDao(personajeDao);
+				responseBuilder.setExpandirPersonajes(true);
 
-		FavoritoGetResponse response = new FavoritoGetResponse();
-		response.setFavoritosPorUser(userId, favoritosDeUser);
+				if (params.containsKey("img-variant")) {
+					String[] variants = params.getProperty("img-variant").split(",");
 
-		return Response.status(200).entity(response).build();
+					for (String variant : variants)
+						responseBuilder.addVarianteImagen(variant);
+				}
+
+				if (params.containsKey("img-extension")) {
+					responseBuilder.setExtensionImagen(params.getProperty("img-extension"));
+				}
+			}
+			
+		}
+
+		opStatus.setStatusCode(status);
+		responseBuilder.setOperationStatus(opStatus);
+
+		FavoritoGetResponse response = responseBuilder.build();
+		
+		return Response.status(status).entity(response).build();
 	}
 
 	@PUT
 	@Path("/{userId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response add(@PathParam("userId") Integer userId, FavoritoPutRequest request) {
+	public Response add(@PathParam("userId") Long userId, FavoritoPutRequest request) {
 		logger.debug("put invocado");
 
 		if (userId == null || request.getIdPersonaje() == null) {
@@ -141,11 +127,12 @@ public class FavoritoResource {
 			message = "no existe el perfil solicitado";
 		} else {
 			try {
-				URL obj = new URL(URL_MARVEL_CHARACTER + request.getIdPersonaje() + URL_MARVEL_PARAMS + URL_PARAM_LIMIT
-						+ URL_VALUE_LIMIT);
-				HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-				if (con.getResponseCode() == 404) {
+				//ver que el personaje exista
+				FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
+				filtroPersonajeBuilder.setId(request.getIdPersonaje());
+				Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
+				Personaje miPersonaje = personajeDao.findOne(filtrosPersonaje);
+				if (miPersonaje == null) {
 					status = Response.Status.NOT_FOUND;
 					message = "no existe el personaje solicitado";
 				} else {
@@ -165,33 +152,35 @@ public class FavoritoResource {
 		opStatus.setStatusCode(status);
 		opStatus.setMessage(message);
 
-		FavoritoPostResponse favoritoPostResponse = new FavoritoPostResponse();
-		favoritoPostResponse.setStatus(opStatus);
+		FavoritoPutResponse favoritoPutResponse = new FavoritoPutResponse();
+		favoritoPutResponse.setStatus(opStatus);
 
-		return Response.status(status).entity(favoritoPostResponse).build();
-	}
-
-	/**
-	 * @param string
-	 * @return
-	 * @throws MalformedURLException
-	 * @throws IOException
-	 * @throws ProtocolException
-	 */
-	private URLConnection getConnection(String string) throws MalformedURLException, IOException, ProtocolException {
-		// HttpURLConnection con;
-		URL obj = new URL(string);
-		URLConnection con = obj.openConnection();
-		// con = (HttpURLConnection) obj.openConnection();
-		// con.setRequestMethod("GET");
-		// con.setRequestProperty("User-Agent", USER_AGENT);
-		con.connect();
-		return con;
+		return Response.status(status).entity(favoritoPutResponse).build();
 	}
 
 	@Inject
 	public void setPerfilDao(Dao<Perfil, FiltroPerfil> perfilDao) {
 		this.perfilDao = perfilDao;
 	}
+	
+	@Inject
+	public void setPersonajeDao(Dao<Personaje, FiltroPersonaje> personajeDao) {
+		this.personajeDao = personajeDao;
+	}
 
+	@Context
+	public void setUriInfo(UriInfo uriInfo) {
+		logger.debug("catcheando uri info en perfiles");
+
+		this.params = new Properties();
+		for (String key : uriInfo.getQueryParameters().keySet()) {
+			this.params.setProperty(key, uriInfo.getQueryParameters().getFirst(key));
+			logger.debug("query param[ " + key + " = " + this.params.getProperty(key) + " ]");
+		}
+	}
+
+	private boolean with(String adicionalRequerido) {
+		String with = params.getProperty("with");
+		return with != null ? with.matches(".*?,?" + adicionalRequerido + ",?.*?") : false;
+	}
 }
