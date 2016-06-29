@@ -83,6 +83,10 @@ public class RankingResource {
 		    ranking.add(ans);
 		}
 		
+		ranking.add(new Long(1));
+		ranking.add(new Long(2));
+		ranking.add(new Long(3));
+		
 		RankingGetResponse.Builder responseBuilder = new RankingGetResponse.Builder();
 		responseBuilder.setPersonajes(ranking);
 		
