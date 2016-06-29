@@ -17,7 +17,7 @@ public class RankingGetResponse {
 	private OperationStatus status;
 	
 	@JsonProperty("personajes")
-	private List<Long> personajes;
+	private List<String> personajes;
 
 	public OperationStatus getStatus() {
 		return status;
@@ -27,21 +27,21 @@ public class RankingGetResponse {
 		this.status = status;
 	}
 
-	public List<Long> getPersonajes(){
+	public List<String> getPersonajes(){
 		return this.personajes;
 	}
 	
-	public void setPersonajes(List<Long> personajes) {
+	public void setPersonajes(List<String> personajes) {
 		this.personajes = personajes;
 	}
 
 	public static class Builder {
 
-		private List<Long> personajes;
+		private List<String> personajes;
 		
 		private OperationStatus operationStatus;
 
-		public Builder setPersonajes(List<Long> personajes) {
+		public Builder setPersonajes(List<String> personajes) {
 			this.personajes = personajes;
 			return this;
 		}

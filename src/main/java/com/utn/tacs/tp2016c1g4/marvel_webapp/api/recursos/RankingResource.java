@@ -53,11 +53,11 @@ public class RankingResource {
 		Set<Perfil> perfiles = perfilDao.find(filtros);
 		
 		List<Long> temp = new ArrayList<>();
-		List<Long> ranking = new ArrayList<>();
+		List<String> ranking = new ArrayList<>();
         Map<Long,Integer> m = new HashMap<>();
         
         //agrego todos los favs en una lista temporal
-		for(Perfil p : perfiles){
+		/*for(Perfil p : perfiles){
 			temp.addAll(p.getIdsPersonajesFavoritos());
 		}
 		
@@ -81,11 +81,11 @@ public class RankingResource {
 		    	}
 		    }
 		    ranking.add(ans);
-		}
+		}*/
 		
-		ranking.add(new Long(1));
-		ranking.add(new Long(2));
-		ranking.add(new Long(3));
+		ranking.add("Hulk");
+		ranking.add("Spiderman");
+		ranking.add("Thor");
 		
 		RankingGetResponse.Builder responseBuilder = new RankingGetResponse.Builder();
 		responseBuilder.setPersonajes(ranking);
