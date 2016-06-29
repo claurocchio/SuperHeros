@@ -32,7 +32,7 @@
 
 </head>
 <body >
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default" id="navbar">
 	
   		<div class="container-fluid">
 			<div class="navbar-header">
@@ -89,7 +89,7 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">User <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#/login">Log in</a></li>
+							<li><a id="cerrarSesion" href="#/login">Cerrar sesion</a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -180,14 +180,36 @@
     background: inherit;
     left: 20px;
 }
-   
-    
+
+.centrado {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.letra {
+	font-size: 55px;
+}
+
+.sinButton {
+	border-style: none !important;
+	 background-color: none !important;
+}
+
+.sinButton:hover {
+	box-shadow:initial;
+}
 </style>
 <script>
 	$( document ).ready(function() {
     	console.log( "ready!" );
+    	$('.navbar').hide('slow');
 	});
-
+	
+	$("#cerrarSesion").click(function(){
+		console.log("estoy cerrando sesion");
+		$('.navbar').hide('slow');
+	});
   
 </script>
 

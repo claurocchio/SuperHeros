@@ -1,58 +1,62 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE = edge">
-    <meta name="viewport" content="width = device-width, initial-scale = 1">
+ <div class="text-center centrado col-md-4" style="padding:50px 0">
+ 	<div id="loginForm">
+ 	<div class="text-danger pull-left">
+ 		 <h1 class="letra">
+ 		 LOGIN</h1>
+ 	</div>
 
-    <title>Por favor registrese</title>
+ 		<div class="text-left">
+ 				<div class="form-group">
+ 						<input type="text" class="form-control" id="1" placeholder="username">
+ 					</div>
+ 					<div class="form-group">
+ 						<input type="password" class="form-control" id="2" placeholder="password">
+ 					</div>
 
-    <link rel="stylesheet" href="../assets/css/login.css">
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+ 				<div>
+                 <a href="#/home" class="btn btn-block btn-primary btn-danger" ng-click="entrar()">Log in</a>
+			</div>
+ 			<div class="etc-login-form">
+ 				<p></p>
+ 				<p></p>
+ 				<p>Nuevo usuario? <button class="btn btn-default sinButton" ng-click="crearCuenta()" id="crearCuenta">Cree una cuenta</button></p>
+ 			</div>
+ 		</div>
+ 	</div>
+ 	</div>
 
-        
-</head>
+  <div class="text-center centrado col-md-4" style="padding:50px 0; display:none;" id="registroForm">
+ 		<div class="col-md-12">
+			<div class="text-danger pull-left">
+			 	<h1 class="letra">REGISTRO</h1>
+			</div>
+			<div class="pull-right">
+				<button class="btn btn-default pull-right sinButton" ng-click="volver()">
+			 		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			 	</button>
+			</div>
+ 		</div>
+ 	
+ 			<div class="text-left">
+ 			
+ 	
+ 					<div class="form-group">
+ 						<label for="lg_nuevo_username" class="sr-only">Username</label>
+ 						<input type="text" class="form-control" id="lg_nuevo_username" name="lg_nuevo_username" placeholder="username">
+ 					</div>
+ 					<div class="form-group">
+ 						<label for="lg_nuevo_password" class="sr-only">Password</label>
+ 						<input type="password" class="form-control" id="lg_nuevo_password" name="lg_nuevo_password" placeholder="password">
+ 					</div>
+ 					<div class="form-group">
+ 						<label for="lg_nuevo_email" class="sr-only">E-mail</label>
+ 						<input type="text" class="form-control" id="lg_nuevo_email" name="lg_nuevo_email" placeholder="e-mail" >
+ 					</div> 		
+ 	
+ 			<button class="btn btn-block btn-danger" ng-click="crearUsuario()">Crear usuario</button>
+ 	</div>
+ </div>
 
-<body>
-    <div id="wrap">
-        <div id="regbar">
-            <div id="navthing">
-                <h2><a href="#" id="loginform">Login</a> | <a href="#" id="registerform">Registro</a></h2>
-                <div class="login" style="display: none">
-                    <div class="arrow-up"></div>
-                    <div class="formholder">
-                        <div class="randompad">
-                            <fieldset>
-                                <label name="user">Usuario</label>
-                                <input type="text" />
-                                <label name="password">Contraseña</label>
-                                <input type="password" />
-                                <input type="submit" value="Login" />
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <div class="register" style="display: none">
-                    <div class="arrow-up"></div>
-                    <div class="formholder">
-                        <div class="randompad">
-                            <fieldset>
-                                <label name="User">Usuario</label>
-                                <input type="text" value="" />
-                                <label name="email">E-mail</label>
-                                <input type="text" value="example@example.com" />
-                                <label name="password">Contraseña</label>
-                                <input type="password" />
-                                <input type="submit" value="Registrar" />
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="../assets/js/controllers/LoginController.js"></script>
-</body>
 
-</html>
+

@@ -1,30 +1,26 @@
-$('input[type="submit"]').mousedown(function() {
-	$(this).css('background', '#2ecc71');
-}); 
-$('input[type="submit"]').mouseup(function() {
-	$(this).css('background', '#1abc9c');
-});
-
-$('#loginform').click(function() {
-	$('.login').fadeIn('slow');
-	$('.register').hide();
-	$(this).addClass('green');
-});
-
-$('#registerform').click(function() {
-	$('.register').fadeIn('slow');
-	$('.login').hide();
-});
-
-$(document).mouseup(function(e) {
-	var container = $(".login");
-
-	if (!container.is(e.target) // if the target of the click isn't the
-								// container...
-			&& container.has(e.target).length === 0) // ... nor a descendant
-														// of the container
+app.controller('LoginController', ['$scope', function($scope) {
+	
+	$scope.entrar = function()
 	{
-		container.hide();
-		$('#loginform').removeClass('green');
-	}
-});
+		$('.navbar').show('slow');
+	};
+	
+	$scope.crearCuenta = function()
+	{
+		$("#loginForm").hide('slow');
+		$("#registroForm").show('slow');
+	};
+	
+	$scope.volver = function()
+	{
+		$("#registroForm").hide('slow');
+		$("#loginForm").show('slow');
+		
+	};
+	$scope.crearUsuario = function()
+	{
+		$scope.volver();
+		
+	};
+	
+}]);

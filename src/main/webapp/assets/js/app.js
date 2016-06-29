@@ -5,8 +5,8 @@ app.config(function($routeProvider) {
 
 $routeProvider
   .when('/', {
-    templateUrl : 'views/home.html',
-    controller  : 'HomeController'
+    templateUrl : 'views/login.html',
+    controller  : 'LoginController'
   })
 
   .when('/usuarios', {
@@ -37,6 +37,11 @@ $routeProvider
    .when('/ranking', {
     templateUrl : 'views/ranking.html',
     controller  : 'RankingController'
+  })
+  
+    .when('/home', {
+    templateUrl : 'views/home.html',
+    controller  : 'HomeController'
   })
 
 
