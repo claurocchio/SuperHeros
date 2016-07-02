@@ -17,13 +17,14 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	Grupos.getPersonajes().success(function(data) {
 		$scope.personajesList = data.personajes.name;
 	})
-	Grupos.getGrupos().success(function(data) {
+	Grupos.getGrupos($scope.USERID).success(function(data) {
 		$scope.gruposList = data.grupos.name;
 	})
 	
 	$scope.newGroup = function() {
 		var grupoNuevo = { 
 				'name':$scope.name,
+				'idUsuario':$scope.USERID,
 		};
 		nuevo(grupoNuevo);
 		

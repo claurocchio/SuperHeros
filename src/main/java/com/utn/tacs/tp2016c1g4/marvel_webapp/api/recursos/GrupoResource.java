@@ -184,7 +184,12 @@ public class GrupoResource {
 		if (request.getName() == null) {
 			status = Status.BAD_REQUEST;
 			message = "el request no tiene el formato esperado";
-		} else {
+			
+		} if (request.getIdUsuario() == null) {
+			status = Status.BAD_REQUEST;
+			message = "el request no tiene el formato esperado";
+		} 
+		else {
 			FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
 			filtroBuilder.setName(request.getName());
 
@@ -198,6 +203,7 @@ public class GrupoResource {
 
 				grupo = new Grupo();
 				grupo.setNombre(request.getName());
+				
 				grupoDao.save(grupo);
 
 				response.setIdGrupo(grupo.getId());
@@ -212,7 +218,10 @@ public class GrupoResource {
 
 				logger.debug("conflicto al crear grupo ya existente: " + request.getName());
 			}
-
+			FiltroPerfil.Builder filtroPerfilBuilder  = new FiltroPerfil.Builder();
+			filtroPerfilBuilder.setId(request.getIdUsuario());
+			Perfil perfil = perfilDao.findOne(filtroPerfilBuilder.build());
+			
 		}
 
 		OperationStatus opStatus = new OperationStatus();

@@ -50,11 +50,11 @@ $routeProvider
 
 
 
+var urlPersonajes = 'api/personajes';
 // ENDPOINTS
 app.factory('FavoritosFactory', ['$http', function($http) {
 
     var urlBase = 'api/favoritos';
-    var urlPersonajes = 'api/personajes';
     var FavoritosFactory = {};
 
     FavoritosFactory.getFavoritos = function(userId) {
