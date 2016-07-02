@@ -67,6 +67,7 @@ public class LoginResource {
 			status = Status.OK;
 			mensaje = "login correcto";
 			String token = Md5Sum.getMD5(Long.toString(System.currentTimeMillis()));
+			postResponse.setIdUsuario(usuario.getId());
 			postResponse.setToken(token);
 		}
 

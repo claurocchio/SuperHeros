@@ -68,5 +68,6 @@ public class LoginTest extends JerseyTest {
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 
 		assertNotNull(loginPostResponse.getToken());
+		assertNotNull(loginPostResponse.getIdUsuario());
 	}
 }

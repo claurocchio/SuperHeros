@@ -5,6 +5,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 public class LoginPostResponse {
 
 	private OperationStatus status;
+	private Long idUsuario;
 	private String token;
 
 	public OperationStatus getStatus() {
@@ -21,5 +22,13 @@ public class LoginPostResponse {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public Long getIdUsuario() {
+		return idUsuario;
+	}
+
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 }
