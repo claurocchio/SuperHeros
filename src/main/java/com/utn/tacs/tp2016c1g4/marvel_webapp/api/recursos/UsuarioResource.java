@@ -52,7 +52,7 @@ public class UsuarioResource {
 		usuarios.add(new Usuario(new Long(2), new Long(2), "user2", "pass2"));*/
 		
 		//agrego 3 usuarios para pruebas
-		Usuario p = new Usuario();
+		/*Usuario p = new Usuario();
 		p.setUserName("user1");
 		p.setEmail("user1@gmail.com");
 		p.setPass("pass1");
@@ -88,7 +88,7 @@ public class UsuarioResource {
 		nuevoPerfil3.setEmail(p3.getEmail());
 		perfilDao.save(nuevoPerfil3);
 		p3.setIdPerfil(nuevoPerfil3.getId());
-		usuarioDao.save(p3);
+		usuarioDao.save(p3);*/
 		
 		
 		
