@@ -63,6 +63,7 @@ public class FavoritoResource {
 			status = Status.NOT_FOUND;
 			opStatus.setMessage("no existe el perfil solicitado");
 		}else{
+			status = Status.OK;
 			responseBuilder.setFavoritos(p.getIdsPersonajesFavoritos());
 			
 			if (with("personajes")) {

@@ -126,7 +126,9 @@ public class FavoritosTest extends JerseyTest {
 		response = target("/usuarios").request().post(Entity.json(req), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		//TODO: agregar favoritos... que funcione el put
+		response = target("/favoritos/1").request().get(Response.class);
+		assertEquals("get favs cuando esta vacio debe ser not found", Status.OK.getStatusCode(),
+				response.getStatus());
 	}
 	
 	@Inject
