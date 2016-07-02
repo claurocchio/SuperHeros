@@ -7,6 +7,19 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     
     USERID = 1;
     
+	$scope.primeraPag = function() {
+		if (pag === 0)
+		{
+			$("#ant").hide('slow');		
+		}
+		else
+		{
+			$("#ant").show('slow');	
+		}
+	};
+	
+	   $scope.primeraPag();
+	   
     $scope.guardarFavoritos = function() {
     	
     	request = { listado : $.map( favoritosList, function( val ){
@@ -36,6 +49,23 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     	.success(function(data) {
     	 console.log(data);
     	 $scope.personajesList = data.personajes; 
+    	 if(data.personajes.length < 7)
+    	 {
+    		$("#sig").hide('slow');		
+    	 }
+    	 else
+    	 {
+    		$("#sig").show('slow');	 
+    	 }
+    	 
+    	 if(data.personaje.length === 0)
+    	 {
+    		 $("#ant").hide('slow');
+    	 }
+    	 else
+    	 {
+    		 $("#ant").show('slow');
+    	 }
     })
     };
     $scope.buscarPersonajes();
@@ -58,17 +88,21 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
 		  $scope.guardarFavoritos;
 	};
 	
+
+	
 	$scope.ant = function(){
+		
 		pag--;
-		if(pag<0)
-		{
-			pag = 0;
-		}
+		$scope.primeraPag();
+		
 		$scope.buscarPersonajes();
 	};
 	
 	$scope.sig = function(){
+		
 		pag++;
+		$scope.primeraPag();
+		
 		$scope.buscarPersonajes();
 	};
 	

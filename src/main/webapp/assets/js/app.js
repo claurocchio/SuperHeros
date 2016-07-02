@@ -58,6 +58,7 @@ app.factory('FavoritosFactory', ['$http', function($http) {
     var FavoritosFactory = {};
 
     FavoritosFactory.getFavoritos = function(userId) {
+    	console.log(urlBase+'/'+userId);
         return $http.get(urlBase+'/'+userId);
     };
     
