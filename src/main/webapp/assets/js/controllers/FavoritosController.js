@@ -20,9 +20,18 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
 	
 	   $scope.primeraPag();
 	   
+		Favoritos.getFavoritos(USERID)
+	     .success(function(data) {
+	    	 if (data.favoritos.length > 0)
+	    	{
+	    		 $scope.favoritosList = data.favoritos;
+	    	}
+	    	 console.log( $scope.favoritosList );
+	    })
+	   
     $scope.guardarFavoritos = function() {
     	
-    	request = { listado : $.map( favoritosList, function( val ){
+    	var request = { idsPersonaje : $.map(  $scope.favoritosList, function( val ){
     					return val.id;
     				})
     			  };
@@ -39,10 +48,7 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
 		 });
     }
     
-	Favoritos.getFavoritos(USERID)
-     .success(function(data) {
-    	 $scope.favoritosList = data.favoritos; 
-    })
+
     
     $scope.buscarPersonajes = function() {
     	Favoritos.getPersonajesPorPag(pag)
@@ -58,7 +64,7 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     		$("#sig").show('slow');	 
     	 }
     	 
-    	 if(data.personaje.length === 0)
+    	 if(data.personajes.length === 0)
     	 {
     		 $("#ant").hide('slow');
     	 }
@@ -71,21 +77,18 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     $scope.buscarPersonajes();
     
     $scope.pushear = function() {
-//		debugger;
-    	$scope.filtroFavoritos = [];
-    	
+
 		$scope.personajesList.forEach(function(personaje){
-			personaje.checked ? $scope.favoritosList.push(personaje) : null
-			
-		})
+			personaje.checked ? $scope.favoritosList.push(personaje) : null ;
+		});
 		
-		 $scope.guardarFavoritos;
+		 $scope.guardarFavoritos();
 	};   
 	
 	$scope.eliminar = function(personaje) {
 		var index = $scope.favoritosList.indexOf(personaje);
 		  $scope.favoritosList.splice(index, 1); 
-		  $scope.guardarFavoritos;
+		  $scope.guardarFavoritos();
 	};
 	
 
