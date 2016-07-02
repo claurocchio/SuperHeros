@@ -1,21 +1,19 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.favorito;
 
+import java.util.List;
+
 public class FavoritoPutRequest {
 
-	private Long idPersonaje;
+	private List<Long> idsPersonaje;
 
 	public FavoritoPutRequest() {
 	}
 
-	public FavoritoPutRequest(Long idPersonaje) {
-		this.setIdPersonaje(idPersonaje);
+	public List<Long> getIdsPersonaje() {
+		return idsPersonaje;
 	}
 
-	public Long getIdPersonaje() {
-		return idPersonaje;
-	}
-
-	public void setIdPersonaje(Long idPersonaje) {
-		this.idPersonaje = idPersonaje;
+	public void setIdsPersonaje(List<Long> idsPersonaje) {
+		this.idsPersonaje = idsPersonaje;
 	}
 }
