@@ -14,7 +14,7 @@
 
 			<!-- List group -->
 			<ul class="list-group">
-				<li class="list-group-item" ng-repeat="grupo in grupoList">
+				<li class="list-group-item" ng-repeat="grupo in grupos">
 					{{grupo.name}}
 				</li>
 			</ul>
@@ -63,7 +63,7 @@
 			<div class="modal-body">
 				<p>Elige el nombre del grupo.</p>
 				<form>
-					Nombre del Grupo: <input type="text" ng-model="grupo.name" required name="nombre"><br>
+					Nombre del Grupo: <input type="text" ng-model="name" required name="nombre"><br>
 				</form>
 			</div>
 			<div class="modal-footer">
@@ -88,8 +88,8 @@
 				<p>Elige uno o mas personajes disponibles</p>
 				<form>
 					<input type="checkbox" ng-model="capi">Capitain America<br>
-					<input type="checkbox" ng-model="wolv">Wolverine<br> <input
-						type="checkbox" ng-model="blackp">Black Panther<br>
+					<input type="checkbox" ng-model="wolv">Wolverine<br> 
+					<input type="checkbox" ng-model="blackp">Black Panther<br>
 				</form>
 			</div>
 			<div class="modal-footer">

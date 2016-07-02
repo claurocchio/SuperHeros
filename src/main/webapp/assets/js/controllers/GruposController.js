@@ -20,17 +20,19 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	Grupos.getGrupos().success(function(data) {
 		$scope.gruposList = data.grupos.name;
 	})
-	var grupo = $scope.name;
 	
 	$scope.newGroup = function() {
+		var grupoNuevo = { 
+				'name':$scope.name,
+		};
+		nuevo(grupoNuevo);
 		
-		nuevo(grupo);
-		$scope.grupos.push(grupo);
 	};
-
-	Grupos.nuevo(grupo).success(function() {
-//		$scope.t = data.grupos;
-	})
+	var nuevo = function (grupo){
+		Grupos.nuevo(grupo).success(function() {
+			$scope.grupos.push(grupoNuevo);
+		})
+	}
 
 
 	/*
