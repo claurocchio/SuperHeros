@@ -188,6 +188,8 @@ public class UsuarioResource {
 						status = Status.OK;
 						mensaje = "Usuario creado exitosamente";
 						logger.debug("Usuario creado: " + p.toString());
+						postResponse.setId(p.getId());
+						postResponse.setIdPerfil(nuevoPerfil.getId());
 					} else {
 						status = Status.INTERNAL_SERVER_ERROR;
 						mensaje = "ocurrió un problema al generar el Usuario";

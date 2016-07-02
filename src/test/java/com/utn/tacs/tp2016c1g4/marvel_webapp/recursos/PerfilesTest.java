@@ -13,8 +13,11 @@ import org.junit.Test;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos.PerfilResource;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.perfil.PerfilPostRequest;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.usuario.UsuarioPostRequest;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.login.LoginPostResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil.PerfilPostResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioPostResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.hk2.MyTestResourceConfig;
 
 public class PerfilesTest extends JerseyTest {
@@ -31,21 +34,20 @@ public class PerfilesTest extends JerseyTest {
 		assertEquals("el perfil aun no fue creado y debe tirar not found", Status.NOT_FOUND.getStatusCode(),
 				response.getStatus());
 
-		// creo un perfil
+		// creo un usuario/perfil
 
-		PerfilPostRequest postRequest = new PerfilPostRequest();
-		postRequest.setUsername("ejemplo");
-		postRequest.setPassword("123");
-		postRequest.setEmail("test@test.com");
+		UsuarioPostRequest usuarioPostRequest = new UsuarioPostRequest();
 
-		response = target("/perfiles/1").request().post(Entity.json(postRequest), Response.class);
-		assertEquals("url con nombre al final debe tirar not allowed al hacer post",
-				Status.METHOD_NOT_ALLOWED.getStatusCode(), response.getStatus());
+		usuarioPostRequest.setUserName("ejemplo");
+		usuarioPostRequest.setPass("laContraseña");
+		usuarioPostRequest.setEmail("test@test.com");
 
-		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
-		assertEquals(Status.OK.getStatusCode(), response.getStatus());
+		response = target("/usuarios").request().post(Entity.json(usuarioPostRequest), Response.class);
+		UsuarioPostResponse usuarioPostResponse = response.readEntity(UsuarioPostResponse.class);
+		assertNotNull("debe crearse el usuario", usuarioPostResponse.getId());
+		assertNotNull("debe crearse el perfil al crear el usuario", usuarioPostResponse.getIdPerfil());
 
-		response = target("/perfiles/1").request().get(Response.class);
+		response = target("/perfiles/" + usuarioPostResponse.getIdPerfil()).request().get(Response.class);
 		assertEquals("obtencion de perfil existente debe ser ok", Status.OK.getStatusCode(), response.getStatus());
 
 		PerfilGetResponse getResponse = response.readEntity(PerfilGetResponse.class);
@@ -56,37 +58,4 @@ public class PerfilesTest extends JerseyTest {
 
 	}
 
-	@Test
-	public void testPerfilesPost() {
-
-		Response response = null;
-
-		PerfilPostRequest postRequest = new PerfilPostRequest();
-		postRequest.setUsername("ejemplo");
-		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
-		assertEquals("bad request al no proveer contraseña al post de perfil", Status.BAD_REQUEST.getStatusCode(),
-				response.getStatus());
-
-		postRequest.setPassword("123");
-		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
-		assertEquals("bad request al no proveer email al post de perfil", Status.BAD_REQUEST.getStatusCode(),
-				response.getStatus());
-
-		postRequest.setEmail("test@test.com");
-		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
-		assertEquals(Status.OK.getStatusCode(), response.getStatus());
-
-		response = target("/perfiles/1").request().get(Response.class);
-
-		PerfilGetResponse perfilGet = response.readEntity(PerfilGetResponse.class);
-		assertNotNull("perfil recien cargado no puede ser null", perfilGet.getPerfil());
-		assertEquals("perfiles nuevos no deben tener favoritos asignados", 0,
-				perfilGet.getPerfil().getFavoritos().size());
-		assertEquals("perfiles nuevos no deben tener grupos asignados", 0, perfilGet.getPerfil().getGrupos().size());
-
-		response = target("/perfiles").request().post(Entity.json(postRequest), Response.class);
-		assertEquals("perfiles con el mismo username tienen que ser conflict", Status.CONFLICT.getStatusCode(),
-				response.getStatus());
-
-	}
 }
