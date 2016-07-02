@@ -3,9 +3,41 @@
 	<h1>GRUPOS</h1>
 </div>
 <h3>{{message}}</h3>
-
-<div class="row col-md-12">
+<div class="col-md-12">
 	<div class="col-md-4">
+		<div class="panel panel-default">
+			<!-- Default panel contents -->
+			<div class="panel-heading">
+				<h4>PERSONAJES</h4>
+			</div>
+
+			<!-- List group -->
+
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="personaje in personajesList">
+					{{personaje.nombre}}
+					<div class="material-switch pull-right">
+						<input id="{{personaje.id}}" ng-model="personaje.checked"
+							type="checkbox" /> <label class="label-default"
+							for="{{personaje.id}}"></label>
+					</div>
+				</li>
+			</ul>
+
+
+			<div class="panel-footer" style="height: 50px">
+
+				<ul class="pager margin-num-page">
+					<li><a id="ant" ng-click="ant()"><span aria-hidden="true">&larr;</span>Ant</a></li>
+					<li><a id="sig" ng-click="sig()">Sig<span
+							aria-hidden="true">&rarr;</span></a></li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
+	<!-- <div class="row col-md-12"> -->
+	<div class="col-md-8">
 		<div class="panel panel-default">
 			<!-- Default panel contents -->
 			<div class="panel-heading">

@@ -317,7 +317,6 @@ public class GrupoResource {
 
 			grupo = grupoDao.findOne(filtros);
 			// TODO: borrar grupo
-
 			status = Response.Status.OK;
 			opStatus.setMessage("se elimino el grupo " + idGrupo + " exitosamente");
 		}

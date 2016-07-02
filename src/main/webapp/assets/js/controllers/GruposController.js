@@ -13,7 +13,8 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.activeId = -1;
 
 	$scope.grupos = [];
-
+	$personajesList = [];
+	
 	Grupos.getPersonajes().success(function(data) {
 		$scope.personajesList = data.personajes.name;
 	})
