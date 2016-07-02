@@ -55,43 +55,30 @@ public class UsuarioResource {
 		 */
 
 		// agrego 3 usuarios para pruebas
-		Usuario p = new Usuario();
-		p.setUserName("user1");
-		p.setEmail("user1@gmail.com");
-		p.setPass("pass1");
-		p.setLastAccess(111);
-		Perfil nuevoPerfil = new Perfil();
-		nuevoPerfil.setUsername(p.getUserName());
-		nuevoPerfil.setEmail(p.getEmail());
-		perfilDao.save(nuevoPerfil);
-		p.setIdPerfil(nuevoPerfil.getId());
-		usuarioDao.save(p);
-
-		Usuario p2 = new Usuario();
-		p2.setUserName("user2");
-		p2.setEmail("user2@gmail.com");
-		p2.setPass("pass2");
-		p2.setLastAccess(222);
-		Perfil nuevoPerfil2 = new Perfil();
-		nuevoPerfil2 = new Perfil();
-		nuevoPerfil2.setUsername(p2.getUserName());
-		nuevoPerfil2.setEmail(p2.getEmail());
-		perfilDao.save(nuevoPerfil2);
-		p2.setIdPerfil(nuevoPerfil2.getId());
-		usuarioDao.save(p2);
-
-		Usuario p3 = new Usuario();
-		p3.setUserName("user3");
-		p3.setEmail("user3@gmail.com");
-		p3.setPass("pass3");
-		p3.setLastAccess(333);
-		Perfil nuevoPerfil3 = new Perfil();
-		nuevoPerfil3 = new Perfil();
-		nuevoPerfil3.setUsername(p3.getUserName());
-		nuevoPerfil3.setEmail(p3.getEmail());
-		perfilDao.save(nuevoPerfil3);
-		p3.setIdPerfil(nuevoPerfil3.getId());
-		usuarioDao.save(p3);
+		/*
+		 * Usuario p = new Usuario(); p.setUserName("user1");
+		 * p.setEmail("user1@gmail.com"); p.setPass("pass1");
+		 * p.setLastAccess(111); Perfil nuevoPerfil = new Perfil();
+		 * nuevoPerfil.setUsername(p.getUserName());
+		 * nuevoPerfil.setEmail(p.getEmail()); perfilDao.save(nuevoPerfil);
+		 * p.setIdPerfil(nuevoPerfil.getId()); usuarioDao.save(p);
+		 * 
+		 * Usuario p2 = new Usuario(); p2.setUserName("user2");
+		 * p2.setEmail("user2@gmail.com"); p2.setPass("pass2");
+		 * p2.setLastAccess(222); Perfil nuevoPerfil2 = new Perfil();
+		 * nuevoPerfil2 = new Perfil();
+		 * nuevoPerfil2.setUsername(p2.getUserName());
+		 * nuevoPerfil2.setEmail(p2.getEmail()); perfilDao.save(nuevoPerfil2);
+		 * p2.setIdPerfil(nuevoPerfil2.getId()); usuarioDao.save(p2);
+		 * 
+		 * Usuario p3 = new Usuario(); p3.setUserName("user3");
+		 * p3.setEmail("user3@gmail.com"); p3.setPass("pass3");
+		 * p3.setLastAccess(333); Perfil nuevoPerfil3 = new Perfil();
+		 * nuevoPerfil3 = new Perfil();
+		 * nuevoPerfil3.setUsername(p3.getUserName());
+		 * nuevoPerfil3.setEmail(p3.getEmail()); perfilDao.save(nuevoPerfil3);
+		 * p3.setIdPerfil(nuevoPerfil3.getId()); usuarioDao.save(p3);
+		 */
 
 		FiltroUsuario.Builder filtroBuilder = new FiltroUsuario.Builder();
 		filtroBuilder.clear();

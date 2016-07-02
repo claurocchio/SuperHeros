@@ -28,11 +28,11 @@ public class UsuariosTest extends JerseyTest {
 	@Test
 	public void testUsuariosGet() {
 		Response response = null;
-		/*response = target("/api/usuarios").request().get(Response.class);
+		response = target("/api/usuarios").request().get(Response.class);
 		assertEquals("No hay usuarios, debe devolver not found", Status.NOT_FOUND.getStatusCode(),
-				response.getStatus());*/
+				response.getStatus());
 		
-	/*	UsuarioPostRequest postRequest = new UsuarioPostRequest();
+		UsuarioPostRequest postRequest = new UsuarioPostRequest();
 		
 		//creo user1
 		postRequest.setUserName("user1");
@@ -48,11 +48,11 @@ public class UsuariosTest extends JerseyTest {
 		response = target("/usuarios").request().post(Entity.json(postRequest), Response.class);
 		assertEquals(Status.OK.getStatusCode(), response.getStatus());
 		
-		*/
-		/*response = target("api/usuarios/user1").request().get(Response.class);
+		
+		response = target("/usuarios/user1").request().get(Response.class);
 		UsuarioGetResponse getResponse1 = response.readEntity(UsuarioGetResponse.class);
 		assertEquals("el nombre del usuario creado y el obtenido deben coincidir", "user1",
-				getResponse1.getUsuario().getUserName());*/
+				getResponse1.getUsuario().getUserName());
 		
 		
 		response = target("/usuarios").request().get(Response.class);
@@ -61,7 +61,7 @@ public class UsuariosTest extends JerseyTest {
 		assertEquals("obtencion de usuario existente debe ser ok", Status.OK.getStatusCode(), response.getStatus());*/
 
 		UsuarioGetResponse getResponse = response.readEntity(UsuarioGetResponse.class);
-		assertEquals("cantidad de usuarios igual a 2", 3, getResponse.getUsuarios().size());
+		assertEquals("cantidad de usuarios igual a 2", 2, getResponse.getUsuarios().size());
 	}
 	
 	@Test

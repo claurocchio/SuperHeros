@@ -43,15 +43,15 @@
  	
  					<div class="form-group">
  						<label for="lg_nuevo_username" class="sr-only">Username</label>
- 						<input type="text" class="form-control" id="lg_nuevo_username" name="lg_nuevo_username" placeholder="username">
+ 						<input type="text" class="form-control" id="lg_nuevo_username" name="lg_nuevo_username" placeholder="username" ng-model="lg_nuevo_username" >
  					</div>
  					<div class="form-group">
  						<label for="lg_nuevo_password" class="sr-only">Password</label>
- 						<input type="password" class="form-control" id="lg_nuevo_password" name="lg_nuevo_password" placeholder="password">
+ 						<input type="password" class="form-control" id="lg_nuevo_password" name="lg_nuevo_password" placeholder="password" ng-model="lg_nuevo_password">
  					</div>
  					<div class="form-group">
  						<label for="lg_nuevo_email" class="sr-only">E-mail</label>
- 						<input type="text" class="form-control" id="lg_nuevo_email" name="lg_nuevo_email" placeholder="e-mail" >
+ 						<input type="text" class="form-control" id="lg_nuevo_email" name="lg_nuevo_email" placeholder="e-mail" ng-model="lg_nuevo_email">
  					</div> 		
  	
  			<button class="btn btn-block btn-danger" ng-click="crearUsuario()">Crear usuario</button>

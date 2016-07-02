@@ -69,7 +69,7 @@ app.factory('FavoritosFactory', ['$http', function($http) {
 
 app.factory('GruposFactory', ['$http', function($http) {
 
-    var urlBase = '/grupos/'+ id;
+    var urlBase = 'api/grupos/';
 //    var urlPersonajes = 'api/personajes';
     var GruposFactory = {};
 
@@ -79,6 +79,10 @@ app.factory('GruposFactory', ['$http', function($http) {
     
     GruposFactory.addGrupo = function() {
         return $http.put(urlBase);
+    };
+    
+    GruposFactory.nuevo = function(grupo) {
+    	return $http.post(urlBase, grupo);
     };
     
     GruposFactory.getPersonajes = function() {
@@ -100,6 +104,10 @@ app.factory('UsuariosFactory', ['$http', function($http) {
     
     UsuariosFactory.getUsuarioById = function(id) {
         return $http.get(urlPerfil+'/'+id);
+    };
+
+    UsuariosFactory.guardarUsuario = function (usuario) {
+        return $http.post(urlBase, usuario);
     };
 
     return UsuariosFactory;

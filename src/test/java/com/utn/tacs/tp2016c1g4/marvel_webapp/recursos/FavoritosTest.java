@@ -1,6 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.recursos;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -74,7 +75,10 @@ public class FavoritosTest extends JerseyTest {
 		//usuario creado, agrego favorito
 		FavoritoPutRequest putReq = new FavoritoPutRequest();
 		
-		putReq.setIdPersonaje(new Long(9999999));
+		List<Long> ids = new ArrayList<Long>();
+		ids.add(new Long(1));
+		ids.add(new Long(2));
+		putReq.setIdsPersonaje(ids);
 		
 		//usuario no existente
 		response = target("/favoritos/10").request().put(Entity.json(putReq), Response.class);
@@ -86,7 +90,7 @@ public class FavoritosTest extends JerseyTest {
 		response = target("/favoritos/1").request().put(Entity.json(putReq), Response.class);
 		putResponse = response.readEntity(FavoritoPutResponse.class);
 		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
-		assertEquals("no existe el personaje solicitado", putResponse.getStatus().getMessage());
+		assertEquals("No existe el personaje con id2", putResponse.getStatus().getMessage());
 		
 		/*
 		//correcto

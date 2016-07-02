@@ -20,15 +20,18 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	Grupos.getGrupos().success(function(data) {
 		$scope.gruposList = data.grupos.name;
 	})
-	Grupos.addGrupo().success(function(data) {
-		$scope.t = data.grupos;
+	var grupo = $scope.name;
+	
+	$scope.newGroup = function() {
+		
+		nuevo(grupo);
+		$scope.grupos.push(grupo);
+	};
+
+	Grupos.nuevo(grupo).success(function() {
+//		$scope.t = data.grupos;
 	})
 
-	$scope.newGroup = function() {
-		addGrupo()
-		$scope.grupos.push();
-		$scope.lastId = $scope.lastId + 1;
-	};
 
 	/*
 	 * $scope.addChar = function() { angular.forEach($scope.data,

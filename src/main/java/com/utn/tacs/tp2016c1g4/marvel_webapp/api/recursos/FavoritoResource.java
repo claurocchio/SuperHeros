@@ -98,7 +98,7 @@ public class FavoritoResource {
 	public Response add(@PathParam("userId") Long userId, FavoritoPutRequest request) {
 		logger.debug("put invocado");
 
-		if (userId == null || request.getIdPersonaje() == null) {
+		if (userId == null || request.getIdsPersonaje() == null) {
 			OperationStatus status = new OperationStatus();
 			status.setSuccess(0);
 			status.setMessage("no se proporciono un request adecuado");
@@ -129,17 +129,29 @@ public class FavoritoResource {
 			try {
 				//ver que el personaje exista
 				FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
-				filtroPersonajeBuilder.setId(request.getIdPersonaje());
-				Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
-				Personaje miPersonaje = personajeDao.findOne(filtrosPersonaje);
-				if (miPersonaje == null) {
+				
+				boolean algunoNoExiste = false;
+				Long personajeInexistente = null;
+				
+				for(Long id : request.getIdsPersonaje()){
+					filtroPersonajeBuilder.setId(id);
+					Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
+					Personaje miPersonaje = personajeDao.findOne(filtrosPersonaje);
+					if(miPersonaje == null) {
+						algunoNoExiste = true;
+						personajeInexistente = new Long(id);
+					}
+				}
+				
+				if (algunoNoExiste) {
 					status = Response.Status.NOT_FOUND;
-					message = "no existe el personaje solicitado";
+					message = "No existe el personaje con id" + personajeInexistente;
 				} else {
-					perfil.addIdPersonajeFavorito(request.getIdPersonaje());
+					perfil.getIdsPersonajesFavoritos().clear();
+					perfil.setIdsPersonajesFavoritos(request.getIdsPersonaje());
 					perfilDao.update(perfil);
 					status = Response.Status.CREATED;
-					message = "El personaje " + request.getIdPersonaje() + " se añadió a los favoritos del usuario id "
+					message = "Se han modificado " + request.getIdsPersonaje().size() + " de los favoritos del usuario "
 							+ userId;
 				}
 			} catch (Exception e) {
