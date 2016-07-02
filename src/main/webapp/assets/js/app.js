@@ -73,13 +73,13 @@ app.factory('GruposFactory', ['$http', function($http) {
 //    var urlPersonajes = 'api/personajes';
     var GruposFactory = {};
 
-    GruposFactory.getGrupos = function() {
-        return $http.get(urlBase);
+    GruposFactory.getGrupos = function(id) {
+        return $http.get(urlBase+id);
     };
     
-    GruposFactory.addGrupo = function() {
-        return $http.put(urlBase);
-    };
+//    GruposFactory.addGrupo = function() {
+//        return $http.put(urlBase);
+//    };
     
     GruposFactory.nuevo = function(grupo) {
     	return $http.post(urlBase, grupo);
