@@ -1,6 +1,5 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
-
 import java.util.Properties;
 import java.util.Set;
 
@@ -30,6 +29,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.usuario.UsuarioPostRequ
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioGetResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario.UsuarioPostResponse;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.utils.Md5Sum;
 
 @Path("/usuarios")
 public class UsuarioResource {
@@ -37,7 +37,7 @@ public class UsuarioResource {
 	private static final Logger logger = LogManager.getLogger(UsuarioResource.class);
 
 	private Dao<Usuario, FiltroUsuario> usuarioDao;
-	
+
 	private Dao<Perfil, FiltroPerfil> perfilDao;
 
 	private Properties params;
@@ -47,11 +47,14 @@ public class UsuarioResource {
 	public Response get() {
 		logger.debug("get invocado");
 
-		/*List<Usuario> usuarios = new ArrayList<Usuario>();
-		Usuario miUser = new Usuario(new Long(1), new Long(1), "user1", "pass1"));
-		usuarios.add(new Usuario(new Long(2), new Long(2), "user2", "pass2"));*/
-		
-		//agrego 3 usuarios para pruebas
+		/*
+		 * List<Usuario> usuarios = new ArrayList<Usuario>(); Usuario miUser =
+		 * new Usuario(new Long(1), new Long(1), "user1", "pass1"));
+		 * usuarios.add(new Usuario(new Long(2), new Long(2), "user2",
+		 * "pass2"));
+		 */
+
+		// agrego 3 usuarios para pruebas
 		Usuario p = new Usuario();
 		p.setUserName("user1");
 		p.setEmail("user1@gmail.com");
@@ -63,7 +66,7 @@ public class UsuarioResource {
 		perfilDao.save(nuevoPerfil);
 		p.setIdPerfil(nuevoPerfil.getId());
 		usuarioDao.save(p);
-		
+
 		Usuario p2 = new Usuario();
 		p2.setUserName("user2");
 		p2.setEmail("user2@gmail.com");
@@ -76,7 +79,7 @@ public class UsuarioResource {
 		perfilDao.save(nuevoPerfil2);
 		p2.setIdPerfil(nuevoPerfil2.getId());
 		usuarioDao.save(p2);
-		
+
 		Usuario p3 = new Usuario();
 		p3.setUserName("user3");
 		p3.setEmail("user3@gmail.com");
@@ -89,24 +92,22 @@ public class UsuarioResource {
 		perfilDao.save(nuevoPerfil3);
 		p3.setIdPerfil(nuevoPerfil3.getId());
 		usuarioDao.save(p3);
-		
-		
-		
+
 		FiltroUsuario.Builder filtroBuilder = new FiltroUsuario.Builder();
 		filtroBuilder.clear();
-		//filtros vacio
+		// filtros vacio
 		Set<FiltroUsuario> filtros = filtroBuilder.build();
 		filtros.clear();
 		Set<Usuario> usuarios = usuarioDao.find(filtros);
-		
+
 		UsuarioGetResponse.Builder responseBuilder = new UsuarioGetResponse.Builder();
 		responseBuilder.setUsuarios(usuarios);
-		
+
 		UsuarioGetResponse response = responseBuilder.build();
 
 		return Response.status(200).entity(response).build();
 	}
-	
+
 	@GET
 	@Path("/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -138,7 +139,7 @@ public class UsuarioResource {
 			status = Response.Status.NOT_FOUND;
 			opStatus.setMessage("no existe el Usuario solicitado");
 		} else {
-			if (with("perfil")) {//TODO: definir necesidad
+			if (with("perfil")) {// TODO: definir necesidad
 				logger.debug("with perfil especificado... buscando");
 			}
 		}
@@ -183,19 +184,19 @@ public class UsuarioResource {
 				Usuario p = new Usuario();
 				p.setUserName(request.getUserName());
 				p.setEmail(request.getEmail());
-				p.setPass(request.getPass());
+				p.setPass(Md5Sum.getMD5(request.getUserName() + request.getPass()));
 				// TODO: definir que hacer con este campo request.getPassword();
-				
+
 				Perfil nuevoPerfil = new Perfil();
 				nuevoPerfil.setUsername(p.getUserName());
 				nuevoPerfil.setEmail(p.getEmail());
 				boolean success = perfilDao.save(nuevoPerfil);
-				
-				if(success){
+
+				if (success) {
 					p.setIdPerfil(nuevoPerfil.getId());
-					
+
 					success = usuarioDao.save(p);
-					
+
 					if (success) {
 						status = Status.OK;
 						mensaje = "Usuario creado exitosamente";
@@ -204,11 +205,11 @@ public class UsuarioResource {
 						status = Status.INTERNAL_SERVER_ERROR;
 						mensaje = "ocurrió un problema al generar el Usuario";
 						logger.error("no se generó id para el nuevo Usuario: " + request.getUserName());
-						
-						//borro el perfil
-						perfilDao.delete(nuevoPerfil); //TODO: verificar
+
+						// borro el perfil
+						perfilDao.delete(nuevoPerfil); // TODO: verificar
 					}
-					
+
 				} else {
 					status = Status.INTERNAL_SERVER_ERROR;
 					mensaje = "ocurrió un problema al generar el Perfil asociado";
@@ -248,7 +249,7 @@ public class UsuarioResource {
 	public void setUsuarioDao(Dao<Usuario, FiltroUsuario> usuarioDao) {
 		this.usuarioDao = usuarioDao;
 	}
-	
+
 	@Inject
 	public void setPerfilDao(Dao<Perfil, FiltroPerfil> perfilDao) {
 		this.perfilDao = perfilDao;
