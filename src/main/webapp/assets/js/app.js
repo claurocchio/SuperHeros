@@ -102,5 +102,9 @@ app.factory('UsuariosFactory', ['$http', function($http) {
         return $http.get(urlPerfil+'/'+id);
     };
 
+    UsuariosFactory.guardarUsuario = function (usuario) {
+        return $http.post(urlBase, usuario);
+    };
+
     return UsuariosFactory;
 }]);
