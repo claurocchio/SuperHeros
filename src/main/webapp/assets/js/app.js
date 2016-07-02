@@ -49,21 +49,27 @@ $routeProvider
 });
 
 
-var urlPersonajes = 'api/personajes';
+
 // ENDPOINTS
 app.factory('FavoritosFactory', ['$http', function($http) {
 
     var urlBase = 'api/favoritos';
+    var urlPersonajes = 'api/personajes';
     var FavoritosFactory = {};
 
-    FavoritosFactory.getFavoritos = function() {
-        return $http.get(urlBase);
+    FavoritosFactory.getFavoritos = function(userId) {
+        return $http.get(urlBase+'/'+userId);
     };
     
-    FavoritosFactory.getPersonajes = function() {
-        return $http.get(urlPersonajes);
+    FavoritosFactory.getPersonajesPorPag = function(pag) {
+    	console.log(urlPersonajes+'?page='+pag+'&limit=7');
+        return $http.get(urlPersonajes+'?page='+pag+'&limit=7');
     };
 
+    FavoritosFactory.guardarFavoritos = function(listFavoritos,userId){
+    	console.log();
+    	return $http.put(urlBase+'/'+userID,listFavoritos);
+    }
     return FavoritosFactory;
 }]);
 

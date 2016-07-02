@@ -12,15 +12,26 @@
                 <h4>PERSONAJES</h4></div>
 
             <!-- List group -->
+      
             <ul class="list-group">
-                <li class="list-group-item" ng-repeat="favorito in favoritosList">
-                    {{favorito.name}}
+                <li class="list-group-item" ng-repeat="personaje in personajesList">
+                    {{personaje.nombre}}
                     <div class="material-switch pull-right">
-                        <input id="{{favorito.id}}" ng-model="favorito.checked" type="checkbox" />
-                        <label class="label-default" for="{{favorito.id}}"></label>
+                        <input id="{{personaje.id}}" ng-model="personaje.checked" type="checkbox" />
+                        <label class="label-default" for="{{personaje.id}}"></label>
                     </div>
                 </li>
             </ul>
+      
+        
+            <div class="panel-footer" style="height:50px">
+             
+				  <ul class="pager margin-num-page">
+				    <li class="ant"><a ng-click="ant()"><span aria-hidden="true">&larr;</span>Ant</a></li>
+				    <li class="sig"><a ng-click="sig()">Sig<span aria-hidden="true">&rarr;</span></a></li>
+				  </ul>
+		
+			</div>
         </div>
         <div>
             <button type="button" class="btn  btn-block btn-danger" ng-click="pushear()" style="width:100%;">
@@ -35,9 +46,9 @@
             <h4>TUS FAVORITOS</h4></div>
 
         <!-- List group -->
-        <ul class="list-group" ng-repeat="seleccionado in filtroFavoritos">
+        <ul class="list-group" ng-repeat="seleccionado in favoritosList">
             <div class="input-group">
-                <a class="form-control"> {{seleccionado.name}} </a>
+                <a class="form-control"> {{seleccionado.nombre}} </a>
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button" ng-click="eliminar(seleccionado)">Delete!</button>
                 </span>
