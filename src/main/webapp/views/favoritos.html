@@ -10,7 +10,7 @@
             <!-- List group -->
       
             <ul class="list-group">
-                <li class="list-group-item" ng-repeat="personaje in personajesList">
+                <li class="list-group-item list-numbers" ng-repeat="personaje in personajesList">
                     {{personaje.nombre}}
                     <div class="material-switch pull-right">
                         <input id="{{personaje.id}}" ng-model="personaje.checked" type="checkbox" />

@@ -119,3 +119,16 @@ app.factory('UsuariosFactory', ['$http', function($http) {
 
     return UsuariosFactory;
 }]);
+
+app.factory('RankingFactory', ['$http', function($http) {
+	var urlBase = 'api/ranking'
+		
+	var RankingFactory = [];
+	
+	RankingFactory.getRanking = function() {
+	        return $http.get(urlBase);
+	 };
+	
+    return RankingFactory;
+}]);
+
