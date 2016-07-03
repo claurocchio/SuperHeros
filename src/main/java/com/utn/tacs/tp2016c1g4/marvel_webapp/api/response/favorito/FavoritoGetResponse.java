@@ -95,8 +95,9 @@ public class FavoritoGetResponse {
 			FavoritoGetResponse response = new FavoritoGetResponse();
 
 			Map<Long, InnerPersonaje> mapPersonajes = null;
+			Collection<String> nombresPersonaje = new HashSet<>();
 			
-			if (favoritos != null) {
+			if (favoritos != null && !favoritos.isEmpty()) {
 				if (expandirPersonajes) {
 
 					if (extensionImagen == null) {
@@ -145,6 +146,16 @@ public class FavoritoGetResponse {
 							mapPersonajes.put(innerP.getId(), innerP);
 						}
 					}	
+				}else{
+					
+					FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
+					filtroPersonajeBuilder.clear();
+					filtroPersonajeBuilder.setIds(favoritos);
+					Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
+					Set<Personaje> personajes = personajeDao.find(filtrosPersonaje);
+					for(Personaje p : personajes){
+						nombresPersonaje.add(p.getNombre());
+					}
 				}
 			}
 			
@@ -163,7 +174,7 @@ public class FavoritoGetResponse {
 
 				innerFavorito.setPersonajes(personajes);
 			} else {
-				innerFavorito.setPersonajes(favoritos);
+				innerFavorito.setPersonajes(nombresPersonaje);
 			}		
 
 			response.setFavorito(innerFavorito);
