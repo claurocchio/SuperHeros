@@ -8,34 +8,43 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     USERID = 1;
     
 	$scope.primeraPag = function() {
-		if (pag === 0)
+		console.log("esta visible?");
+		console.log($("#ant").is(":visible"));
+		
+		if (pag === 0 && $("#ant").is(":visible") )
 		{
-			$("#ant").hide('slow');		
+			$("#ant").hide();		
 		}
-		else
-		{
-			$("#ant").show('slow');	
+		
+		if (pag >0 && $("#ant").is(":hidden")){
+			console.log("entre al else de primeraPag");
+			console.log(pag);
+			$("#ant").show();	
 		}
 	};
 	
-	   $scope.primeraPag();
+
 	   
-		Favoritos.getFavoritos(USERID)
-	     .success(function(data) {
-	    	 if (data.favoritos.length > 0)
-	    	{
-	    		 $scope.favoritosList = data.favoritos;
-	    	}
-	    	 console.log( $scope.favoritosList );
+	Favoritos.getFavoritos(USERID)
+     .success(function(data) {
+    	 if (data.favoritos.length > 0)
+    	{
+    		 $scope.favoritosList = data.favoritos;
+    	}
+    	 console.log( $scope.favoritosList );
 	    })
 	   
     $scope.guardarFavoritos = function() {
     	
+		console.log("favoritosList a json");
+		console.log($scope.favoritosList);
+		
     	var request = { idsPersonaje : $.map(  $scope.favoritosList, function( val ){
     					return val.id;
     				})
     			  };
     	
+    	console.log("va el json!");
     	console.log(request);
     	    	
     	Favoritos.guardarFavoritos(request,USERID)
@@ -57,32 +66,39 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     	 $scope.personajesList = data.personajes; 
     	 if(data.personajes.length < 7)
     	 {
-    		$("#sig").hide('slow');		
+    		$("#sig").hide();		
     	 }
     	 else
     	 {
-    		$("#sig").show('slow');	 
+    		$("#sig").show();	 
     	 }
     	 
     	 if(data.personajes.length === 0)
     	 {
-    		 $("#ant").hide('slow');
+    		 $("#ant").hide();
     	 }
     	 else
     	 {
-    		 $("#ant").show('slow');
+    		 $("#ant").show();
     	 }
+    	 $scope.primeraPag();
     })
     };
+    
     $scope.buscarPersonajes();
+   
+    console.log(pag);
+    console.log(pag);
     
     $scope.pushear = function() {
 
 		$scope.personajesList.forEach(function(personaje){
+			console.log($scope.favoritosList.indexOf(personaje) === -1);
+			if ($scope.favoritosList.indexOf(personaje) === -1){				
 			personaje.checked ? $scope.favoritosList.push(personaje) : null ;
+			}
 		});
-		
-		 $scope.guardarFavoritos();
+			$scope.guardarFavoritos();
 	};   
 	
 	$scope.eliminar = function(personaje) {
@@ -90,8 +106,6 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
 		  $scope.favoritosList.splice(index, 1); 
 		  $scope.guardarFavoritos();
 	};
-	
-
 	
 	$scope.ant = function(){
 		

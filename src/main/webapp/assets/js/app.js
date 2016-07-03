@@ -69,7 +69,7 @@ app.factory('FavoritosFactory', ['$http', function($http) {
 
     FavoritosFactory.guardarFavoritos = function(listFavoritos,userId){
     	console.log();
-    	return $http.put(urlBase+'/'+userID,listFavoritos);
+    	return $http.put(urlBase+'/'+userId,listFavoritos);
     }
     return FavoritosFactory;
 }]);

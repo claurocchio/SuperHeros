@@ -20,7 +20,7 @@
  			<div class="etc-login-form">
  				<p></p>
  				<p></p>
- 				<p>Nuevo usuario? <button class="btn btn-default sinButton" ng-click="crearCuenta()" id="crearCuenta">Cree una cuenta</button></p>
+ 				<p>New user? &nbsp &nbsp &nbsp<a class="cursor-hand" ng-click="crearCuenta()" id="crearCuenta">Create account</a></p>
  			</div>
  		</div>
  	</div>
@@ -38,24 +38,23 @@
 			</div>
  		</div>
  	
- 			<div class="text-left">
- 			
- 	
- 					<div class="form-group">
+ 			<form class="text-left">
+ 					<div class="form-group" id="user">
  						<label for="lg_nuevo_username" class="sr-only">Username</label>
- 						<input type="text" class="form-control" id="lg_nuevo_username" name="lg_nuevo_username" placeholder="username" ng-model="lg_nuevo_username" >
- 					</div>
- 					<div class="form-group">
+ 						<input type="text" class="form-control" id="lg_nuevo_username" name="lg_nuevo_username" placeholder="username" ng-model="lg_nuevo_username" aria-describedby="inputError2Status">
+ 					</div> 
+ 					<div class="form-group" id="pass">
  						<label for="lg_nuevo_password" class="sr-only">Password</label>
  						<input type="password" class="form-control" id="lg_nuevo_password" name="lg_nuevo_password" placeholder="password" ng-model="lg_nuevo_password">
  					</div>
- 					<div class="form-group">
+ 					<div class="form-group" id="email">
  						<label for="lg_nuevo_email" class="sr-only">E-mail</label>
- 						<input type="text" class="form-control" id="lg_nuevo_email" name="lg_nuevo_email" placeholder="e-mail" ng-model="lg_nuevo_email">
+ 						<input type="text" class="form-control" id="lg_nuevo_email" name="lg_nuevo_email" placeholder="e-mail" ng-model="lg_nuevo_email" >
  					</div> 		
- 	
- 			<button class="btn btn-block btn-danger" ng-click="crearUsuario()">Crear usuario</button>
- 	</div>
+ 			 <div class="form-group">
+ 				<button class="btn btn-block btn-danger" ng-click="crearUsuario()">Crear usuario</button>
+ 			 </div>
+ 	</form>
  </div>
 
 
