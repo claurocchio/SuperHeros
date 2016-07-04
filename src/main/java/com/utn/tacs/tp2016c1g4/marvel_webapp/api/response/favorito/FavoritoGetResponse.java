@@ -151,8 +151,10 @@ public class FavoritoGetResponse {
 					FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
 					filtroPersonajeBuilder.clear();
 					filtroPersonajeBuilder.setIds(favoritos);
+					//filtroPersonajeBuilder.setId(favoritos.iterator().next());
 					Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
-					Set<Personaje> personajes = personajeDao.find(filtrosPersonaje);
+					Set<Personaje> personajes = new HashSet<>();
+					personajes = personajeDao.find(filtrosPersonaje);	
 					for(Personaje p : personajes){
 						nombresPersonaje.add(p.getNombre());
 					}
@@ -187,5 +189,7 @@ public class FavoritoGetResponse {
 			response.setStatus(operationStatus);
 			return response;
 		}
+		
+		
 	}
 }
