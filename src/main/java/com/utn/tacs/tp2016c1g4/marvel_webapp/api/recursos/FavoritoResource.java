@@ -56,6 +56,7 @@ public class FavoritoResource {
 		Set<FiltroPerfil> filtroPerfil = filtroPerfilBuilder.build();
 
 		FavoritoGetResponse.Builder responseBuilder = new FavoritoGetResponse.Builder();
+		responseBuilder.setPersonajeDao(personajeDao);
 		
 		Perfil p = perfilDao.findOne(filtroPerfil);
 		
