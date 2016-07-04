@@ -29,7 +29,7 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
      .success(function(data) {
     	 if (data.favoritos.length > 0)
     	{
-    		 $scope.favoritosList = data.favoritos;
+    		 $scope.favoritosList = data.favoritos.personajes;
     	}
     	 console.log( $scope.favoritosList );
 	    })
@@ -39,10 +39,7 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
 		console.log("favoritosList a json");
 		console.log($scope.favoritosList);
 		
-    	var request = { idsPersonaje : $.map(  $scope.favoritosList, function( val ){
-    					return val.id;
-    				})
-    			  };
+    	var request = { nombresPersonaje : $scope.favoritosList	  };
     	
     	console.log("va el json!");
     	console.log(request);
@@ -95,7 +92,7 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
 		$scope.personajesList.forEach(function(personaje){
 			console.log($scope.favoritosList.indexOf(personaje) === -1);
 			if ($scope.favoritosList.indexOf(personaje) === -1){				
-			personaje.checked ? $scope.favoritosList.push(personaje) : null ;
+			personaje.checked ? $scope.favoritosList.push(personaje.nombre) : null ;
 			}
 		});
 			$scope.guardarFavoritos();
