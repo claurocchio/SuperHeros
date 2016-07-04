@@ -87,17 +87,10 @@ public class PerfilGetResponse {
 
 	public static class Builder {
 
-		private Collection<Long> idGrupos;
 		private Collection<Grupo> grupos;
-		private Collection<Long> idFavoritos;
 		private Collection<PersonajeMarvel> favoritos;
 		private Perfil perfil;
 		private OperationStatus operationStatus;
-
-		public Builder setIdGrupos(Collection<Long> idGrupos) {
-			this.idGrupos = idGrupos;
-			return this;
-		}
 
 		public Builder setGrupos(Collection<Grupo> grupos) {
 			this.grupos = grupos;
@@ -131,16 +124,16 @@ public class PerfilGetResponse {
 
 				if (grupos != null) {
 					innerPerfil.setGrupos(grupos);
-				} else if (this.idGrupos != null) {
-					innerPerfil.setGrupos(idGrupos);
+				} else if (perfil.getIdGrupos() != null) {
+					innerPerfil.setGrupos(perfil.getIdGrupos());
 				} else {
 					innerPerfil.setGrupos(new ArrayList<Object>());
 				}
 
 				if (favoritos != null) {
 					innerPerfil.setFavoritos(favoritos);
-				} else if (idFavoritos != null) {
-					innerPerfil.setFavoritos(idFavoritos);
+				} else if (perfil.getIdsPersonajesFavoritos() != null) {
+					innerPerfil.setFavoritos(perfil.getIdsPersonajesFavoritos());
 				} else {
 					innerPerfil.setFavoritos(new ArrayList<Object>());
 				}
