@@ -90,6 +90,10 @@ public class GrupoResource {
 
 		GrupoGetResponse.Builder responseBuilder = new GrupoGetResponse.Builder();
 
+		if ( with("grupos") ){
+			
+		}
+		
 		if (with("personajes")) {
 			responseBuilder.setPersonajeDao(personajeDao);
 			responseBuilder.setExpandirPersonajes(true);

@@ -21,7 +21,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.request.perfil.PerfilPostRequest;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
@@ -34,6 +36,7 @@ public class PerfilResource {
 	private static final Logger logger = LogManager.getLogger(PerfilResource.class);
 
 	private Dao<Perfil, FiltroPerfil> perfilDao;
+	private Dao<Grupo, FiltroGrupo> grupoDao;
 
 	private Properties params;
 
@@ -70,6 +73,8 @@ public class PerfilResource {
 		} else {
 			if (with("grupos")) {
 				logger.debug("with grupos especificado... buscando");
+				responseBuilder.setGrupoDao(grupoDao);
+				responseBuilder.setExpandirGrupos(true);
 			}
 		}
 
@@ -94,6 +99,11 @@ public class PerfilResource {
 	@Inject
 	public void setPerfilDao(Dao<Perfil, FiltroPerfil> perfilDao) {
 		this.perfilDao = perfilDao;
+	}
+
+	@Inject
+	public void setGrupoDao(Dao<Grupo, FiltroGrupo> grupoDao) {
+		this.grupoDao = grupoDao;
 	}
 
 	@Context

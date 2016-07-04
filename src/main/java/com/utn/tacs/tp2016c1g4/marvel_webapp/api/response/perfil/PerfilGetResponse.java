@@ -1,6 +1,7 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.perfil;
 
 import java.util.List;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -8,9 +9,16 @@ import javax.ws.rs.core.Response.Status;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroGrupo;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Grupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.entity.InnerGrupo;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 @JsonInclude(Include.NON_NULL)
@@ -35,6 +43,7 @@ public class PerfilGetResponse {
 		this.status = status;
 	}
 
+	@JsonInclude(Include.NON_NULL)
 	public static class InnerPerfil {
 
 		private long id;
@@ -87,15 +96,12 @@ public class PerfilGetResponse {
 
 	public static class Builder {
 
-		private Collection<Grupo> grupos;
-		private Collection<PersonajeMarvel> favoritos;
 		private Perfil perfil;
 		private OperationStatus operationStatus;
 
-		public Builder setGrupos(Collection<Grupo> grupos) {
-			this.grupos = grupos;
-			return this;
-		}
+		private boolean expandirGrupos;
+
+		private Dao<Grupo, FiltroGrupo> grupoDao;
 
 		public Builder setPerfil(Perfil perfil) {
 			this.perfil = perfil;
@@ -107,8 +113,13 @@ public class PerfilGetResponse {
 			return this;
 		}
 
-		public Builder setFavoritos(Collection<PersonajeMarvel> favoritos) {
-			this.favoritos = favoritos;
+		public Builder setExpandirGrupos(boolean expandirGrupos) {
+			this.expandirGrupos = expandirGrupos;
+			return this;
+		}
+
+		public Builder setGrupoDao(Dao<Grupo, FiltroGrupo> grupoDao) {
+			this.grupoDao = grupoDao;
 			return this;
 		}
 
@@ -122,21 +133,47 @@ public class PerfilGetResponse {
 				innerPerfil.setUsername(perfil.getUsername());
 				innerPerfil.setEmail(perfil.getEmail());
 
-				if (grupos != null) {
-					innerPerfil.setGrupos(grupos);
-				} else if (perfil.getIdGrupos() != null) {
-					innerPerfil.setGrupos(perfil.getIdGrupos());
-				} else {
-					innerPerfil.setGrupos(new ArrayList<Object>());
+				if (perfil.getIdGrupos() != null) {
+
+					if (expandirGrupos) {
+
+						List<InnerGrupo> innerGrupos = new ArrayList<>();
+
+						for (Long idGrupo : perfil.getIdGrupos()) {
+
+							FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
+							filtroBuilder.setId(idGrupo);
+							Set<FiltroGrupo> filtros = filtroBuilder.build();
+
+							Grupo grupo = null;
+							try {
+								grupo = grupoDao.findOne(filtros);
+							} catch (ManyResultsException e) {
+
+							}
+
+							if (grupo != null) {
+								InnerGrupo innerGrupo = new InnerGrupo();
+								innerGrupo.setId(grupo.getId());
+								innerGrupo.setName(grupo.getNombre());
+								innerGrupos.add(innerGrupo);
+							}
+						}
+						innerPerfil.setGrupos(innerGrupos);
+					} else {
+						innerPerfil.setGrupos(perfil.getIdGrupos());
+					}
 				}
 
-				if (favoritos != null) {
-					innerPerfil.setFavoritos(favoritos);
-				} else if (perfil.getIdsPersonajesFavoritos() != null) {
+				if (perfil.getIdsPersonajesFavoritos() != null) {
 					innerPerfil.setFavoritos(perfil.getIdsPersonajesFavoritos());
-				} else {
-					innerPerfil.setFavoritos(new ArrayList<Object>());
 				}
+
+				if (innerPerfil.getFavoritos() == null)
+					innerPerfil.setFavoritos(new ArrayList<Object>());
+
+				if (innerPerfil.getGrupos() == null)
+					innerPerfil.setGrupos(new ArrayList<>());
 
 				response.setPerfil(innerPerfil);
 			}
