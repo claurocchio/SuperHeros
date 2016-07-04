@@ -75,10 +75,10 @@ public class FavoritosTest extends JerseyTest {
 		//usuario creado, agrego favorito
 		FavoritoPutRequest putReq = new FavoritoPutRequest();
 		
-		List<Long> ids = new ArrayList<Long>();
-		ids.add(new Long(1));
-		ids.add(new Long(2));
-		putReq.setIdsPersonaje(ids);
+		List<String> nombres = new ArrayList<String>();
+		nombres.add("Thor");
+		nombres.add("Hulk");
+		putReq.setNombresPersonaje(nombres);
 		
 		//usuario no existente
 		response = target("/favoritos/10").request().put(Entity.json(putReq), Response.class);
@@ -90,7 +90,7 @@ public class FavoritosTest extends JerseyTest {
 		response = target("/favoritos/1").request().put(Entity.json(putReq), Response.class);
 		putResponse = response.readEntity(FavoritoPutResponse.class);
 		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
-		assertEquals("No existe el personaje con id2", putResponse.getStatus().getMessage());
+		assertEquals("No existe el personaje Hulk", putResponse.getStatus().getMessage());
 		
 		/*
 		//correcto
