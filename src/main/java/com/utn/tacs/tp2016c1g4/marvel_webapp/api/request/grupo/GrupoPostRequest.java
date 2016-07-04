@@ -13,7 +13,8 @@ public class GrupoPostRequest {
 	}
 
 	/**
-	 * @param idUsuario the idUsuario to set
+	 * @param idUsuario
+	 *            the idUsuario to set
 	 */
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
@@ -33,6 +34,11 @@ public class GrupoPostRequest {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "GrupoPostRequest [name=" + name + ", idUsuario=" + idUsuario + "]";
 	}
 
 }
