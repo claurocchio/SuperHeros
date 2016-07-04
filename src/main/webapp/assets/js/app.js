@@ -69,7 +69,7 @@ app.factory('FavoritosFactory', ['$http', function($http) {
 
     FavoritosFactory.guardarFavoritos = function(listFavoritos,userId){
     	console.log();
-    	return $http.put(urlBase+'/'+userID,listFavoritos);
+    	return $http.put(urlBase+'/'+userId,listFavoritos);
     }
     return FavoritosFactory;
 }]);
@@ -119,3 +119,28 @@ app.factory('UsuariosFactory', ['$http', function($http) {
 
     return UsuariosFactory;
 }]);
+
+app.factory('RankingFactory', ['$http', function($http) {
+	var urlBase = 'api/ranking'
+		
+	var RankingFactory = [];
+	
+	RankingFactory.getRanking = function() {
+	        return $http.get(urlBase);
+	 };
+	
+    return RankingFactory;
+}]);
+
+app.factory('CatalogoFactory', ['$http', function($http) {
+			
+	var CatalogoFactory = [];
+		
+	CatalogoFactory.getPersonajesPorPag = function(pag) {
+	    	console.log(urlPersonajes+'?page='+pag+'&limit=6');
+	    	return $http.get(urlPersonajes+'?page='+pag+'&limit=6');
+	};
+
+    return CatalogoFactory;
+}]);
+

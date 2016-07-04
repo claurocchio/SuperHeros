@@ -4,16 +4,16 @@ import java.util.List;
 
 public class FavoritoPutRequest {
 
-	private List<Long> idsPersonaje;
+	private List<String> nombresPersonaje;
 
 	public FavoritoPutRequest() {
 	}
 
-	public List<Long> getIdsPersonaje() {
-		return idsPersonaje;
+	public List<String> getNombresPersonaje() {
+		return nombresPersonaje;
 	}
 
-	public void setIdsPersonaje(List<Long> idsPersonaje) {
-		this.idsPersonaje = idsPersonaje;
+	public void setNombresPersonaje(List<String> nombresPersonaje) {
+		this.nombresPersonaje = nombresPersonaje;
 	}
 }

@@ -1,13 +1,9 @@
 <div class="text-danger page-header">
-    <h1>FAVORITOS</h1>
-    <h1>{{message}}</h1>
+<h1>FAVORITOS</h1>
 </div>
-
-
 <div class="col-md-12">
     <div class="col-md-4">
         <div class="panel panel-default">
-            <!-- Default panel contents -->
             <div class="panel-heading">
                 <h4>PERSONAJES</h4></div>
 
@@ -27,8 +23,8 @@
             <div class="panel-footer" style="height:50px">
              
 				  <ul class="pager margin-num-page">
-				    <li><a id="ant" ng-click="ant()"><span aria-hidden="true">&larr;</span>Ant</a></li>
-				    <li><a id="sig" ng-click="sig()">Sig<span aria-hidden="true">&rarr;</span></a></li>
+				    <li><a class="cursor-hand" id="ant" ng-click="ant()"><span aria-hidden="true">&larr;</span>Ant</a></li>
+				    <li><a class="cursor-hand" id="sig" ng-click="sig()">Sig<span aria-hidden="true">&rarr;</span></a></li>
 				  </ul>
 		
 			</div>
@@ -43,12 +39,13 @@
     <div class="col-md-8">
 
         <div>
-            <h4>TUS FAVORITOS</h4></div>
+            <h4>TUS FAVORITOS</h4>
+        </div>
 
         <!-- List group -->
         <ul class="list-group" ng-repeat="seleccionado in favoritosList">
             <div class="input-group">
-                <a class="form-control"> {{seleccionado.nombre}} </a>
+                <div class="form-control cursor-basic"> {{seleccionado}} </div>
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button" ng-click="eliminar(seleccionado)">Delete!</button>
                 </span>
