@@ -10,14 +10,60 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		clicked : false,
 		personajes : [ '' ]
 	};
-	$scope.activeId = -1;
 
 	$scope.grupos = [];
 	$personajesList = [];
 	
+    var pag = 0;
+    
+	$scope.primeraPag = function() {
+		console.log("esta visible?");
+		console.log($("#ant").is(":visible"));
+		
+		if (pag === 0 && $("#ant").is(":visible") )
+		{
+			$("#ant").hide();		
+		}
+		
+		if (pag >0 && $("#ant").is(":hidden")){
+			console.log("entre al else de primeraPag");
+			console.log(pag);
+			$("#ant").show();	
+		}
+	};
+	
 	Grupos.getPersonajes().success(function(data) {
 		$scope.personajesList = data.personajes.name;
 	})
+	
+	    $scope.buscarPersonajes = function() {
+    	Favoritos.getPersonajesPorPag(pag)
+    	.success(function(data) {
+    	 console.log(data);
+    	 $scope.personajesList = data.personajes; 
+    	 if(data.personajes.length < 7)
+    	 {
+    		$("#sig").hide();		
+    	 }
+    	 else
+    	 {
+    		$("#sig").show();	 
+    	 }
+    	 
+    	 if(data.personajes.length === 0)
+    	 {
+    		 $("#ant").hide();
+    	 }
+    	 else
+    	 {
+    		 $("#ant").show();
+    	 }
+    	 $scope.primeraPag();
+    })
+    };
+    
+    $scope.buscarPersonajes();
+    
 	Grupos.getGrupos($scope.USERID).success(function(data) {
 		$scope.gruposList = data.grupos.name;
 	})
@@ -75,4 +121,19 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		$scope.chckedIndexs = [];
 	};
 
+	$scope.ant = function(){
+		
+		pag--;
+		$scope.primeraPag();
+		
+		$scope.buscarPersonajes();
+	};
+	
+	$scope.sig = function(){
+		
+		pag++;
+		$scope.primeraPag();
+		
+		$scope.buscarPersonajes();
+	};
 } ]);
