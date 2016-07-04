@@ -132,3 +132,15 @@ app.factory('RankingFactory', ['$http', function($http) {
     return RankingFactory;
 }]);
 
+app.factory('CatalogoFactory', ['$http', function($http) {
+			
+	var CatalogoFactory = [];
+		
+	CatalogoFactory.getPersonajesPorPag = function(pag) {
+	    	console.log(urlPersonajes+'?page='+pag+'&limit=6');
+	    	return $http.get(urlPersonajes+'?page='+pag+'&limit=6');
+	};
+
+    return CatalogoFactory;
+}]);
+
