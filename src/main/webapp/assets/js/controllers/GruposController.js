@@ -48,8 +48,9 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 
 	$scope.buscarPersonajes();
 
-	Grupos.getGrupos(USERID).success(function(data) {
-		$scope.gruposList = data.grupos.name;
+	Grupos.getGrupos(sessionStorage.USERID)
+		.success(function(data) {
+		$scope.gruposList = data.grupos;
 	})
 	
 	$scope.newGroup = function() {
@@ -58,11 +59,11 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 			'idUsuario' : USERID,
 		};
 		nuevo(request);
-		getGrupos;
+		Grupos.getGrupos;
 	};
 	var nuevo = function(grupo) {
 		Grupos.nuevo(grupo).success(function() {
-			$scope.grupos.push(grupo);
+			$scope.gruposList.push(grupo);
 		})
 	}
 
@@ -100,6 +101,11 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		var index = $scope.personajesMiembros.indexOf(personaje);
 		  $scope.personajesMiembros.splice(index, 1); 
 		  $scope.guardarMiembros();
+	};
+	$scope.eliminarGrupo = function(grupo) {
+		var index = $scope.gruposList.indexOf(grupo);
+		  $scope.gruposList.splice(index, 1); 
+		  
 	};
 	/*
 	 * $scope.addChar = function() { angular.forEach($scope.data,
