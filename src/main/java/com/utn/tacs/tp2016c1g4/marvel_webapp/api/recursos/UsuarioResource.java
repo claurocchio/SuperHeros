@@ -181,7 +181,7 @@ public class UsuarioResource {
 
 				if (success) {
 					p.setIdPerfil(nuevoPerfil.getId());
-
+					if(p.getIdPerfil() == 1L) p.setAdmin(true);
 					success = usuarioDao.save(p);
 
 					if (success) {

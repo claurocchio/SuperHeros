@@ -11,6 +11,7 @@ public class Usuario implements Entity {
 	private Long idPerfil;
 	private String pass;
 	private int lastAccess;
+	private boolean admin;
 
 	public Usuario() {
 
@@ -21,6 +22,7 @@ public class Usuario implements Entity {
 		this.userName = userName;
 		this.idPerfil = idPerfil;
 		this.pass = pass;
+		this.admin = false;
 	}
 
 	public Long getId() {
@@ -29,6 +31,14 @@ public class Usuario implements Entity {
 
 	public Long getIdPerfil() {
 		return idPerfil;
+	}
+	
+	public boolean isAdmin(){
+		return admin;
+	}
+	
+	public void setAdmin(boolean status){
+		this.admin = status;
 	}
 
 	public int getLastAccess() {

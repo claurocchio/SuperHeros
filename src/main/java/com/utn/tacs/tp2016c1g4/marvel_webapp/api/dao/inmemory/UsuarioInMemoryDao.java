@@ -52,7 +52,8 @@ public class UsuarioInMemoryDao extends InMemoryAbstractDao<Usuario, FiltroUsuar
 		into.setIdPerfil(new Long(from.getIdPerfil()));
 		into.setEmail(from.getEmail());
 		into.setPass(new String(from.getPass()));
-		
+		into.setAdmin(from.isAdmin());
+		into.setLastAccess(from.getLastAccess());
 		return into; 
 	}
 
@@ -62,7 +63,10 @@ public class UsuarioInMemoryDao extends InMemoryAbstractDao<Usuario, FiltroUsuar
 		//into.setId(new Long(from.getId()));
 		into.setIdPerfil(new Long(from.getIdPerfil()));
 		into.setPass(new String(from.getPass()));
-				
+		into.setUserName(from.getUserName());
+		into.setEmail(from.getEmail());
+		into.setAdmin(from.isAdmin());
+		into.setLastAccess(from.getLastAccess());
 	}
 
 }

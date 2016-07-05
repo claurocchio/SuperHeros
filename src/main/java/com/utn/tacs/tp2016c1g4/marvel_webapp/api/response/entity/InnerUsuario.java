@@ -11,7 +11,8 @@ public class InnerUsuario{
 	private String email;
 	private Long idPerfil;
 	private int lastAccess;
-
+	private boolean admin;
+	
 	public InnerUsuario(){	
 	}
 	
@@ -21,6 +22,7 @@ public class InnerUsuario{
 		this.idPerfil = usuario.getIdPerfil();
 		this.email = usuario.getEmail();
 		this.lastAccess = usuario.getLastAccess();
+		this.admin = usuario.isAdmin();
 	}
 
 	public Long getId() {
@@ -29,6 +31,14 @@ public class InnerUsuario{
 
 	public Long getIdPerfil() {
 		return idPerfil;
+	}
+	
+	public boolean isAdmin(){
+		return admin;
+	}
+	
+	public void setAdmin(boolean status){
+		this.admin = status;
 	}
 
 	public int getLastAccess() {

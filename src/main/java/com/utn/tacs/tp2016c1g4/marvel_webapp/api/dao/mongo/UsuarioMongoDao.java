@@ -57,7 +57,8 @@ public class UsuarioMongoDao extends MongoDBAbstractDao<Usuario, FiltroUsuario> 
 		into.setIdPerfil(new Long(from.getIdPerfil()));
 		into.setEmail(from.getEmail());
 		into.setPass(new String(from.getPass()));
-
+		into.setAdmin(from.isAdmin());
+		into.setLastAccess(from.getLastAccess());
 		return into;
 	}
 
@@ -67,7 +68,10 @@ public class UsuarioMongoDao extends MongoDBAbstractDao<Usuario, FiltroUsuario> 
 		// into.setId(new Long(from.getId()));
 		into.setIdPerfil(new Long(from.getIdPerfil()));
 		into.setPass(new String(from.getPass()));
-
+		into.setUserName(from.getUserName());
+		into.setEmail(from.getEmail());
+		into.setAdmin(from.isAdmin());
+		into.setLastAccess(from.getLastAccess());
 	}
 
 }
