@@ -12,10 +12,10 @@
 			<!-- List group -->
 			<form>
 				<select name="repeatSelect" id="SelectGroups"
-					ng-model="grupoSelected" ng-change="update(grupoSelected)">
+					ng-model="grupoSelected" ng-change="update()">
 					<option value=null>--- Seleccione o agregue un Grupo ---</option>
 					<!-- not selected / blank option -->
-					<option ng-repeat="grupo in gruposList" value="{{grupoSelected.id}}">{{grupoSelected.name}}
+					<option ng-repeat="grupo in gruposList" value="{{grupo.id}}">{{grupo.name}}
 					</option>
 				</select>
 			</form>
@@ -42,9 +42,8 @@
 			<ul class="list-group">
 				<li class="list-group-item" ng-repeat="personaje in personajesList">{{personaje.nombre}}
 					<div class="material-switch pull-right">
-						<input id="{{personaje.id}}" ng-model="personaje.checked"
-							type="checkbox" /> <label class="label-default"
-							for="{{personaje.id}}"></label>
+						<input id="{{personaje.id}}" ng-model="personaje.checked" type="checkbox" /> 
+						<label class="label-default" for="{{personaje.id}}"></label>
 					</div>
 				</li>
 			</ul>
