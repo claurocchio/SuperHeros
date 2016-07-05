@@ -133,7 +133,7 @@ app.factory('RankingFactory', ['$http', function($http) {
 	var RankingFactory = [];
 	
 	RankingFactory.getRanking = function() {
-	        return $http.get(ur);
+	        return $http.get(urlBase);
 	 };
 	
     return RankingFactory;

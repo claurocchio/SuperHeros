@@ -1,7 +1,7 @@
 app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($scope,Usuarios) {
 	 
 	  $scope.usuariosList = [];
-	  $scope.gruposList = ["grupo1","grupo2","grupo3"];
+	  $scope.gruposList = [];
 	  	  
 	  $scope.seleccionar = function(usuario) {
 		 $scope.usuarioActivo;
@@ -12,10 +12,14 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 			   $('#panel').hide('slow');
 			
 		   $scope.usuarioActivo = data.perfil;
+		   console.log(data.perfil);
 		   $scope.ultimoAcceso = usuario.lastAccess;
 		   $scope.nombre = $scope.usuarioActivo.username;
 		   $scope.cantFavoritos = $scope.usuarioActivo.favoritos.length;
 		   $scope.cantGrupos = $scope.usuarioActivo.grupos.length;
+		   if ($scope.usuarioActivo.grupos.length > 0){
+			   $scope.gruposList = $scope.usuarioActivo.grupos;
+			}
 		 });
 	
 		   };  
