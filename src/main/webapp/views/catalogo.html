@@ -1,8 +1,12 @@
 <div class="text-danger page-header">
     <h1 >CATALOGO</h1>
 </div>
-
-
+<div class="col-md-12" style="margin-top:350px ;">
+ <ul class="pager margin-num-page">
+    <li><a class="cursor-hand" id="ant" ng-click="ant()"><span aria-hidden="true">&larr;</span>Ant</a></li>
+    <li><a class="cursor-hand" id="sig" ng-click="sig()">Sig<span aria-hidden="true">&rarr;</span></a></li>
+  </ul>
+</div>
 <div class="col-md-11 centrado">
     <div ng-repeat="personaje in personajesList">
    		<div class="thumbnail col-md-2 catalogo" style="width: 190px !important; height: 290px !important;">
@@ -13,9 +17,4 @@
    		</div>
     </div>
 </div>
-<div>
- <ul class="pager margin-num-page">
-    <li><a class="cursor-hand" id="ant" ng-click="ant()"><span aria-hidden="true">&larr;</span>Ant</a></li>
-    <li><a class="cursor-hand" id="sig" ng-click="sig()">Sig<span aria-hidden="true">&rarr;</span></a></li>
-  </ul>
-</div>
+
