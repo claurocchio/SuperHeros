@@ -7,6 +7,7 @@ public class LoginPostResponse {
 	private OperationStatus status;
 	private Long idUsuario;
 	private String token;
+	private boolean admin;
 
 	public OperationStatus getStatus() {
 		return status;
@@ -24,6 +25,14 @@ public class LoginPostResponse {
 		this.token = token;
 	}
 
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean status) {
+		this.admin = status;
+	}
+	
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
