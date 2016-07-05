@@ -15,7 +15,7 @@
 					ng-model="grupoSelected" ng-change="update()">
 					<option value=null>--- Seleccione o agregue un Grupo ---</option>
 					<!-- not selected / blank option -->
-					<option ng-repeat="grupo in gruposList" value="{{grupo.id}}">{{grupo.name}}
+					<option ng-repeat="grupo in gruposList" value="{{grupo.nombre}}">{{grupo.name}}
 					</option>
 				</select>
 			</form>

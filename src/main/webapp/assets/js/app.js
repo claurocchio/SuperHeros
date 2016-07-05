@@ -93,8 +93,8 @@ app.factory('GruposFactory', [ '$http', function($http) {
 	GruposFactory.getGrupo = function(grupo) {
 		return $http.get(urlBase + '/' +grupo);
 	}
-	GruposFactory.nuevo = function(idUsuario, grupo) {
-		return $http.post(urlBase, idUsuario, grupo);
+	GruposFactory.nuevo = function(grupo) {
+		return $http.post(urlBase, grupo);
 	};
 
 	GruposFactory.getPersonajesPorPag = function(pag) {

@@ -50,7 +50,8 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.getGrupos = function(userId) {
 		Grupos.getGrupos(userId).success(function(data) {
 			console.log("buscando grupos para usuario: " + sessionStorage.USERID);
-			$scope.gruposList = data.grupos;
+			console.log(data);
+			$scope.gruposList = data.perfil.grupos;
 		})
 	}
 	
@@ -68,16 +69,18 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 			'name' : $scope.name,
 			'idUsuario' : sessionStorage.USERID,
 		};
-		nuevo(request);
-	};
-	var nuevo = function(grupo) {
-		Grupos.nuevo(grupo).success(function() {
-			$scope.gruposList.push(grupo);
-			$scope.buscarPersonajes();
+		
+		Grupos.nuevo(request)
+		.success(function(data) {
+			console.log("va el nombre");
+			console.log(request.name);
+			$scope.gruposList = $scope.getGrupos(sessionStorage.USERID);
+//			$scope.gruposList.push(request.name);
+//			$scope.buscarPersonajes();
 		})
-		$scope.getGrupos(sessionStorage.USERID);
-	}
-
+		
+	};
+	
 	$scope.update = function() {
 		console.log("grupo select: " + $scope.grupoSelected);
 		if (!angular.isDefined($scope.grupoSelected) || $scope.grupoSelected===null) {
@@ -93,7 +96,7 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.pushear = function() {
 		$scope.personajesList.forEach(function(personaje) {
 //			console.log($scope.personajesMiembros.indexOf(personaje) === -1);
-			if ($scope.personajesMiembros.indexOf(personaje) === -1) {
+			if ($scope.personajesMiembros.indexOf(personaje.nombre) === -1) {
 				personaje.checked ? $scope.personajesMiembros.push(personaje.nombre) : null;
 			}
 		});
