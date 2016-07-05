@@ -7,15 +7,15 @@
  	</div>
 
  		<div class="text-left">
- 				<div class="form-group">
- 						<input type="text" class="form-control" id="1" placeholder="username">
+ 				<div id="divUser" class="form-group">
+ 						<input id="username" type="text" class="form-control" id="1" placeholder="username" ng-model="username">
  					</div>
- 					<div class="form-group">
- 						<input type="password" class="form-control" id="2" placeholder="password">
+ 					<div id="divPass" class="form-group">
+ 						<input id="pass" type="password" class="form-control" id="2" placeholder="password" ng-model="pass">
  					</div>
 
  				<div>
-                 <a href="#/home" class="btn btn-block btn-primary btn-danger" ng-click="entrar()">Log in</a>
+                 <a class="btn btn-block btn-primary btn-danger" ng-click="entrar()">Log in</a>
 			</div>
  			<div class="etc-login-form">
  				<p></p>
