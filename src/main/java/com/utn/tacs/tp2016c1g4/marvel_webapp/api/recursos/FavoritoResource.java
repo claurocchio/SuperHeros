@@ -67,6 +67,7 @@ public class FavoritoResource {
 		}else{
 			status = Status.OK;
 			responseBuilder.setFavoritos(p.getIdsPersonajesFavoritos());
+		
 			responseBuilder.setPersonajeDao(personajeDao);
 			if (with("personajes")) {
 				
@@ -154,6 +155,7 @@ public class FavoritoResource {
 				} else {
 					perfil.getIdsPersonajesFavoritos().clear();
 					perfil.setIdsPersonajesFavoritos(ids);
+				
 					perfilDao.update(perfil);
 					status = Response.Status.CREATED;
 					message = "Se han modificado " + ids.size() + " de los favoritos del usuario "

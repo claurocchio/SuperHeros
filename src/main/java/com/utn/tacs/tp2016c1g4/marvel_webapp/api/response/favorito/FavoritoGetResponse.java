@@ -49,7 +49,7 @@ public class FavoritoGetResponse {
 		private OperationStatus operationStatus;
 		private Dao<Personaje, FiltroPersonaje> personajeDao;
 		private boolean expandirPersonajes;
-		private Collection<String> varianteImagenes;
+		private Collection<String> varianteImagenes;	
 		private String extensionImagen;
 
 		public Builder() {
@@ -147,16 +147,16 @@ public class FavoritoGetResponse {
 						}
 					}	
 				}else{
+					for(Long p : favoritos){
+						FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
+						filtroPersonajeBuilder.clear();
+						filtroPersonajeBuilder.setId(p);
+						//filtroPersonajeBuilder.setId(favoritos.iterator().next());
+						Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
+						Personaje personaje = null;
+						personaje = personajeDao.findOne(filtrosPersonaje);	
 					
-					FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
-					filtroPersonajeBuilder.clear();
-					filtroPersonajeBuilder.setIds(favoritos);
-					//filtroPersonajeBuilder.setId(favoritos.iterator().next());
-					Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
-					Set<Personaje> personajes = new HashSet<>();
-					personajes = personajeDao.find(filtrosPersonaje);	
-					for(Personaje p : personajes){
-						nombresPersonaje.add(p.getNombre());
+						nombresPersonaje.add(personaje.getNombre());
 					}
 				}
 			}
