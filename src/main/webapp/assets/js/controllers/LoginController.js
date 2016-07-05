@@ -1,9 +1,5 @@
-app.controller('LoginController', ['$scope','UsuariosFactory', function($scope,Usuarios) {
+app.controller('LoginController', ['$scope','$location','UsuariosFactory', function($scope,$location,Usuarios) {
 	
-	$scope.entrar = function()
-	{
-		$('.navbar').show('slow');
-	};
 	
 	$scope.crearCuenta = function()
 	{
@@ -61,5 +57,50 @@ app.controller('LoginController', ['$scope','UsuariosFactory', function($scope,U
 			}
 		
 	};
+	
+	$scope.entrar = function()
+	{
+		var login = {
+	            'userName':$scope.username,
+	            'pass':$scope.pass
+	        };
+		
+		console.log($scope.username);
+		console.log($scope.pass);
+		console.log(login);
+		
+		
+		if ($('#username').val() === "") {
+			$('#divUser').addClass('has-error');
+		}
+		else{
+			$('#divUser').removeClass('has-error');
+		}
+		
+		if ($('#pass').val() === "") {
+			$('#divPass').addClass('has-error');
+		}
+		else{
+			$('#divPass').removeClass('has-error');
+		}
+		
+		if ( ($('#username').val() != "") && ($('#pass').val() != "")  ){
+			Usuarios.login(login)
+			.success(function(data){
+				sessionStorage.USERID = data.idUsuario;
+				sessionStorage.TOKEN = data.token;
+				console.log("abriendo sesion userID");
+				console.log(sessionStorage.USERID);
+				
+				$location.path("/home");
+				$('.navbar').show('slow');
+			})
+			.error(function(data){
+				alert(data.status.message);
+			});
+		}
+	
+	}
+	
 	
 }]);

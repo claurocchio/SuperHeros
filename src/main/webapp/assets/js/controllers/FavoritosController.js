@@ -5,51 +5,33 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     
     var pag = 0;
     
-    USERID = 1;
-    
 	$scope.primeraPag = function() {
-		console.log("esta visible?");
-		console.log($("#ant").is(":visible"));
-		
-		if (pag === 0 && $("#ant").is(":visible") )
-		{
+		if (pag === 0 && $("#ant").is(":visible") ){
 			$("#ant").hide();		
 		}
-		
 		if (pag >0 && $("#ant").is(":hidden")){
-			console.log("entre al else de primeraPag");
-			console.log(pag);
 			$("#ant").show();	
 		}
 	};
 	
 
-	   
-	Favoritos.getFavoritos(USERID)
+	Favoritos.getFavoritos(sessionStorage.USERID)
      .success(function(data) {
     	 if (data.favoritos.length > 0)
     	{
     		 $scope.favoritosList = data.favoritos.personajes;
     	}
-    	 console.log( $scope.favoritosList );
 	    })
 	   
     $scope.guardarFavoritos = function() {
-    	
-		console.log("favoritosList a json");
-		console.log($scope.favoritosList);
-		
+    		
     	var request = { nombresPersonaje : $scope.favoritosList	  };
     	
-    	console.log("va el json!");
-    	console.log(request);
-    	    	
-    	Favoritos.guardarFavoritos(request,USERID)
+    	Favoritos.guardarFavoritos(request,sessionStorage.USERID)
     	.success(function(data) {
     		 console.log(data);
     	})
     	.error(function(data){
-    		 console.log(data);
 			 alert(data.status.message);
 		 });
     }
@@ -59,7 +41,6 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     $scope.buscarPersonajes = function() {
     	Favoritos.getPersonajesPorPag(pag)
     	.success(function(data) {
-    	 console.log(data);
     	 $scope.personajesList = data.personajes; 
     	 if(data.personajes.length < 7)
     	 {
@@ -83,14 +64,11 @@ app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($
     };
     
     $scope.buscarPersonajes();
-   
-    console.log(pag);
-    console.log(pag);
+ 
     
     $scope.pushear = function() {
 
 		$scope.personajesList.forEach(function(personaje){
-			console.log($scope.favoritosList.indexOf(personaje) === -1);
 			if ($scope.favoritosList.indexOf(personaje) === -1){				
 			personaje.checked ? $scope.favoritosList.push(personaje.nombre) : null ;
 			}

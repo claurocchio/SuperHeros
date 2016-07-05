@@ -58,17 +58,17 @@ app.factory('FavoritosFactory', ['$http', function($http) {
     var FavoritosFactory = {};
 
     FavoritosFactory.getFavoritos = function(userId) {
-    	console.log(urlBase+'/'+userId);
+    	console.log("userId en favoritos");
+		console.log(userId);
+		console.log(urlBase+'/'+userId);
         return $http.get(urlBase+'/'+userId);
     };
     
     FavoritosFactory.getPersonajesPorPag = function(pag) {
-    	console.log(urlPersonajes+'?page='+pag+'&limit=7');
         return $http.get(urlPersonajes+'?page='+pag+'&limit=7');
     };
 
     FavoritosFactory.guardarFavoritos = function(listFavoritos,userId){
-    	console.log();
     	return $http.put(urlBase+'/'+userId,listFavoritos);
     }
     return FavoritosFactory;
@@ -104,6 +104,8 @@ app.factory('UsuariosFactory', ['$http', function($http) {
 
     var urlBase = 'api/usuarios';
     var urlPerfil = 'api/perfiles';
+    var urlLogin = 'api/login';
+    
     var UsuariosFactory = {};
 
     UsuariosFactory.getUsuarios = function() {
@@ -117,6 +119,10 @@ app.factory('UsuariosFactory', ['$http', function($http) {
     UsuariosFactory.guardarUsuario = function (usuario) {
         return $http.post(urlBase, usuario);
     };
+    
+    UsuariosFactory.login = function (usuario) {
+    	return $http.post(urlLogin,usuario);
+    };    
 
     return UsuariosFactory;
 }]);
@@ -138,7 +144,6 @@ app.factory('CatalogoFactory', ['$http', function($http) {
 	var CatalogoFactory = [];
 		
 	CatalogoFactory.getPersonajesPorPag = function(pag) {
-	    	console.log(urlPersonajes+'?page='+pag+'&limit=6');
 	    	return $http.get(urlPersonajes+'?page='+pag+'&limit=6');
 	};
 

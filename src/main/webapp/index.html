@@ -32,7 +32,7 @@
 
 </head>
 <body >
-	<nav class="navbar navbar-default" id="navbar">
+	<nav class="navbar navbar-default" id="navbar" >
 	
   		<div class="container-fluid">
 			<div class="navbar-header">
@@ -237,18 +237,36 @@
 
 </style>
 <script>
-	var USERID;
-	var TOKEN;
+	/* sessionStorage.USERID = null;
+	sessionStorage.TOKEN = null; */
 	
 	$( document ).ready(function() {
-    	console.log( "ready!" );
-    	$('.navbar').hide('slow');
+		console.log( "ready!" );
+    	
+		
+		console.log("va el user id");
+		console.log(sessionStorage.USERID);
+		console.log(sessionStorage.TOKEN);
+		console.log(sessionStorage.getItem("USERID") === null);
+		if (sessionStorage.getItem("USERID") === null && sessionStorage.getItem("TOKEN") === null){
+    		$('.navbar').hide('slow');
+    	}
 	});
 	
 	$("#cerrarSesion").click(function(){
 		console.log("estoy cerrando sesion");
-		$('.navbar').hide('slow');
-	});
+		
+		var r = confirm("Esta seguro que quiere cerrar sesion?");
+		if (r == true) {
+			sessionStorage.clear();
+			console.log("cerrando sesion userID");
+			console.log(sessionStorage.USERID);
+			$('.navbar').hide('slow');
+			href="#/login"
+		}
+		
+		
+	}); 
   
 </script>
 
