@@ -34,6 +34,7 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoGetResponse
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPostResponse;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.grupo.GrupoPutResponse;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -90,10 +91,10 @@ public class GrupoResource {
 
 		GrupoGetResponse.Builder responseBuilder = new GrupoGetResponse.Builder();
 
-		if ( with("grupos") ){
-			
+		if (with("grupos")) {
+
 		}
-		
+
 		if (with("personajes")) {
 			responseBuilder.setPersonajeDao(personajeDao);
 			responseBuilder.setExpandirPersonajes(true);
@@ -236,8 +237,13 @@ public class GrupoResource {
 
 		try {
 			grupoDao.save(grupo);
-			logger.debug("grupo %s[id:%d] creado", grupo.getNombre(), grupo.getId());
-			logger.debug("asignando grupo %d a perfil %d", grupo.getId(), perfil.getId());
+			logger.debug("grupo creado: " + grupo);
+			logger.debug("asignando grupo al perfil " + perfil);
+
+			if (perfil.getIdGrupos() == null) {
+				perfil.setIdGrupos(new ArrayList<Long>());
+			}
+
 			perfil.getIdGrupos().add(grupo.getId());
 			perfilDao.update(perfil);
 		} catch (RuntimeException e) {
