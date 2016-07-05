@@ -84,7 +84,7 @@ app.factory('GruposFactory', [ '$http', function($http) {
 	var urlGrupos = 'api/perfiles/';
 	
 	GruposFactory.getGrupos = function(userId) {
-		return $http.get(urlGrupos+userId+'??with=grupos');
+		return $http.get(urlGrupos+userId+'?with=grupos');
 	};
 
 	// GruposFactory.addGrupo = function() {
@@ -172,7 +172,7 @@ app.factory('ComparacionGruposFactory', [ '$http', function($http) {
 	};
 	
 	ComparacionGruposFactory.getGruposDeUsuario = function(userId) {
-		return $http.get(urlGrupos+userId+'??with=grupos');
+		return $http.get(urlGrupos+userId+'?with=grupos');
 	};
 
 	
