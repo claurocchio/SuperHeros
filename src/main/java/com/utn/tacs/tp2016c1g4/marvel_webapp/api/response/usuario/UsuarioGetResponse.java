@@ -1,6 +1,8 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.usuario;
 
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.ws.rs.core.Response.Status;
@@ -11,14 +13,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Usuario;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.entity.InnerUsuario;
 
 @JsonInclude(Include.NON_NULL)
 public class UsuarioGetResponse {
 
 	private OperationStatus status;
-	private Usuario usuario;
-	@JsonProperty("usuarios")
-	private Set<Usuario> usuarios;
+	private InnerUsuario usuario;
+	private Collection<InnerUsuario> usuarios;
 
 	public OperationStatus getStatus() {
 		return status;
@@ -28,25 +30,25 @@ public class UsuarioGetResponse {
 		this.status = status;
 	}
 
-	public Usuario getUsuario(){
+	public InnerUsuario getUsuario(){
 		return this.usuario;
 	}
 	
-	public void setUsuario(Usuario usuario){
+	public void setUsuario(InnerUsuario usuario){
 		this.usuario = usuario;
 	}
 
-	public Set<Usuario> getUsuarios(){
+	public Collection<InnerUsuario> getUsuarios(){
 		return this.usuarios;
 	}
 	
-	public void setUsuarios(Set<Usuario> usuarios) {
+	public void setUsuarios(Collection<InnerUsuario> usuarios) {
 		this.usuarios = usuarios;
 	}
 	
 	public static class Builder {
 
-		private Set<Usuario> usuarios;
+		private Collection<Usuario> usuarios;
 		private Usuario usuario;
 		private OperationStatus operationStatus;
 
@@ -69,9 +71,15 @@ public class UsuarioGetResponse {
 			UsuarioGetResponse response = new UsuarioGetResponse();
 
 			if (usuario != null) {
-				response.setUsuario(usuario);
+				InnerUsuario user = new InnerUsuario(usuario);
+				response.setUsuario(user);
 			}else if(usuarios != null){
-				response.setUsuarios(usuarios);
+				Collection<InnerUsuario> users = new HashSet<>();
+				for(Usuario u : usuarios){
+					InnerUsuario unUser = new InnerUsuario(u);
+					users.add(unUser);
+				}
+				response.setUsuarios(users);
 			}
 			
 			if (operationStatus == null) {
