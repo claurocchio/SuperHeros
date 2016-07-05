@@ -87,10 +87,22 @@ app.controller('LoginController', ['$scope','$location','UsuariosFactory', funct
 		if ( ($('#username').val() != "") && ($('#pass').val() != "")  ){
 			Usuarios.login(login)
 			.success(function(data){
+				console.log(data);
 				sessionStorage.USERID = data.idUsuario;
 				sessionStorage.TOKEN = data.token;
-				console.log("abriendo sesion userID");
-				console.log(sessionStorage.USERID);
+				
+				
+				console.log("estoy viendo si es admin");
+				console.log(data.admin);
+				if (data.admin != true)
+				{
+					console.log("entre a hide");
+					$("#menuAdmin").hide();
+				}
+				else
+				{
+					$('.admin').show();
+				}
 				
 				$location.path("/home");
 				$('.navbar').show('slow');
