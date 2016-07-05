@@ -34,7 +34,6 @@ public class PersonajesResource {
 
 	private static final Logger logger = LogManager.getLogger(PersonajesResource.class);
 	private Dao<Personaje, FiltroPersonaje> personajeDao;
-	private PersonajeImporter importerTask;
 	private Properties params;
 
 	@GET
@@ -42,11 +41,6 @@ public class PersonajesResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response get() {
 
-		if (!importerTask.isStarted()) {
-			logger.debug("invocando task");
-			Thread t = new Thread(importerTask);
-			t.start();
-		}
 		Page page = new Page();
 		page.setPage(0);
 		page.setLimit(5);
@@ -113,9 +107,6 @@ public class PersonajesResource {
 		this.personajeDao = personajeDao;
 	}
 
-	@Inject
-	public void setImporterTask(PersonajeImporterTask importerTask) {
-		this.importerTask = importerTask;
-	}
+
 
 }

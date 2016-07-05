@@ -228,4 +228,27 @@ public abstract class MongoDBAbstractDao<T extends Entity, F extends SearchFilte
 
 		return doc.getLong("seq");
 	}
+
+	public Long count() {
+		return count(null);
+	}
+
+	public Long count(Collection<F> filters) {
+
+		Long count = 0L;
+
+		if (filters == null || filters.size() == 0) {
+			Document query = new Document();
+			Map<String, ?> mapFilters = createFilters(filters);
+			for (Entry<String, ?> filter : mapFilters.entrySet()) {
+				query.append(filter.getKey(), filter.getValue());
+			}
+
+			count = collection.count(query);
+		} else {
+			count = collection.count();
+		}
+
+		return count;
+	}
 }

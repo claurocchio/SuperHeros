@@ -16,6 +16,9 @@ import com.utn.tacs.tp2016c1g4.marvel_webapp.external.domain.PersonajeMarvel;
 
 public class PersonajeImporterTask implements PersonajeImporter {
 
+	private static final int DEFAULT_LIMIT = 10;
+	private static final int DEFAULT_PAGE_LIMIT = 10;
+
 	private static final Logger logger = LogManager.getLogger(PersonajeImporterTask.class);
 
 	private Dao<Personaje, FiltroPersonaje> personajeDao;
@@ -30,14 +33,19 @@ public class PersonajeImporterTask implements PersonajeImporter {
 	public PersonajeImporterTask() {
 		finalized = false;
 		started = false;
-		limit = 10;
-		pageAmount = 10;
+		limit = DEFAULT_LIMIT;
+		pageAmount = DEFAULT_PAGE_LIMIT;
 	}
 
 	@Override
 	public void run() {
 		logger.debug("importer start");
 		started = true;
+
+		if (personajeDao.count() > 0) {
+			logger.debug("importer end - ya existen personajes cargados");
+			finalized = true;
+		}
 
 		Page page = new Page();
 		page.setPage(0);
@@ -64,7 +72,9 @@ public class PersonajeImporterTask implements PersonajeImporter {
 			personajes = personajeFetcher.fetch(page);
 		}
 
+		logger.debug("finalizado en pagina: " + page);
 		logger.debug("importer end");
+
 		finalized = true;
 	}
 
@@ -88,12 +98,20 @@ public class PersonajeImporterTask implements PersonajeImporter {
 
 	@Override
 	public void setPageLimit(int limit) {
+		logger.debug("seteando pageLimit: " + limit);
 		this.limit = limit;
 	}
 
 	@Override
 	public void setPageAmount(long amount) {
+		logger.debug("seteando pageAmount: " + amount);
 		this.pageAmount = amount;
+	}
+
+	@Override
+	public void reset() {
+		this.started = false;
+		this.finalized = false;
 	}
 
 }
