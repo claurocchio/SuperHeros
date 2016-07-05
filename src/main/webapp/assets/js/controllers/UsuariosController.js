@@ -18,6 +18,8 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 		   $scope.cantFavoritos = $scope.usuarioActivo.favoritos.length;
 		   $scope.cantGrupos = $scope.usuarioActivo.grupos.length;
 		   if ($scope.usuarioActivo.grupos.length > 0){
+			   console.log("va para grupos");
+			   console.log($scope.usuarioActivo);
 			   $scope.gruposList = $scope.usuarioActivo.grupos;
 			}
 		 });

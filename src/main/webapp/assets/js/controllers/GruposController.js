@@ -111,9 +111,11 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		};
 		console.log("va el json!");
 		console.log(request);
-		Grupos.guardarMiembros(request, USERID).success(function(data) {
+		Grupos.guardarMiembros(request, sessionStorage.USERID)
+		.success(function(data) {
 			console.log(data);
-		}).error(function(data) {
+		})
+		.error(function(data) {
 			console.log(data);
 			alert(data.status.message);
 		});
