@@ -1,117 +1,99 @@
-app.controller('FavoritosController',  ['$scope', 'FavoritosFactory', function($scope,Favoritos) {
-   
-    $scope.favoritosList = [];
-    $scope.personajesList = [];
-    
-    var pag = 0;
-    
+app.controller('FavoritosController', [ '$scope', 'FavoritosFactory', function($scope, Favoritos) {
+
+	$scope.favoritosList = [];
+	$scope.personajesList = [];
+
+	var pag = 0;
+
 	$scope.primeraPag = function() {
-		if (pag === 0 && $("#ant").is(":visible") ){
-			$("#ant").hide();		
+		if (pag === 0 && $("#ant").is(":visible")) {
+			$("#ant").hide();
 		}
-		if (pag >0 && $("#ant").is(":hidden")){
-			$("#ant").show();	
+		if (pag > 0 && $("#ant").is(":hidden")) {
+			$("#ant").show();
 		}
 	};
-	
 
-	Favoritos.getFavoritos(sessionStorage.USERID)
-     .success(function(data) {
-    	 if (data.favoritos.length > 0)
-    	{
-    		 $scope.favoritosList = data.favoritos.personajes;
-    	}
-	    })
-	   
-    $scope.guardarFavoritos = function() {
-    		
-    	var request = { nombresPersonaje : $scope.favoritosList	  };
-    	
-    	Favoritos.guardarFavoritos(request,sessionStorage.USERID)
-    	.success(function(data) {
-    		 console.log(data);
-    	})
-    	.error(function(data){
-			 alert(data.status.message);
-		 });
-    }
-    
+	Favoritos.getFavoritos(sessionStorage.USERID).success(function(data) {
+		if (data.favoritos.length > 0) {
+			$scope.favoritosList = data.favoritos.personajes;
+		}
+	})
 
-    
-    $scope.buscarPersonajes = function() {
-    	Favoritos.getPersonajesPorPag(pag)
-    	.success(function(data) {
-    	 $scope.personajesList = data.personajes; 
-    	 if(data.personajes.length < 7)
-    	 {
-    		$("#sig").hide();		
-    	 }
-    	 else
-    	 {
-    		$("#sig").show();	 
-    	 }
-    	 
-    	 if(data.personajes.length === 0)
-    	 {
-    		 $("#ant").hide();
-    	 }
-    	 else
-    	 {
-    		 $("#ant").show();
-    	 }
-    	 $scope.primeraPag();
-    })
-    };
-    
-    $scope.buscarPersonajes();
- 
-    
-    $scope.pushear = function() {
+	$scope.guardarFavoritos = function() {
 
-		$scope.personajesList.forEach(function(personaje){
-			if ($scope.favoritosList.indexOf(personaje) === -1){				
-			personaje.checked ? $scope.favoritosList.push(personaje.nombre) : null ;
+		var request = {
+			nombresPersonaje : $scope.favoritosList
+		};
+
+		Favoritos.guardarFavoritos(request, sessionStorage.USERID).success(function(data) {
+			console.log(data);
+		}).error(function(data) {
+			alert(data.status.message);
+		});
+	}
+
+	$scope.buscarPersonajes = function() {
+		Favoritos.getPersonajesPorPag(pag).success(function(data) {
+			$scope.personajesList = data.personajes;
+			if (data.personajes.length < 7) {
+				$("#sig").hide();
+			} else {
+				$("#sig").show();
+			}
+
+			if (data.personajes.length === 0) {
+				$("#ant").hide();
+			} else {
+				$("#ant").show();
+			}
+			$scope.primeraPag();
+		})
+	};
+
+	$scope.buscarPersonajes();
+
+	$scope.pushear = function() {
+
+		$scope.personajesList.forEach(function(personaje) {
+			if ($scope.favoritosList.indexOf(personaje) === -1) {
+				personaje.checked ? $scope.favoritosList.push(personaje.nombre) : null;
 			}
 		});
-			$scope.guardarFavoritos();
-	};   
-	
+		$scope.guardarFavoritos();
+	};
+
 	$scope.eliminar = function(personaje) {
 		var index = $scope.favoritosList.indexOf(personaje);
-		  $scope.favoritosList.splice(index, 1); 
-		  $scope.guardarFavoritos();
+		$scope.favoritosList.splice(index, 1);
+		$scope.guardarFavoritos();
 	};
-	
-	$scope.ant = function(){
-		
+
+	$scope.ant = function() {
+
 		pag--;
 		$scope.primeraPag();
-		
+
 		$scope.buscarPersonajes();
 	};
-	
-	$scope.sig = function(){
-		
+
+	$scope.sig = function() {
+
 		pag++;
 		$scope.primeraPag();
-		
+
 		$scope.buscarPersonajes();
 	};
-	
-	
 
-    
-}]);
+} ]);
 
-
-//REFERENCIA DE "HACER MAS TARDE"
-//setTimeout(function () {
-//  console.log("Favorito")
-//  console.log($scope.favoritosList);
-//  $scope.favoritosList.forEach(function(favorito){
-//  	console.log("Favorito Button")
-//  	console.log(favorito.checked)
-//  })
-//}, 10000);
-
+// REFERENCIA DE "HACER MAS TARDE"
+// setTimeout(function () {
+// console.log("Favorito")
+// console.log($scope.favoritosList);
+// $scope.favoritosList.forEach(function(favorito){
+// console.log("Favorito Button")
+// console.log(favorito.checked)
+// })
+// }, 10000);
 

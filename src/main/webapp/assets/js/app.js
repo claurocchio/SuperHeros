@@ -150,3 +150,4 @@ app.factory('CatalogoFactory', [ '$http', function($http) {
 
 	return CatalogoFactory;
 } ]);
+

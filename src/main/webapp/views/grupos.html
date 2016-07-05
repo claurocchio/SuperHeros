@@ -5,28 +5,32 @@
 <!--  Manejo de grupos. elegir, crear o borar.  -->
 
 <div class="col-md-12">
-	<div class="col-md-4">
+	<div class="col-md-8">
 		<!-- Default panel contents -->
 		<div class="panel-heading">
 			<h4>GRUPOS</h4>
 			<!-- List group -->
 			<form>
-				<select name="repeatSelect" id="SelectGroups" ng-model="grupo.name">
-					<option ng-repeat="grupo in gruposList" value="{{grupo.id}}">{{grupo.name}}</option>
+				<select name="repeatSelect" id="SelectGroups"
+					ng-model="grupoSelected" ng-change="update(grupoSelected)">
+					<option value=null>--- Seleccione o agregue un Grupo ---</option>
+					<!-- not selected / blank option -->
+					<option ng-repeat="grupo in gruposList" value="{{grupoSelected.id}}">{{grupoSelected.name}}
+					</option>
 				</select>
 			</form>
-		</div>
-		<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
-			data-target="#newGroupModal">Nuevo Grupo</button>
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
+				data-target="#newGroupModal">Nuevo Grupo</button>
 
-		<button type="button" class="btn btn-info btn-lg"
-			ng-click="eliminarGrupo($index)">Borrar</button>
+			<button type="button" class="btn btn-info btn-lg"
+				ng-click="eliminarGrupo($index)">Borrar</button>
+		</div>
 	</div>
 </div>
 
 
 <!-- Personajes -->
-<div class="col-md-12">
+<div  id="bloqueMain" class="col-md-12" ng-show="show">
 	<div class="col-md-4">
 		<div class="panel panel-default">
 			<!-- Default panel contents -->
@@ -48,48 +52,47 @@
 			<div class="panel-footer" style="height: 50px">
 				<ul class="pager margin-num-page">
 					<li><a id="ant" ng-click="ant()"><span aria-hidden="true">&larr;</span>Ant</a></li>
-					<li><a id="sig" ng-click="sig()">Sig<span
-							aria-hidden="true">&rarr;</span></a></li>
+					<li><a id="sig" ng-click="sig()">Sig<span aria-hidden="true">&rarr;</span></a></li>
 				</ul>
 			</div>
 			<div>
-				<button type="button" class="btn  btn-block btn-danger"
-					ng-click="pushear()" style="width: 100%;">Add</button>
+				<button type="button" class="btn  btn-block btn-danger"	ng-click="pushear()" style="width: 100%;">Add</button>
 			</div>
 		</div>
 	</div>
 	<!-- <div class="row col-md-12"> -->
 	<div class="col-md-8">
 		<div class="panel panel-default">
- 		<div>
-            <h4>PERSONAJES DEL GRUPO</h4>
-        </div>
+			<div>
+				<h4>PERSONAJES DEL GRUPO</h4>
+			</div>
 
-        <!-- List group -->
-        <ul class="list-group" ng-repeat="seleccionado in personajesMiembros">
-            <div class="input-group">
-                <div class="form-control cursor-basic"> {{seleccionado}} </div>
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ng-click="eliminar(seleccionado)">Delete!</button>
-                </span>
-            </div>
-            <!-- /input-group -->
-        </ul>
+			<!-- List group -->
+			<ul class="list-group" ng-repeat="seleccionado in personajesMiembros">
+				<div class="input-group">
+					<div class="form-control cursor-basic">{{seleccionado}}</div>
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"
+							ng-click="eliminar(seleccionado)">Delete!</button>
+					</span>
+				</div>
+				<!-- /input-group -->
+			</ul>
 		</div>
-<!-- 		<div class="col-md-8"> -->
-<!-- 			<div ng-attr-id="{{item.id}}" class="panel panel-default" -->
-<!-- 				ng-repeat="item in data" ng-show="item.clicked"> -->
-<!-- 				<div class="panel-heading">{{item.name}}</div> -->
-<!-- 				<div class="panel-body"> -->
-<!-- 					Personajes: {{item.cant}} -->
-<!-- 					<li class="list-group-item" -->
-<!-- 						ng-repeat="personaje in item.personajes">{{personaje}}</li> -->
-<!-- 				</div> -->
-<!-- 				<button type="button" ng-click="assign({{item.id}})" -->
-<!-- 					class="btn btn-info btn-lg" data-toggle="modal" -->
-<!-- 					data-target="#addCharModal">Agregar Personaje</button> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
+		<!-- 		<div class="col-md-8"> -->
+		<!-- 			<div ng-attr-id="{{item.id}}" class="panel panel-default" -->
+		<!-- 				ng-repeat="item in data" ng-show="item.clicked"> -->
+		<!-- 				<div class="panel-heading">{{item.name}}</div> -->
+		<!-- 				<div class="panel-body"> -->
+		<!-- 					Personajes: {{item.cant}} -->
+		<!-- 					<li class="list-group-item" -->
+		<!-- 						ng-repeat="personaje in item.personajes">{{personaje}}</li> -->
+		<!-- 				</div> -->
+		<!-- 				<button type="button" ng-click="assign({{item.id}})" -->
+		<!-- 					class="btn btn-info btn-lg" data-toggle="modal" -->
+		<!-- 					data-target="#addCharModal">Agregar Personaje</button> -->
+		<!-- 			</div> -->
+		<!-- 		</div> -->
 	</div>
 
 </div>
@@ -122,7 +125,8 @@
 <!-- <div id="addCharModal" class="modal fade" role="dialog"> -->
 <!-- 	<div class="modal-dialog"> -->
 
-<!-- 		<!-- Modal content --> -->
+<!-- 		<!-- Modal content -->
+-->
 <!-- 		<div class="modal-content"> -->
 <!-- 			<div class="modal-header"> -->
 <!-- 				<button type="button" class="close" data-dismiss="modal">&times;</button> -->
