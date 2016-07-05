@@ -60,9 +60,15 @@ app.controller('FavoritosController', [ '$scope', 'FavoritosFactory', function($
 	$scope.pushear = function() {
 
 		$scope.personajesList.forEach(function(personaje) {
-			if ($scope.favoritosList.indexOf(personaje) === -1) {
+			console.log("aca va el push");
+			console.log($scope.favoritosList.indexOf(personaje) === -1);
+			if ($scope.favoritosList.indexOf(personaje.nombre) === -1) {
 				personaje.checked ? $scope.favoritosList.push(personaje.nombre) : null;
 			}
+			else
+				{
+				console.log("ya esta en la lista");
+				}
 		});
 		$scope.guardarFavoritos();
 	};
