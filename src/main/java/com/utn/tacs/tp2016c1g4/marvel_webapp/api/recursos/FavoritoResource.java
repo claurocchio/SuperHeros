@@ -1,5 +1,6 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.recursos;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 import java.util.Set;
@@ -100,7 +101,7 @@ public class FavoritoResource {
 	public Response add(@PathParam("userId") Long userId, FavoritoPutRequest request) {
 		logger.debug("put invocado");
 
-		if (userId == null || request.getIdsPersonaje() == null) {
+		if (userId == null || request.getNombresPersonaje() == null) {
 			OperationStatus status = new OperationStatus();
 			status.setSuccess(0);
 			status.setMessage("no se proporciono un request adecuado");
@@ -133,27 +134,29 @@ public class FavoritoResource {
 				FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
 				
 				boolean algunoNoExiste = false;
-				Long personajeInexistente = null;
-				
-				for(Long id : request.getIdsPersonaje()){
-					filtroPersonajeBuilder.setId(id);
+				String personajeInexistente = null;
+				Collection<Long> ids = new ArrayList<Long>();
+				for(String nombre : request.getNombresPersonaje()){
+					filtroPersonajeBuilder.setNombre(nombre);
 					Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
 					Personaje miPersonaje = personajeDao.findOne(filtrosPersonaje);
 					if(miPersonaje == null) {
 						algunoNoExiste = true;
-						personajeInexistente = new Long(id);
+						personajeInexistente = nombre;
+					}else{
+						ids.add(miPersonaje.getId());
 					}
 				}
 				
 				if (algunoNoExiste) {
 					status = Response.Status.NOT_FOUND;
-					message = "No existe el personaje con id" + personajeInexistente;
+					message = "No existe el personaje " + personajeInexistente;
 				} else {
 					perfil.getIdsPersonajesFavoritos().clear();
-					perfil.setIdsPersonajesFavoritos(request.getIdsPersonaje());
+					perfil.setIdsPersonajesFavoritos(ids);
 					perfilDao.update(perfil);
 					status = Response.Status.CREATED;
-					message = "Se han modificado " + request.getIdsPersonaje().size() + " de los favoritos del usuario "
+					message = "Se han modificado " + ids.size() + " de los favoritos del usuario "
 							+ userId;
 				}
 			} catch (Exception e) {

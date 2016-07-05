@@ -90,6 +90,10 @@ public class GrupoResource {
 
 		GrupoGetResponse.Builder responseBuilder = new GrupoGetResponse.Builder();
 
+		if ( with("grupos") ){
+			
+		}
+		
 		if (with("personajes")) {
 			responseBuilder.setPersonajeDao(personajeDao);
 			responseBuilder.setExpandirPersonajes(true);
@@ -179,58 +183,86 @@ public class GrupoResource {
 
 		GrupoPostResponse response = new GrupoPostResponse();
 		String message = "";
-		Response.Status status;
-
-		if (request.getName() == null) {
-			status = Status.BAD_REQUEST;
-			message = "el request no tiene el formato esperado";
-			
-		} if (request.getIdUsuario() == null) {
-			status = Status.BAD_REQUEST;
-			message = "el request no tiene el formato esperado";
-		} 
-		else {
-			FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
-			filtroBuilder.setName(request.getName());
-
-			Grupo grupo = null;
-			try {
-				grupo = grupoDao.findOne(filtroBuilder.build());
-			} catch (ManyResultsException e) {
-			}
-
-			if (grupo == null) {
-
-				grupo = new Grupo();
-				grupo.setNombre(request.getName());
-				
-				grupoDao.save(grupo);
-
-				response.setIdGrupo(grupo.getId());
-				response.setNombre(grupo.getNombre());
-
-				status = Status.OK;
-				message = "grupo creado exitosamente";
-				logger.debug("grupo creado con nombre: " + grupo.getNombre());
-			} else {
-				status = Status.CONFLICT;
-				message = "ya existe este grupo";
-
-				logger.debug("conflicto al crear grupo ya existente: " + request.getName());
-			}
-			FiltroPerfil.Builder filtroPerfilBuilder  = new FiltroPerfil.Builder();
-			filtroPerfilBuilder.setId(request.getIdUsuario());
-			Perfil perfil = perfilDao.findOne(filtroPerfilBuilder.build());
-			
-		}
+		Response.Status status = null;
 
 		OperationStatus opStatus = new OperationStatus();
+
+		if (!IsValidRequest(request)) {
+			status = Status.BAD_REQUEST;
+			message = "el request no tiene el formato esperado";
+			logger.debug(message);
+			logger.debug(request);
+			opStatus.setStatusCode(status);
+			opStatus.setMessage(message);
+			response.setStatus(opStatus);
+			return Response.status(status).entity(response).build();
+		}
+
+		Perfil perfil = null;
+
+		if ((perfil = getPerfilDeUsuario(request.getIdUsuario())) == null) {
+			status = Status.NOT_FOUND;
+			message = "no existe un perfil asociado a ese usuario";
+			logger.debug(message);
+			logger.debug(request);
+			opStatus.setStatusCode(status);
+			opStatus.setMessage(message);
+			response.setStatus(opStatus);
+			return Response.status(status).entity(response).build();
+		}
+
+		FiltroGrupo.Builder filtroBuilder = new FiltroGrupo.Builder();
+		filtroBuilder.setName(request.getName());
+
+		Grupo grupo = null;
+		try {
+			grupo = grupoDao.findOne(filtroBuilder.build());
+		} catch (ManyResultsException e) {
+		}
+
+		if (grupo != null) {
+			status = Status.CONFLICT;
+			message = "ya existe este grupo";
+			logger.debug(message);
+			logger.debug(request);
+			opStatus.setStatusCode(status);
+			opStatus.setMessage(message);
+			response.setStatus(opStatus);
+			return Response.status(status).entity(response).build();
+		}
+
+		grupo = new Grupo();
+		grupo.setNombre(request.getName());
+
+		try {
+			grupoDao.save(grupo);
+			logger.debug("grupo %s[id:%d] creado", grupo.getNombre(), grupo.getId());
+			logger.debug("asignando grupo %d a perfil %d", grupo.getId(), perfil.getId());
+			perfil.getIdGrupos().add(grupo.getId());
+			perfilDao.update(perfil);
+		} catch (RuntimeException e) {
+			status = Status.INTERNAL_SERVER_ERROR;
+			message = "ocurrió un problema al guardar el grupo... reintente más tarde";
+			logger.debug(message);
+			logger.debug(request);
+			opStatus.setStatusCode(status);
+			opStatus.setMessage(message);
+			response.setStatus(opStatus);
+			return Response.status(status).entity(response).build();
+		}
+
+		response.setIdGrupo(grupo.getId());
+		response.setNombre(grupo.getNombre());
+
+		status = Status.OK;
+		message = "grupo creado exitosamente";
+
 		opStatus.setStatusCode(status);
 		opStatus.setMessage(message);
-
 		response.setStatus(opStatus);
 
 		return Response.status(status).entity(response).build();
+
 	}
 
 	@PUT
@@ -295,6 +327,13 @@ public class GrupoResource {
 		return isValid;
 	}
 
+	private boolean IsValidRequest(GrupoPostRequest request) {
+		boolean isValid = true;
+		isValid = isValid && request.getIdUsuario() != null;
+		isValid = isValid && request.getName() != null;
+		return isValid;
+	}
+
 	@DELETE
 	@Path("/{idGrupo}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -356,5 +395,19 @@ public class GrupoResource {
 	private boolean with(String adicionalRequerido) {
 		String with = params.getProperty("with");
 		return with != null ? with.matches(".*?,?" + adicionalRequerido + ",?.*?") : false;
+	}
+
+	private Perfil getPerfilDeUsuario(Long idUsuario) {
+
+		Perfil perfil = null;
+
+		FiltroPerfil.Builder filtroPerfilBuilder = new FiltroPerfil.Builder();
+		filtroPerfilBuilder.setId(idUsuario);
+		try {
+			perfil = perfilDao.findOne(filtroPerfilBuilder.build());
+		} catch (ManyResultsException e) {
+		}
+
+		return perfil;
 	}
 }

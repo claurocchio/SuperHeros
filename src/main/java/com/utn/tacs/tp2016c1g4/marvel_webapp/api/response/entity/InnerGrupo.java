@@ -2,6 +2,10 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.entity;
 
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class InnerGrupo {
 
 	private long id;
