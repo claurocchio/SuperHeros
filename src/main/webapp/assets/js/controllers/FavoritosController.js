@@ -16,6 +16,8 @@ app.controller('FavoritosController', [ '$scope', 'FavoritosFactory', function($
 
 	Favoritos.getFavoritos(sessionStorage.USERID).success(function(data) {
 		if (data.favoritos.length > 0) {
+			console.log("lo q llega en favoritos");
+			console.log(data);
 			$scope.favoritosList = data.favoritos.personajes;
 		}
 	})

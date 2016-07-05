@@ -41,6 +41,11 @@ app.config(function($routeProvider) {
 		templateUrl : 'views/home.html',
 		controller : 'HomeController'
 	})
+	
+	.when('/comparacionGrupos', {
+		templateUrl : 'views/comparacionGrupos.html',
+		controller : 'ComparacionGruposController'
+	})
 
 	.otherwise({
 		redirectTo : '/'
@@ -151,5 +156,24 @@ app.factory('CatalogoFactory', [ '$http', function($http) {
 	};
 
 	return CatalogoFactory;
+} ]);
+
+app.factory('ComparacionGruposFactory', [ '$http', function($http) {
+	
+	var urlUsuarios = 'api/usuarios';
+	var urlGrupos = 'api/perfiles/';
+	
+	var ComparacionGruposFactory = [];
+
+	ComparacionGruposFactory.getUsuarios = function() {
+		return $http.get(urlUsuarios);
+	};
+	
+	ComparacionGruposFactory.getGruposDeUsuario = function(userId) {
+		return $http.get(urlGrupos+userId+'??with=grupos');
+	};
+
+	
+	return ComparacionGruposFactory;
 } ]);
 
