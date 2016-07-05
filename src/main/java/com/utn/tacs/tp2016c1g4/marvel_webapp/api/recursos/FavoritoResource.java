@@ -67,9 +67,9 @@ public class FavoritoResource {
 		}else{
 			status = Status.OK;
 			responseBuilder.setFavoritos(p.getIdsPersonajesFavoritos());
-			
+			responseBuilder.setPersonajeDao(personajeDao);
 			if (with("personajes")) {
-				responseBuilder.setPersonajeDao(personajeDao);
+				
 				responseBuilder.setExpandirPersonajes(true);
 
 				if (params.containsKey("img-variant")) {
