@@ -138,4 +138,15 @@ public abstract class InMemoryAbstractDao<T extends Entity, F extends SearchFilt
 		}
 
 	}
+
+	@Override
+	public Long count() {
+		return count(null);
+	}
+
+	@Override
+	public Long count(Collection<F> filters) {
+		return Long.valueOf(collection.size());
+	}
+
 }

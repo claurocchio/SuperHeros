@@ -23,4 +23,8 @@ public interface Dao<T extends Entity, F extends SearchFilter<T>> {
 	boolean update(T obj);
 
 	void clear();
+
+	Long count();
+
+	Long count(Collection<F> filters);
 }

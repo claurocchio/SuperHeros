@@ -1,5 +1,6 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.mongo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,10 @@ public class PersonajeMongoDao extends MongoDBAbstractDao<Personaje, FiltroPerso
 	@Override
 	protected <T> Map<String, ?> createFilters(Collection<FiltroPersonaje> filters) {
 		Map<String, T> mapFilters = new HashMap<String, T>();
+
+		if (filters == null) {
+			filters = new ArrayList<>();
+		}
 
 		for (FiltroPersonaje f : filters) {
 			switch (f.getTipo()) {
