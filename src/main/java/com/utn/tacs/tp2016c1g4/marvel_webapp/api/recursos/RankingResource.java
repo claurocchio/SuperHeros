@@ -26,7 +26,9 @@ import org.apache.logging.log4j.Logger;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.Dao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.exception.ManyResultsException;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPerfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Perfil;
+import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.OperationStatus;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.response.ranking.RankingGetResponse;
 
@@ -36,6 +38,7 @@ public class RankingResource {
 	private static final Logger logger = LogManager.getLogger(PerfilResource.class);
 
 	private Dao<Perfil, FiltroPerfil> perfilDao;
+	private Dao<Personaje, FiltroPersonaje> personajeDao;
 
 	private Properties params;
 
@@ -53,11 +56,11 @@ public class RankingResource {
 		Set<Perfil> perfiles = perfilDao.find(filtros);
 		
 		List<Long> temp = new ArrayList<>();
-		List<String> ranking = new ArrayList<>();
+		List<Long> ranking = new ArrayList<>();
         Map<Long,Integer> m = new HashMap<>();
         
         //agrego todos los favs en una lista temporal
-		/*for(Perfil p : perfiles){
+		for(Perfil p : perfiles){
 			temp.addAll(p.getIdsPersonajesFavoritos());
 		}
 		
@@ -81,13 +84,14 @@ public class RankingResource {
 		    	}
 		    }
 		    ranking.add(ans);
-		}*/
+		}
 		
-		ranking.add("Hulk");
+	/*	ranking.add("Hulk");
 		ranking.add("Spiderman");
-		ranking.add("Thor");
+		ranking.add("Thor");*/
 		
 		RankingGetResponse.Builder responseBuilder = new RankingGetResponse.Builder();
+		responseBuilder.setPersonajeDao(personajeDao);
 		responseBuilder.setPersonajes(ranking);
 		
 		RankingGetResponse response = responseBuilder.build();
@@ -97,6 +101,11 @@ public class RankingResource {
 	@Inject
 	public void setPerfilDao(Dao<Perfil, FiltroPerfil> perfilDao) {
 		this.perfilDao = perfilDao;
+	}
+	
+	@Inject
+	public void setPersonajeDao(Dao<Personaje, FiltroPersonaje> personajeDao) {
+		this.personajeDao = personajeDao;
 	}
 
 	@Context
