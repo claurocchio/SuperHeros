@@ -1,6 +1,5 @@
 app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope, Grupos) {
-	$scope.message = 'Hello from GruposController';
-
+	
 	$scope.gruposList = [];
 	$scope.personajesList = [];
 	$scope.personajesMiembros = [];
@@ -48,9 +47,9 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 
 	$scope.buscarPersonajes();
 
-	$scope.getGrupos = function(userid) {
-		Grupos.getGrupos(userid).success(function(data) {
-			console.log("buscando grupos para usuario: " + userid);
+	$scope.getGrupos = function(userId) {
+		Grupos.getGrupos(userId).success(function(data) {
+			console.log("buscando grupos para usuario: " + sessionStorage.USERID);
 			$scope.gruposList = data.grupos;
 		})
 	}

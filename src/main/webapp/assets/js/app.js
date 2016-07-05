@@ -81,8 +81,10 @@ app.factory('GruposFactory', [ '$http', function($http) {
 	// var urlPersonajes = 'api/personajes';
 	var GruposFactory = {};
 
-	GruposFactory.getGrupos = function(id) {
-		return $http.get(urlBase + '?idUsuario=' + id);
+	var urlGrupos = 'api/perfiles/';
+	
+	GruposFactory.getGrupos = function(userId) {
+		return $http.get(urlGrupos+userId+'??with=grupos');
 	};
 
 	// GruposFactory.addGrupo = function() {
