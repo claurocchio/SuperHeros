@@ -3,6 +3,7 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.dao;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -48,6 +49,30 @@ public class PerfilMongoDaoTest {
 
 		perfiles = dao.getAll();
 		assertEquals(2, perfiles.size());
+	}
+
+	@Test
+	public void testPersonajes() {
+		Set<Perfil> perfiles = dao.getAll();
+
+		assertEquals(0, perfiles.size());
+
+		Collection<Long> favoritos = new ArrayList<Long>();
+		favoritos.add((long) 1);
+		favoritos.add((long) 2);
+
+		Perfil p1 = new Perfil();
+		p1.setUsername("pepito1");
+		p1.setIdsPersonajesFavoritos(favoritos);
+
+		dao.save(p1);
+
+		List<FiltroPerfil> filtros = new ArrayList<>();
+		filtros.add(new FiltroPerfil(FiltroPerfil.Tipo.ID, (long) 1));
+
+		perfiles = dao.find(filtros);
+
+		assertEquals(2, perfiles.iterator().next().getIdsPersonajesFavoritos().size());
 	}
 
 	@Test

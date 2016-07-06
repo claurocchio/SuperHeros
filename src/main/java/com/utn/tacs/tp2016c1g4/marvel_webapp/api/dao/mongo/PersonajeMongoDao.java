@@ -3,10 +3,12 @@ package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.mongo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.inject.Singleton;
 
+import com.mongodb.BasicDBObject;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.MongoDBAbstractDao;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter.FiltroPersonaje;
 import com.utn.tacs.tp2016c1g4.marvel_webapp.api.domain.Personaje;
@@ -27,6 +29,14 @@ public class PersonajeMongoDao extends MongoDBAbstractDao<Personaje, FiltroPerso
 			switch (f.getTipo()) {
 			case ID:
 				mapFilters.put("_id", (T) f.getValue());
+				break;
+			case IDS:
+				ArrayList<BasicDBObject> idList = new ArrayList<BasicDBObject>();
+				for (Long id : (HashSet<Long>) f.getValue()) {
+					BasicDBObject query = new BasicDBObject("_id", id);
+					idList.add(query);
+				}
+				mapFilters.put("$or", (T) idList);
 				break;
 			case NOMBRE:
 				mapFilters.put("nombre", (T) f.getValue());

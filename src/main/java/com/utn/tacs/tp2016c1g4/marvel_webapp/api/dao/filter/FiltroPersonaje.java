@@ -1,5 +1,6 @@
 package com.utn.tacs.tp2016c1g4.marvel_webapp.api.dao.filter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -71,7 +72,13 @@ public class FiltroPersonaje implements SearchFilter<Personaje> {
 		private String nombre;
 
 		public Builder setIds(Collection<Long> ids) {
-			this.ids = ids;
+			this.ids = new HashSet<Long>();
+			for (Long id : ids) {
+				if (id > 0) {
+					this.ids.add(id);
+				}
+			}
+
 			return this;
 		}
 
@@ -101,7 +108,7 @@ public class FiltroPersonaje implements SearchFilter<Personaje> {
 		}
 
 		public Collection<FiltroPersonaje> build() {
-			Collection<FiltroPersonaje> col = new HashSet<FiltroPersonaje>();
+			Collection<FiltroPersonaje> col = new ArrayList<FiltroPersonaje>();
 
 			if (this.id != null) {
 				col.add(new FiltroPersonaje(FiltroPersonaje.Tipo.ID, this.id));
