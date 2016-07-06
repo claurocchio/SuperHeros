@@ -12,6 +12,7 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 			   $('#panel').hide('slow');
 			
 		   $scope.usuarioActivo = data.perfil;
+		   console.log("va el data de perfil en usuario");
 		   console.log(data.perfil);
 		   $scope.ultimoAcceso = usuario.lastAccess;
 		   $scope.nombre = $scope.usuarioActivo.username;
@@ -19,7 +20,7 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 		   $scope.cantGrupos = $scope.usuarioActivo.grupos.length;
 		   if ($scope.usuarioActivo.grupos.length > 0){
 			   console.log("va para grupos");
-			   console.log($scope.usuarioActivo);
+			   console.log($scope.usuarioActivo.grupos);
 			   $scope.gruposList = $scope.usuarioActivo.grupos;
 			}
 		 });
@@ -34,7 +35,7 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 	  
 	  var grupoAnt;	  
 	  $scope.detalle = function(grupo) {
-		  $scope.x = grupo;
+		  $scope.x = grupo.name;
 		  $scope.y = $scope.usuarioActivo.username; 
 		  
 		 if(grupoAnt != grupo)

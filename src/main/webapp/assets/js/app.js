@@ -102,9 +102,9 @@ app.factory('GruposFactory', [ '$http', function($http) {
 		return $http.get(urlPersonajes + '?page=' + pag + '&limit=7');
 	};
 
-	GruposFactory.guardarMiembros = function(listMiembros, userId) {
+	GruposFactory.guardarMiembros = function(listMiembros, grupoId) {
 		console.log();
-		return $http.put(urlBase + '/' + userId, listMiembros);
+		return $http.put(urlBase + '/' + grupoId, listMiembros);
 	}
 
 	return GruposFactory;
@@ -123,7 +123,7 @@ app.factory('UsuariosFactory', [ '$http', function($http) {
 	};
 
 	UsuariosFactory.getUsuarioById = function(id) {
-		return $http.get(urlPerfil + '/' + id);
+		return $http.get(urlPerfil + '/' + id+'?with=grupos');
 	};
 
 	UsuariosFactory.guardarUsuario = function(usuario) {

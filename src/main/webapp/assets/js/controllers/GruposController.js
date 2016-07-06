@@ -7,8 +7,12 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.show = true;
 	$scope.grupoSelected;
 	var pag = 0;
-//	USERID = 1;
-
+	
+	var grupoId;
+	
+	$scope.grupoAId = function(id) {
+		grupoId=id;
+	};
 	$scope.primeraPag = function() {
 		console.log("esta visible?");
 		console.log($("#ant").is(":visible"));
@@ -100,18 +104,21 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 				personaje.checked ? $scope.personajesMiembros.push(personaje.nombre) : null;
 			}
 		});
-		$scope.guardarMiembros();
+		
+		console.log("GRUPO SELECCIONADO: "+$scope.grupoSelected);
+		$scope.guardarMiembros($scope.grupoSelected);
 	};
 
-	$scope.guardarMiembros = function() {
+	$scope.guardarMiembros = function(grupoId) {
 		console.log("personajesList a json");
 		console.log($scope.personajesMiembros);
 		var request = {
-			nombresPersonaje : $scope.personajesMiembros
+			nombre: null,
+			personajes : $scope.personajesMiembros
 		};
 		console.log("va el json!");
 		console.log(request);
-		Grupos.guardarMiembros(request, sessionStorage.USERID)
+		Grupos.guardarMiembros(request, grupoId)
 		.success(function(data) {
 			console.log(data);
 		})
@@ -124,7 +131,7 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.eliminar = function(personaje) {
 		var index = $scope.personajesMiembros.indexOf(personaje);
 		$scope.personajesMiembros.splice(index, 1);
-		$scope.guardarMiembros();
+		$scope.guardarMiembros($scope.grupoSelected);
 		$scope.show = false;
 	};
 	$scope.eliminarGrupo = function(grupo) {

@@ -22,20 +22,32 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 	
 	
 	$scope.usuarioSeleccionado2 = function(usuario){
+		$scope.inputUser2=usuario.userName;
 		Comparacion.getGruposDeUsuario(usuario.idPerfil)
 	     .success(function(data) {
-	    	 $scope.gruposListUser2 = data.usuarios;
+	    	 console.log("estoy mostrando lo q llena el drop de grupos")
+	    	 console.log(data);
+	    	 $scope.gruposListUser2 = data.perfil.grupos;
 	    });
 	}
 	
 	$scope.usuarioSeleccionado1 = function(usuario){
+		$scope.inputUser1=usuario.userName;
 		Comparacion.getGruposDeUsuario(usuario.idPerfil)
 	     .success(function(data) {
-	    	 $scope.gruposListUser1 = data.usuarios;
+	    	 console.log("estoy mostrando lo q llena el drop de grupos")
+	    	 console.log(data);
+	    	 $scope.gruposListUser1 = data.perfil.grupos;
 	    });
 	}
 	
+	$scope.pasarNombreGrupo1 = function(nombre){
+		$scope.inputGrupo1=nombre;
+	}
 	
+	$scope.pasarNombreGrupo2 = function(nombre){
+		$scope.inputGrupo2=nombre;
+	}
 	
 	function intersect(a, b) {
 	    var t;
