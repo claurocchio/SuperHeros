@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -56,7 +57,7 @@ public class RankingResource {
 		Set<Perfil> perfiles = perfilDao.find(filtros);
 		
 		List<Long> temp = new ArrayList<>();
-		List<Long> ranking = new ArrayList<>();
+		Vector<Long> ranking = new Vector<Long>();
         Map<Long,Integer> m = new HashMap<>();
         
         //agrego todos los favs en una lista temporal
@@ -72,9 +73,9 @@ public class RankingResource {
                 m.put(i, 1);
             }
         }
-		
+	
 		//lleno el ranking de a uno
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5 ; i++) {
 			Long ans = 0L;
 			int maxVal = 0;
 		    for(Long in: m.keySet()){
@@ -83,7 +84,7 @@ public class RankingResource {
 		        	maxVal = m.get(in);
 		    	}
 		    }
-		    ranking.add(ans);
+		    ranking.add(i, ans);
 		}
 		
 	/*	ranking.add("Hulk");

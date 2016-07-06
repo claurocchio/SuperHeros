@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -42,11 +43,11 @@ public class RankingGetResponse {
 
 	public static class Builder {
 
-		private List<Long> personajes;
+		private Vector<Long> personajes;
 		private Dao<Personaje, FiltroPersonaje> personajeDao;
 		private OperationStatus operationStatus;
 
-		public Builder setPersonajes(List<Long> personajes) {
+		public Builder setPersonajes(Vector<Long> personajes) {
 			this.personajes = personajes;
 			return this;
 		}
@@ -65,17 +66,17 @@ public class RankingGetResponse {
 			RankingGetResponse response = new RankingGetResponse();
 
 			if (personajes != null) {
+				Vector<String> nombresPersonaje = new Vector<String>();
+				for(Long p : personajes){
+					if (p == 0L) break;
+					FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
+					filtroPersonajeBuilder.clear();
+					filtroPersonajeBuilder.setId(p);
+					//filtroPersonajeBuilder.setId(favoritos.iterator().next());
+					Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
+					Personaje unPersonaje = personajeDao.findOne(filtrosPersonaje);	
 				
-				Collection<String> nombresPersonaje = new HashSet<>();
-				FiltroPersonaje.Builder filtroPersonajeBuilder = new FiltroPersonaje.Builder();
-				filtroPersonajeBuilder.clear();
-				filtroPersonajeBuilder.setIds(personajes);
-				//filtroPersonajeBuilder.setId(favoritos.iterator().next());
-				Collection<FiltroPersonaje> filtrosPersonaje = filtroPersonajeBuilder.build();
-				Set<Personaje> personajes = new HashSet<>();
-				personajes = personajeDao.find(filtrosPersonaje);	
-				for(Personaje p : personajes){
-					nombresPersonaje.add(p.getNombre());
+					nombresPersonaje.add(unPersonaje.getNombre());
 				}
 				
 				response.setPersonajes(nombresPersonaje);
