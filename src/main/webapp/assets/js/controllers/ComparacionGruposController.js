@@ -41,12 +41,22 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 	    });
 	}
 	
-	$scope.pasarNombreGrupo1 = function(nombre){
-		$scope.inputGrupo1=nombre;
+	$scope.pasarNombreGrupo1 = function(grupo){
+		$scope.inputGrupo1=grupo.nombre;
+		
+		Comparacion.getGruposConPersonajes(grupo.id)
+		.success(function(data){
+			console.log("ahora si, la info con personajes"+data);
+		});
 	}
 	
-	$scope.pasarNombreGrupo2 = function(nombre){
-		$scope.inputGrupo2=nombre;
+	$scope.pasarNombreGrupo2 = function(grupo){
+		$scope.inputGrupo2=grupo.nombre;
+		
+		Comparacion.getGruposConPersonajes(grupo.id)
+		.success(function(data){
+			console.log("ahora si, la info con personajes"+data);
+		});
 	}
 	
 	function intersect(a, b) {

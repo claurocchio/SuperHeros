@@ -175,6 +175,9 @@ app.factory('ComparacionGruposFactory', [ '$http', function($http) {
 		return $http.get(urlGrupos+userId+'?with=grupos');
 	};
 
+	ComparacionGruposFactory.getGruposConPersonajes = function(idGrupo) {
+		return $http.get('/api/grupos/'+idGrupo+'?with=personajes');
+	};
 	
 	return ComparacionGruposFactory;
 } ]);
