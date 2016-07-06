@@ -91,7 +91,7 @@ app.factory('GruposFactory', [ '$http', function($http) {
 	// return $http.put(urlBase);
 	// };
 	GruposFactory.getGrupo = function(grupo) {
-		return $http.get(urlBase + '/' +grupo);
+		return $http.get(urlBase + '/' +grupo+'?with=personajes');
 	}
 	GruposFactory.nuevo = function(grupo) {
 		return $http.post(urlBase, grupo);

@@ -62,6 +62,7 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.getGrupo = function(grupo) {
 		Grupos.getGrupo(grupo).success(function(data) {
 			console.log("buscando personajes para grupo: " + grupo);
+			console.log(data);
 			$scope.personajesMiembros = data.personajes;
 		})
 	}
@@ -99,7 +100,7 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 
 	$scope.pushear = function() {
 		$scope.personajesList.forEach(function(personaje) {
-//			console.log($scope.personajesMiembros.indexOf(personaje) === -1);
+			console.log("holis: "+$scope.personajesMiembros);
 			if ($scope.personajesMiembros.indexOf(personaje.nombre) === -1) {
 				personaje.checked ? $scope.personajesMiembros.push(personaje.nombre) : null;
 			}
@@ -129,12 +130,14 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	}
 
 	$scope.eliminar = function(personaje) {
+		console.log("ACA VA PERSONAJES MIEMBROS:"+personajesMiembros);
 		var index = $scope.personajesMiembros.indexOf(personaje);
 		$scope.personajesMiembros.splice(index, 1);
 		$scope.guardarMiembros($scope.grupoSelected);
 		$scope.show = false;
 	};
 	$scope.eliminarGrupo = function(grupo) {
+		console.log("ACA VA GRUPOS LIST:"+gruposList);
 		var index = $scope.gruposList.indexOf(grupo);
 		$scope.gruposList.splice(index, 1);
 	};
