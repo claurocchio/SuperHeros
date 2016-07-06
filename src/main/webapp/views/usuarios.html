@@ -43,7 +43,7 @@
   						</button>
   						<ul class="dropdown-menu"  aria-labelledby="dropdownMenu1" style=" min-width: 0px !important;" >
   							<li ng-repeat="grupo in gruposList">
-  								<a ng-click="detalle(grupo)" >{{ grupo }}</a>
+  								<a ng-click="detalle(grupo)" >{{ grupo.name }}</a>
   							</li>
  						</ul>
 					</div>
@@ -59,9 +59,9 @@
             <div class="col-md-12" id="pepe" style="margin-top: 20px; ">
 				<div class="thumbnail" id="panel" style="display:none">
 					<p> </p>
-					<div id="x">{{ x }}	</div>
+					<div id="x"> Nombre del grupo: <div style=" font-weight: bold;"> {{ x }} </div>	</div>
 					<p> </p>
-					<div id="y">{{ y }}	</div>
+					<div id="y">Personajes: <div style=" font-weight: bold;">{{ y }}</div>	</div>
 					<p> </p>
 				</div>
 			</div>

@@ -2,60 +2,77 @@
 <h1>INTERSECCION DE GRUPOS</h1>
 </div>
 <div class="col-md-12">
-<div class="col-md-2 col-md-offset-2 text-right">
-	<div class="dropdown">
-		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-				Usuario 1
-				<span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu"  aria-labelledby="dropdownMenu1" style=" min-width: 0px !important;" >
-		<li ng-repeat="usuario1 in usuariosList1">
-			<a ng-model="userSelec1">{{ usuario1.userName }}</a>
-		</li>
-   </ul>
-	</div>
-	 <p></p>
-	   <div class="dropdown">
-			<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-						Grupos de usuario 1
-						<span class="caret"></span>
-				</button>
-			  <ul class="dropdown-menu"  aria-labelledby="dropdownMenu1" style=" min-width: 0px !important;" >
-			<li ng-repeat="grupo in gruposListUser2">
-				<a ng-model="grupoSelec1">{{ grupo }}</a>
-			</li>
-			 </ul>
-   </div>
+
+<div class="col-md-4">
+
+
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuario 1 <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li ng-model="userSelec1" ng-click="usuarioSeleccionado1(usuario1)" ng-repeat="usuario1 in usuariosList1">
+          	<a>{{usuario1.userName}}</a>
+          </li>
+        </ul>
+      </div><!-- /btn-group -->
+      <input ng-model="inputUser1" type="text" class="form-control" aria-label="..." disabled>
+    </div><!-- /input-group -->
+
+ <p></p>
+
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Grupos <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li ng-model="userSelec1"  ng-repeat="grupo in gruposListUser1">
+          	<a ng-model="grupoSelec1" ng-click="pasarNombreGrupo1(grupo.name)">{{grupo.name}}</a>
+          </li>
+        </ul>
+      </div><!-- /btn-group -->
+      <input ng-model="inputGrupo1" type="text" class="form-control" aria-label="..." disabled>
+    </div><!-- /input-group -->
+
+
 </div>  
-   <div class="col-md-3 text-center">
+
+   <div class="col-md-2 text-center">
    <h3> vs. </h3>
    </div>
- <div class="col-md-2">
-   <div class="dropdown">
-		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-				Usuario 2
-				<span class="caret"></span>
-		</button>
-	   <ul class="dropdown-menu"  aria-labelledby="dropdownMenu1" style=" min-width: 0px !important;" >
-		<li ng-repeat="usuario2 in usuariosList2">
-			<a ng-click="usuarioSeleccionado2(usuario2)" ng-model="userSelec2">{{ usuario2.userName }}</a>
-		</li>
-   </ul>
-   </div>
-   <p></p>
-   <div class="dropdown">
-	<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" >
-				Grupos de usuario 2
-				<span class="caret"></span>
-		</button>
-   <ul class="dropdown-menu"  aria-labelledby="dropdownMenu1" style=" min-width: 0px !important;" >
-		<li ng-repeat="grupo in gruposListUser2">
-			<a ng-model="grupoSelec2">{{ grupo }}</a>
-		</li>
-   </ul>
-   </div>
+   
+<div class="col-md-4"> 
+
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuario 2 <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li ng-model="userSelec2" ng-click="usuarioSeleccionado2(usuario2)" ng-repeat="usuario2 in usuariosList1">
+          	<a>{{usuario2.userName}}</a>
+          </li>
+        </ul>
+      </div><!-- /btn-group -->
+      <input ng-model="inputUser2" type="text" class="form-control" aria-label="..." disabled>
+    </div><!-- /input-group -->
+
+	 <p></p>
+
+    <div class="input-group">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Grupos <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+          <li ng-model="userSelec2" ng-repeat="grupo in gruposListUser2">
+          	<a ng-click="pasarNombreGrupo2(grupo.name)" ng-model="grupoSelec2">{{grupo.name}}</a>
+          </li>
+        </ul>
+      </div><!-- /btn-group -->
+      <input ng-model="inputGrupo2" type="text" class="form-control" aria-label="..." disabled>
+    </div><!-- /input-group -->
+
+
 </div>
-</div>
+
+</div>  
+
+
  <div class="col-md-2 col-md-offset-9">
    <button style="margin-top:20px ;" type="button" class="btn  btn-block btn-danger" ng-click="comparar()">
         Comparar

@@ -1,21 +1,21 @@
 <div class="text-danger page-header">
 	<h1>GRUPOS</h1>
 </div>
-<h3>{{message}}</h3>
+
 <!--  Manejo de grupos. elegir, crear o borar.  -->
 
 <div class="col-md-12">
-	<div class="col-md-8">
+	<div class="col-md-12">
 		<!-- Default panel contents -->
 		<div class="panel-heading">
 			<h4>GRUPOS</h4>
 			<!-- List group -->
 			<form>
-				<select name="repeatSelect" id="SelectGroups"
+				<select name="repeatSelect" id="SelectGroups" 
 					ng-model="grupoSelected" ng-change="update()">
 					<option value=null>--- Seleccione o agregue un Grupo ---</option>
 					<!-- not selected / blank option -->
-					<option ng-repeat="grupo in gruposList" value="{{grupo.nombre}}">{{grupo.name}}
+					<option ng-repeat="grupo in gruposList" value="{{grupo.id}}">{{grupo.name}}
 					</option>
 				</select>
 			</form>

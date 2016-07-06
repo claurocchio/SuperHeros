@@ -5,14 +5,14 @@ import java.util.Collection;
 public class GrupoPutRequest {
 
 	private String nombre;
-	private Collection<Long> idPersonajes;
+	private Collection<String> nombresPersonaje;
 
-	public Collection<Long> getIdPersonajes() {
-		return idPersonajes;
+	public Collection<String> getPersonajes() {
+		return nombresPersonaje;
 	}
 
-	public void setIdPersonajes(Collection<Long> idPersonajes) {
-		this.idPersonajes = idPersonajes;
+	public void setPersonajes(Collection<String> nombresPersonaje) {
+		this.nombresPersonaje = nombresPersonaje;
 	}
 
 	public String getNombre() {

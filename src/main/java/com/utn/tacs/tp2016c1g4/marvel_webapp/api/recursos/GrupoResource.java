@@ -293,13 +293,19 @@ public class GrupoResource {
 				status = Response.Status.NOT_FOUND;
 				opStatus.setMessage("El grupo " + idGrupo + "no existe");
 			} else {
-				if (request.getIdPersonajes() != null) {
+				if (request.getPersonajes() != null) {
 					logger.debug("listado personajes provisto,  limpiando grupo y agregando personajes para grupo: "
 							+ idGrupo);
 					grupo.getPersonajes().clear();
-					for (Long idPersonaje : request.getIdPersonajes()) {
-						if (grupo.getPersonajes().add(idPersonaje)) {
-							logger.debug("personaje " + idPersonaje + " añadido al grupo " + grupo.getId());
+					for (String p : request.getPersonajes()) {
+						FiltroPersonaje.Builder pBuilder = new FiltroPersonaje.Builder();
+						pBuilder.clear();
+						pBuilder.setNombre(p);
+						Collection<FiltroPersonaje> filtrosP = pBuilder.build();
+						
+						Personaje unPersonaje = personajeDao.findOne(filtrosP);
+						if (grupo.getPersonajes().add(unPersonaje.getId())) {
+							logger.debug("personaje " + p + " añadido al grupo " + grupo.getId());
 						}
 					}
 				}
@@ -328,7 +334,7 @@ public class GrupoResource {
 
 	private boolean IsValidRequest(GrupoPutRequest request) {
 		boolean isValid = false;
-		isValid = isValid || request.getIdPersonajes() != null;
+		isValid = isValid || request.getPersonajes() != null;
 		isValid = isValid || request.getNombre() != null;
 		return isValid;
 	}
