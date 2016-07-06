@@ -2,6 +2,8 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 	 
 	  $scope.usuariosList = [];
 	  $scope.gruposList = [];
+	  $scope.listaIntermedia =[];
+	  $scope.personajes = [];
 	  	  
 	  $scope.seleccionar = function(usuario) {
 		 $scope.usuarioActivo;
@@ -36,7 +38,20 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 	  var grupoAnt;	  
 	  $scope.detalle = function(grupo) {
 		  $scope.x = grupo.name;
-		  $scope.y = $scope.usuarioActivo.username; 
+		  
+		  Usuarios.getGruposConPersonajes(grupo.id)
+		  .success(function(data) {
+			  if (data.grupo.personajes.length > 0){
+					$scope.listaIntermedia = data.grupo.personajes;
+					$scope.listaIntermedia.forEach(function(personaje) {
+						if ($scope.personajes.indexOf(personaje.nombre) === -1) {
+							$scope.personajes.push(personaje.nombre);
+						}
+					})			  
+	    }})
+		  
+		  
+		  $scope.y = $scope.personajes; 
 		  
 		 if(grupoAnt != grupo)
 		 {

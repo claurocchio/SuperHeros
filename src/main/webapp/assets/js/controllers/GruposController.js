@@ -4,6 +4,8 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.personajesList = [];
 	$scope.personajesMiembros = [];
 
+	$scope.listaIntermedia = [];
+	
 	$scope.show = true;
 	$scope.grupoSelected;
 	var pag = 0;
@@ -61,9 +63,20 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	
 	$scope.getGrupo = function(grupo) {
 		Grupos.getGrupo(grupo).success(function(data) {
-			console.log("buscando personajes para grupo: " + grupo);
-			console.log(data);
-			$scope.personajesMiembros = data.personajes;
+			console.log("buscando personajes: " + grupo);
+			console.log(data.grupo);
+			console.log(data.grupo.personajes );
+			if (data.grupo.personajes.length > 0){
+				$scope.listaIntermedia = data.grupo.personajes;
+				$scope.listaIntermedia.forEach(function(personaje) {
+					if ($scope.personajesMiembros.indexOf(personaje.nombre) === -1) {
+						$scope.personajesMiembros.push(personaje.nombre);
+					}
+				});
+				
+			}
+			console.log("VAMOS POR LO IMPORTANTE ");
+			console.log($scope.personajesMiembros);
 		})
 	}
 
@@ -94,6 +107,7 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		} else {
 			$("#bloqueMain").show();
 			$scope.show = true;
+			console.log("ACA LLAMO AL GET GRUPO: "+$scope.grupoSelected);
 			$scope.getGrupo($scope.grupoSelected);
 		}
 	};
@@ -130,12 +144,15 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	}
 
 	$scope.eliminar = function(personaje) {
-		console.log("ACA VA PERSONAJES MIEMBROS:"+personajesMiembros);
+		console.log("AQUI AQUI");
+		console.log($scope.personajesMiembros);
 		var index = $scope.personajesMiembros.indexOf(personaje);
 		$scope.personajesMiembros.splice(index, 1);
 		$scope.guardarMiembros($scope.grupoSelected);
-		$scope.show = false;
+//		$scope.show = false;
 	};
+
+	
 	$scope.eliminarGrupo = function(grupo) {
 		console.log("ACA VA GRUPOS LIST:"+gruposList);
 		var index = $scope.gruposList.indexOf(grupo);

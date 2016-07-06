@@ -134,6 +134,10 @@ app.factory('UsuariosFactory', [ '$http', function($http) {
 		return $http.post(urlLogin, usuario);
 	};
 
+	UsuariosFactory.getGruposConPersonajes = function(idGrupo) {
+		return $http.get('api/grupos/'+idGrupo+'?with=personajes');
+	};
+	
 	return UsuariosFactory;
 } ]);
 
@@ -176,7 +180,7 @@ app.factory('ComparacionGruposFactory', [ '$http', function($http) {
 	};
 
 	ComparacionGruposFactory.getGruposConPersonajes = function(idGrupo) {
-		return $http.get('/api/grupos/'+idGrupo+'?with=personajes');
+		return $http.get('api/grupos/'+idGrupo+'?with=personajes');
 	};
 	
 	return ComparacionGruposFactory;

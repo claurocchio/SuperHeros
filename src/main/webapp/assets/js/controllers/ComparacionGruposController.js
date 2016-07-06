@@ -5,7 +5,7 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 	$scope.gruposListUser1 = [];
 	$scope.gruposListUser2 = [];
 	$scope.result = [];
-	
+	$scope.listaIntermedia = [];
 	
 	Comparacion.getUsuarios()
      .success(function(data) {
@@ -42,22 +42,42 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 	}
 	
 	$scope.pasarNombreGrupo1 = function(grupo){
-		$scope.inputGrupo1=grupo.nombre;
+		$scope.inputGrupo1=grupo.name;
 		
 		Comparacion.getGruposConPersonajes(grupo.id)
 		.success(function(data){
-			console.log("ahora si, la info con personajes"+data);
-		});
-	}
+			console.log("ahora si, la info con personajes");
+			console.log(data);
+			
+			if (data.grupo.personajes.length > 0){
+				$scope.listaIntermedia = data.grupo.personajes;
+				$scope.listaIntermedia.forEach(function(personaje) {
+					if ($scope.gruposListUser1.indexOf(personaje.nombre) === -1) {
+						$scope.gruposListUser1.push(personaje.nombre);
+					}
+				});
+			
+		}
+	})};
 	
 	$scope.pasarNombreGrupo2 = function(grupo){
-		$scope.inputGrupo2=grupo.nombre;
+		$scope.inputGrupo2=grupo.name;
 		
 		Comparacion.getGruposConPersonajes(grupo.id)
 		.success(function(data){
-			console.log("ahora si, la info con personajes"+data);
-		});
-	}
+			console.log("ahora si, la info con personajes");
+			console.log(data);
+			
+			if (data.grupo.personajes.length > 0){
+				$scope.listaIntermedia = data.grupo.personajes;
+				$scope.listaIntermedia.forEach(function(personaje) {
+					if ($scope.gruposListUser2.indexOf(personaje.nombre) === -1) {
+						$scope.gruposListUser2.push(personaje.nombre);
+					}
+				});
+			
+		}
+	})};
 	
 	function intersect(a, b) {
 	    var t;
