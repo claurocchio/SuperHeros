@@ -101,7 +101,7 @@ app.controller('LoginController', ['$scope','$location','UsuariosFactory', funct
 				}
 				else
 				{
-					$('.admin').show();
+					$("#menuAdmin").show();
 				}
 				
 				$location.path("/home");
