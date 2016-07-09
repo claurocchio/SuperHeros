@@ -63,6 +63,7 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	
 	$scope.getGrupo = function(grupo) {
 		Grupos.getGrupo(grupo).success(function(data) {
+			$scope.personajesMiembros = [];
 			console.log("buscando personajes: " + grupo);
 			console.log(data.grupo);
 			console.log(data.grupo.personajes );
