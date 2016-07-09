@@ -37,6 +37,7 @@ app.controller('UsuariosController', ['$scope', 'UsuariosFactory', function($sco
 	  
 	  var grupoAnt;	  
 	  $scope.detalle = function(grupo) {
+		  $scope.personajes = [];
 		  $scope.x = grupo.name;
 		  
 		  Usuarios.getGruposConPersonajes(grupo.id)

@@ -6,6 +6,8 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 	$scope.gruposListUser2 = [];
 	$scope.result = [];
 	$scope.listaIntermedia = [];
+	$scope.personajesGrupo1 = [];
+	$scope.personajesGrupo2 = [];
 	
 	Comparacion.getUsuarios()
      .success(function(data) {
@@ -46,14 +48,16 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 		
 		Comparacion.getGruposConPersonajes(grupo.id)
 		.success(function(data){
+			$scope.personajesGrupo1 = [];
 			console.log("ahora si, la info con personajes");
 			console.log(data);
 			
 			if (data.grupo.personajes.length > 0){
+
 				$scope.listaIntermedia = data.grupo.personajes;
 				$scope.listaIntermedia.forEach(function(personaje) {
-					if ($scope.gruposListUser1.indexOf(personaje.nombre) === -1) {
-						$scope.gruposListUser1.push(personaje.nombre);
+					if ($scope.personajesGrupo1.indexOf(personaje.nombre) === -1) {
+						$scope.personajesGrupo1.push(personaje.nombre);
 					}
 				});
 			
@@ -65,14 +69,16 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 		
 		Comparacion.getGruposConPersonajes(grupo.id)
 		.success(function(data){
+			$scope.personajesGrupo2 = [];
 			console.log("ahora si, la info con personajes");
 			console.log(data);
 			
 			if (data.grupo.personajes.length > 0){
+
 				$scope.listaIntermedia = data.grupo.personajes;
 				$scope.listaIntermedia.forEach(function(personaje) {
-					if ($scope.gruposListUser2.indexOf(personaje.nombre) === -1) {
-						$scope.gruposListUser2.push(personaje.nombre);
+					if ($scope.personajesGrupo2.indexOf(personaje.nombre) === -1) {
+						$scope.personajesGrupo2.push(personaje.nombre);
 					}
 				});
 			
@@ -89,8 +95,9 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 	
 	$scope.comparar = function(){
 		console.log("insterseccion");
-		console.log(intersect($scope.gruposListUser1,$scope.gruposListUser2));
-		$scope.result = intersect($scope.gruposListUser1,$scope.gruposListUser2);
+		console.log(intersect($scope.personajesGrupo1,$scope.personajesGrupo2));
+		$scope.result = [];
+		$scope.result = intersect($scope.personajesGrupo1,$scope.personajesGrupo2);
 		if ($scope.result.length > 0){
 			$('#tit').show('slow');
 		}
