@@ -249,7 +249,7 @@ public class GrupoResource {
 		} catch (RuntimeException e) {
 			status = Status.INTERNAL_SERVER_ERROR;
 			message = "ocurrió un problema al guardar el grupo... reintente más tarde";
-			logger.debug(message);
+			logger.error(message,e);
 			logger.debug(request);
 			opStatus.setStatusCode(status);
 			opStatus.setMessage(message);
