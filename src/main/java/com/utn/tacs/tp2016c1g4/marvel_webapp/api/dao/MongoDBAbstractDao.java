@@ -197,6 +197,8 @@ public abstract class MongoDBAbstractDao<T extends Entity, F extends SearchFilte
 
 		BasicDBObject query = new BasicDBObject();
 		query.put("_id", obj.getId());
+		
+		obj.setId(null);
 
 		try {
 			collection.updateOne(query, new Document("$set", Document.parse(mapper.writeValueAsString(obj))));
