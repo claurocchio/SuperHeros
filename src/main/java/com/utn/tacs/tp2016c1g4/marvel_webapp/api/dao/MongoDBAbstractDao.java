@@ -198,6 +198,8 @@ public abstract class MongoDBAbstractDao<T extends Entity, F extends SearchFilte
 		BasicDBObject query = new BasicDBObject();
 		query.put("_id", obj.getId());
 		
+		Long id = obj.getId();
+		
 		obj.setId(null);
 
 		try {
@@ -206,6 +208,9 @@ public abstract class MongoDBAbstractDao<T extends Entity, F extends SearchFilte
 
 			e.printStackTrace();
 		}
+		
+		obj.setId(id);
+		
 		return true;
 	}
 
