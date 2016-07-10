@@ -101,11 +101,16 @@ app.factory('GruposFactory', [ '$http', function($http) {
 		console.log(urlPersonajes + '?page=' + pag + '&limit=7');
 		return $http.get(urlPersonajes + '?page=' + pag + '&limit=7');
 	};
+	
+	GruposFactory.eliminar = function(idGrupo) {
+		console.log(urlBase+'/'+idGrupo);
+		return $http.delete(urlBase+'/'+idGrupo);
+	};
 
 	GruposFactory.guardarMiembros = function(listMiembros, grupoId) {
 		console.log();
 		return $http.put(urlBase + '/' + grupoId, listMiembros);
-	}
+	};
 
 	return GruposFactory;
 } ]);

@@ -7,10 +7,11 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 	$scope.listaIntermedia = [];
 	
 	$scope.show = true;
-	$scope.grupoSelected;
-	var pag = 0;
 	
+	
+	var pag = 0;
 	var grupoId;
+	var grupoActual = null;
 	
 	$scope.grupoAId = function(id) {
 		grupoId=id;
@@ -100,18 +101,18 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		
 	};
 	
-	$scope.update = function() {
-		console.log("grupo select: " + $scope.grupoSelected);
-		if (!angular.isDefined($scope.grupoSelected) || $scope.grupoSelected===null) {
-			$("#bloqueMain").hide();
-			$scope.show = false;
-		} else {
-			$("#bloqueMain").show();
-			$scope.show = true;
-			console.log("ACA LLAMO AL GET GRUPO: "+$scope.grupoSelected);
-			$scope.getGrupo($scope.grupoSelected);
-		}
-	};
+//	$scope.update = function() {
+//		console.log("grupo select: " + $scope.grupoSelected);
+//		if (!angular.isDefined($scope.grupoSelected) || $scope.grupoSelected===null) {
+//			$("#bloqueMain").hide();
+//			$scope.show = false;
+//		} else {
+//			$("#bloqueMain").show();
+//			$scope.show = true;
+//			console.log("ACA LLAMO AL GET GRUPO: "+$scope.grupoSelected);
+//			$scope.getGrupo($scope.grupoSelected);
+//		}
+//	};
 
 	$scope.pushear = function() {
 		$scope.personajesList.forEach(function(personaje) {
@@ -121,8 +122,8 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 			}
 		});
 		
-		console.log("GRUPO SELECCIONADO: "+$scope.grupoSelected);
-		$scope.guardarMiembros($scope.grupoSelected);
+		console.log("GRUPO SELECCIONADO: "+grupoActual);
+		$scope.guardarMiembros(grupoActual);
 	};
 
 	$scope.guardarMiembros = function(grupoId) {
@@ -136,6 +137,7 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		console.log(request);
 		Grupos.guardarMiembros(request, grupoId)
 		.success(function(data) {
+			console.log("VEO SI LO QUE ME LLEGA ES EL PROBLEMA");
 			console.log(data);
 		})
 		.error(function(data) {
@@ -148,55 +150,89 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		console.log("AQUI AQUI");
 		console.log($scope.personajesMiembros);
 		var index = $scope.personajesMiembros.indexOf(personaje);
+		console.log(personaje);
 		$scope.personajesMiembros.splice(index, 1);
-		$scope.guardarMiembros($scope.grupoSelected);
-//		$scope.show = false;
+		$scope.guardarMiembros(grupoActual);
+		  
+	};
+	
+	$scope.modif = function() {
+		if ($scope.inputGrupo == null || $scope.inputGrupo == "")
+		{
+			alert("Debe seleccionar un grupo");
+		}
+		else
+		{
+			$scope.nameNuevo = "";
+			$('#newGroupModal2').modal('toggle');
+		}
+	};
+
+	
+	$scope.modificar = function() { 
+		console.log("ENTRE AL INPUT NULL");
+		console.log($scope.inputGrupo);
+		if ($scope.inputGrupo == null || $scope.inputGrupo == "")
+		{
+			console.log("ENTRE AL INPUT NULL");
+			alert("Debe seleccionar un grupo");
+		}
+		else
+		{
+			console.log("personajesList a json MODIFICAR");
+			console.log($scope.personajesMiembros);
+			console.log($scope.nameNuevo);
+			var request = {
+				nombre: $scope.nameNuevo,
+				personajes : $scope.personajesMiembros
+			};
+			console.log("va el json! MODIFICAR");
+			console.log(request);
+			Grupos.guardarMiembros(request, grupoActual)
+			.success(function(data) {
+				console.log("VEO SI LO QUE ME LLEGA ES EL PROBLEMA");
+				console.log(data);
+				$scope.inputGrupo="";    
+				$scope.getGrupos(sessionStorage.USERID);
+				$scope.personajesMiembros = [];
+			})
+			.error(function(data) {
+				console.log(data);
+				alert(data.status.message);
+			});
+					 
+		}
+		
+
 	};
 
 	
 	$scope.eliminarGrupo = function(grupo) {
-		console.log("ACA VA GRUPOS LIST:"+gruposList);
+		var r = confirm("Esta seguro que quiere elimar el grupo?");
+		if (r == true) {
+		console.log("ACA VA GRUPOS LIST:"+grupo);
 		var index = $scope.gruposList.indexOf(grupo);
 		$scope.gruposList.splice(index, 1);
+		Grupos.eliminar(grupoActual)
+		.success(function(data) {
+			console.log(data);
+			grupoActual = null;
+			$scope.inputGrupo="";      
+			$scope.getGrupos(sessionStorage.USERID);
+			$scope.personajesMiembros = [];
+		});
+		}
+	
 	};
-	/*
-	 * $scope.addChar = function() { angular.forEach($scope.data,
-	 * function(value, key){ if(value.id == activeId){ if(capi == true) {
-	 * value.personajes.push('Capitain America'); value.cant = activeGroup.cant +
-	 * 1; }; if(wolv == true) { value.personajes.push('Wolverine'); value.cant =
-	 * activeGroup.cant + 1; }; if(blackp == true) {
-	 * value.personajes.push('Black Panther'); value.cant = value.cant + 1; } } }
-	 * });
-	 */
-
-
-	// $scope.assign = function(myId) {
-	// activeId = myId;
-	// };
-	//
-	// $scope.chckedIndexs = [];
-	//
-	// $scope.checkedIndex = function(group) {
-	// if ($scope.chckedIndexs.indexOf(group) === -1) {
-	// $scope.chckedIndexs.push(group);
-	// } else {
-	// $scope.chckedIndexs.splice($scope.chckedIndexs.indexOf(group), 1);
-	// }
-	// }
-	//
-	// $scope.selectedGroups = function() {
-	// return $filter('filter')($scope.students, {
-	// checked : true
-	// });
-	// };
-	//
-	// $scope.remove = function(index) {
-	// angular.forEach($scope.chckedIndexs, function(value, index) {
-	// var index = $scope.data.indexOf(value);
-	// $scope.data.splice($scope.data.indexOf(value), 1);
-	// });
-	// $scope.chckedIndexs = [];
-	// };
+	
+	$scope.grupoSeleccionado = function(grupo){
+		console.log("esto es lo que me llega cuando click en button");
+		console.log(grupo);
+		$scope.inputGrupo=grupo.name;
+		$scope.getGrupo(grupo.id);
+		grupoActual = grupo.id;
+	}
+	
 	$scope.ant = function() {
 		pag--;
 		$scope.primeraPag();
