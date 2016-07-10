@@ -27,6 +27,8 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 		$scope.inputUser2=usuario.userName;
 		Comparacion.getGruposDeUsuario(usuario.idPerfil)
 	     .success(function(data) {
+	    	 $scope.inputGrupo2 = "";
+	    	 $scope.personajesGrupo2 = [];
 	    	 console.log("estoy mostrando lo q llena el drop de grupos")
 	    	 console.log(data);
 	    	 $scope.gruposListUser2 = data.perfil.grupos;
@@ -37,6 +39,8 @@ app.controller('ComparacionGruposController', ['$scope', 'ComparacionGruposFacto
 		$scope.inputUser1=usuario.userName;
 		Comparacion.getGruposDeUsuario(usuario.idPerfil)
 	     .success(function(data) {
+	    	 $scope.inputGrupo1 = "";
+	    	 $scope.personajesGrupo1 = [];
 	    	 console.log("estoy mostrando lo q llena el drop de grupos")
 	    	 console.log(data);
 	    	 $scope.gruposListUser1 = data.perfil.grupos;
