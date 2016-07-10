@@ -156,6 +156,13 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 		  
 	};
 	
+	$scope.nuevoClick = function() {
+		
+			$scope.name = "";
+			$('#newGroupModal').modal('toggle');
+
+	};
+	
 	$scope.modif = function() {
 		if ($scope.inputGrupo == null || $scope.inputGrupo == "")
 		{
@@ -208,19 +215,28 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 
 	
 	$scope.eliminarGrupo = function(grupo) {
-		var r = confirm("Esta seguro que quiere elimar el grupo?");
-		if (r == true) {
-		console.log("ACA VA GRUPOS LIST:"+grupo);
-		var index = $scope.gruposList.indexOf(grupo);
-		$scope.gruposList.splice(index, 1);
-		Grupos.eliminar(grupoActual)
-		.success(function(data) {
-			console.log(data);
-			grupoActual = null;
-			$scope.inputGrupo="";      
-			$scope.getGrupos(sessionStorage.USERID);
-			$scope.personajesMiembros = [];
-		});
+		
+		if ($scope.inputGrupo == null || $scope.inputGrupo == "")
+		{
+			console.log("ENTRE AL INPUT NULL");
+			alert("Debe seleccionar un grupo");
+		}
+		else
+		{
+			var r = confirm("Esta seguro que quiere elimar el grupo?");
+			if (r == true) {
+			console.log("ACA VA GRUPOS LIST:"+grupo);
+			var index = $scope.gruposList.indexOf(grupo);
+			$scope.gruposList.splice(index, 1);
+			Grupos.eliminar(grupoActual)
+			.success(function(data) {
+				console.log(data);
+				grupoActual = null;
+				$scope.inputGrupo="";      
+				$scope.getGrupos(sessionStorage.USERID);
+				$scope.personajesMiembros = [];
+			});
+			}
 		}
 	
 	};

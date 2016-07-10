@@ -32,8 +32,8 @@
 	</div>
 	<div class=" btn-group btn-group-justified col-md-6"  style="width: 40% !important;" role="group" aria-label="...">
 		<div class="btn-group" role="group">
-			<button type="button" class="btn btn-danger btn-block" data-toggle="modal"
-				data-target="#newGroupModal">Nuevo</button>
+			<button type="button" class="btn btn-danger btn-block"
+				ng-click="nuevoClick()" >Nuevo</button>
 		</div>
 		<div class="btn-group" role="group">
 			<button type="button" class="btn btn-danger btn-block" ng-click="modif()">Modificar</button>
@@ -109,7 +109,7 @@
 				<h4 class="modal-title">CREAR GRUPO</h4>
 			</div>
 			<div class="modal-body">
-				<p>Elige el nombre del grupo./p>
+				<p>Elige el nombre del grupo</p>
 				<form>
 					Nombre del Grupo: <input type="text" ng-model="name" required
 						name="nombre"><br>
