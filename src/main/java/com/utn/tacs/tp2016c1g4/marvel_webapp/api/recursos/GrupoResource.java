@@ -367,7 +367,7 @@ public class GrupoResource {
 			Set<FiltroGrupo> filtros = filtroBuilder.build();
 
 			grupo = grupoDao.findOne(filtros);
-			// TODO: borrar grupo
+			grupoDao.delete(grupo);
 			status = Response.Status.OK;
 			opStatus.setMessage("se elimino el grupo " + idGrupo + " exitosamente");
 		}
