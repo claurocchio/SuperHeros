@@ -115,15 +115,24 @@ app.controller('GruposController', [ '$scope', 'GruposFactory', function($scope,
 //	};
 
 	$scope.pushear = function() {
-		$scope.personajesList.forEach(function(personaje) {
-			console.log("holis: "+$scope.personajesMiembros);
-			if ($scope.personajesMiembros.indexOf(personaje.nombre) === -1) {
-				personaje.checked ? $scope.personajesMiembros.push(personaje.nombre) : null;
-			}
-		});
+		if ($scope.inputGrupo == null || $scope.inputGrupo == "")
+		{
+			alert("Debe seleccionar un grupo");
+		}
+		else
+		{
+			$scope.personajesList.forEach(function(personaje) {
+				console.log("holis: "+$scope.personajesMiembros);
+				if ($scope.personajesMiembros.indexOf(personaje.nombre) === -1) {
+					personaje.checked ? $scope.personajesMiembros.push(personaje.nombre) : null;
+				}
+			});
+			
+			console.log("GRUPO SELECCIONADO: "+grupoActual);
+			$scope.guardarMiembros(grupoActual);
+		}
 		
-		console.log("GRUPO SELECCIONADO: "+grupoActual);
-		$scope.guardarMiembros(grupoActual);
+		
 	};
 
 	$scope.guardarMiembros = function(grupoId) {
